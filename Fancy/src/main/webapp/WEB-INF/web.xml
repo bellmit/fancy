@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <!-- 项目描述 -->
+  <display-name>Fancy</display-name>
+  
+  <!--配置root. 可用System.getProperty("webapp.root")来动态获项目的运行路径。 -->
+  <context-param>
+    <param-name>webAppRootKey</param-name>
+    <param-value>fancy.root</param-value>
+  </context-param>
+  
+  <!--装载spring配置文件 -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+       classpath:spring-context.xml
+	  <!-- classpath:interceptConfig.xml -->
+	  <!-- classpath:quartConfig/*.xml -->
+      </param-value>
+  </context-param>
+  
+  <!--Comet4J listener -->
+ <listener>
+    <description>Comet4J容器侦听</description>
+    <listener-class>org.comet4j.core.CometAppListener</listener-class>
+  </listener>
+  <servlet>
+    <description>Comet连接[默认:org.comet4j.core.CometServlet]</description>
+    <display-name>CometServlet</display-name>
+    <servlet-name>CometServlet</servlet-name>
+    <servlet-class>org.comet4j.core.CometServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CometServlet</servlet-name>
+    <url-pattern>/conn</url-pattern>
+  </servlet-mapping>
+  <listener>
+    <description>MailtaskProgress</description>
+    <listener-class>cn.telling.comet4j.MailtaskProgress</listener-class>
+  </listener>
+  
+  
+	<!-- 
+		<listener>
+	  		<description>mylistern</description>  
+	       <listener-class>com.wssys.listener.LoginUniqueListener</listener-class>  
+		</listener> 
+	 -->
+	 
+    <!-- javamelody性能监控 -->
+ 	<filter>  
+        <filter-name>monitoring</filter-name>  
+        <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>  
+        <init-param>  
+            <param-name>log</param-name>  
+            <param-value>true</param-value>  
+        </init-param>  
+    </filter>  
+    <filter-mapping>  
+        <filter-name>monitoring</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping>  
+    <listener>  
+        <listener-class>net.bull.javamelody.SessionListener</listener-class>  
+    </listener>
+    
+   <!---kaptcha 验证码 -->
+   <servlet>
+    <servlet-name>kaptcha</servlet-name>
+    <servlet-class>  
+            com.google.code.kaptcha.servlet.KaptchaServlet  
+        </servlet-class>
+  </servlet>
+
+	<!-- DruidStatView -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<init-param>
+			<param-name>allow</param-name>
+			<param-value>127.0.0.1</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- shiroFilter -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>httpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>httpMethodFilter</filter-name>
+		<servlet-name>mailsys</servlet-name>
+	</filter-mapping>
+	
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>classpath:log4j.properties</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>5000</param-value>
+  </context-param>
+  
+  <!-- spring字符编码过滤器 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+  <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
+  
+  <listener>
+    <!-- <listener-class>cn.telling.web.CoreListener</listener-class> -->
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+    <servlet>
+    <servlet-name>kaptcha</servlet-name>
+    <servlet-class>  
+            com.google.code.kaptcha.servlet.KaptchaServlet  
+        </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>kaptcha</servlet-name>
+    <url-pattern>/images/kaptcha.jpg</url-pattern>
+  </servlet-mapping>
+  
+  <!-- spring分发器 前端控制器配置 -->
+	<servlet>
+		<servlet-name>Fancy_FrontControl</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Fancy_FrontControl</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+
+	<!-- 文件上传后缀请求 配置 -->
+	<servlet-mapping>
+		<servlet-name>Fancy_FrontControl</servlet-name>
+		<url-pattern>*.ajax</url-pattern>
+	</servlet-mapping>
+  
+	
+
+	<!-- 错误页面控制 -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/webPage/error/403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/webPage/error/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>405</error-code>
+		<location>/WEB-INF/webPage/error/405.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/webPage/error/500.jsp</location>
+	</error-page>
+	
+	<!-- session超时配置 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	
+	<!--首页配置 -->
+	<welcome-file-list>
+		<welcome-file>login.html</welcome-file>
+	</welcome-file-list>
+	
+</web-app>
