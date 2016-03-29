@@ -20,4 +20,5 @@ public class Test {
 		Car c = (Car) cp.bind(new BusCar());
 		c.run();
 	}
+	
 }

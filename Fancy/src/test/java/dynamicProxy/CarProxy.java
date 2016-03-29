@@ -20,18 +20,31 @@ import java.lang.reflect.Proxy;
  */
 
 public class CarProxy implements InvocationHandler {
+    /**
+     * 代理类持有一个委托类的对象引用（实际传入需要执行的接口实现类）
+     * */
 	public Object target;
 
+	/**
+	 *生成动态代理对象
+	  */
 	public Object bind(Object object) {
 		this.target = object;
-		System.out.println(target.getClass().getClassLoader());
+		System.out.println("target.getClass().getClassLoader():"+target.getClass().getClassLoader());
 		return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), this);
 	}
 
+	/**
+	 * 
+	 * 通过反射动态执行方法
+	 * **/
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		Object result;
 		System.out.println("开始");
+		System.out.println("method.getName()："+method.getName());
+		System.out.println("method.getDeclaredAnnotations()："+method.getDeclaredAnnotations());
+		System.out.println("method.getClass()："+method.getClass());
 		result = method.invoke(target, args);
 		System.out.println("结束");
 		return result;
