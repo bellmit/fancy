@@ -37,7 +37,7 @@ public class Global {
 	/**
 	 * 属性文件加载对象
 	 */
-	private static PropertiesLoader loader = new PropertiesLoader("messages.properties");
+	private static PropertiesLoader loader = new PropertiesLoader("fancy.properties");
 
 	/**
 	 * 显示/隐藏
