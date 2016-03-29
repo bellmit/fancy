@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ServletContextAware;
 
 import cn.telling.config.Global;
 
@@ -27,7 +30,7 @@ import cn.telling.config.Global;
  */
 @Service
 @Lazy(false)
-public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
+public class SpringContextHolder implements ApplicationContextAware, DisposableBean, ServletContextAware {
 
 	private static ApplicationContext applicationContext = null;
 
@@ -105,4 +108,12 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	private static void assertContextInjected() {
 		Validate.validState(applicationContext != null, "applicaitonContext属性未注入, 请在applicationContext.xml中定义SpringContextHolder.");
 	}
+
+	/***
+	 *设置 servletContext的属性 ctx页面可以取到
+	 */
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        servletContext.setAttribute("ctx", servletContext.getContextPath());
+    }
 }
