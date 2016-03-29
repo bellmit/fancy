@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * ClassName:CarProxy <br/>
+ * ClassName:代理类 <br/>
  * 
  * @author caosheng
  */
