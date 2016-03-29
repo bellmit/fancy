@@ -1,20 +1,9 @@
 package cn.fancy.spring;
 
-/**
- * 
- * Project Name:myweb-web File Name:LuceneUtil.java Package Name:cn.fancy.test Date:2015-7-27
- * 
- */
-
-
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.fancy.spring.service.IShopService;
 import cn.fancy.spring.service.impl.ShopServiceImpl;
 import cn.fancy.spring.vo.ProductVo;
+import cn.telling.common.uitl.SpringContextHolder;
 
 
 /***
