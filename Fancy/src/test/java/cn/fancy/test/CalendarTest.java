@@ -5,7 +5,7 @@
 package cn.fancy.test;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Calendar;import com.sun.org.apache.bcel.internal.generic.CALOAD;
 
 /**
  * @description 
@@ -18,5 +18,6 @@ public class CalendarTest {
     Calendar c=Calendar.getInstance();
     SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
     System.out.println(sdf.format(c.getTime()));
+    System.out.println(c.get(Calendar.HOUR_OF_DAY));
   }
 }
