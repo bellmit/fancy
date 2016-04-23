@@ -38,9 +38,5 @@ public class UUIDUtil {
 		String uuidStr = (uuid.toString()).replaceAll("-", "");
 		return uuidStr;
 	}
-	public static void main(String[] args) {
-		System.out.println(getUUID());
-	}
-
 }
 
