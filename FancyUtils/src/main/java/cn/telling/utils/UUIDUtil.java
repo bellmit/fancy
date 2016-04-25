@@ -1,8 +1,7 @@
 /**
  * UUIDUtil.java
  * cn.telling.tellingweb.common
- *
- * Function： TODO 
+ 
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -17,8 +16,6 @@ import java.util.UUID;
 
 /**
  * ClassName:UUIDUtil
- * Function: TODO ADD FUNCTION
- * Reason:	 TODO ADD REASON
  *
  * @author   wang_tj
  * @version  
@@ -38,9 +35,5 @@ public class UUIDUtil {
 		String uuidStr = (uuid.toString()).replaceAll("-", "");
 		return uuidStr;
 	}
-	public static void main(String[] args) {
-		System.out.println(getUUID());
-	}
-
 }
 
