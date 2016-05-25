@@ -14,3 +14,10 @@
 /src/main/webapp/WEB-INF/classes/*
 /src/main/webapp/userfiles/*
 /target/
+/target/*.jar
+/FancyInterface/target/*
+/Fancy/target/*
+/FancyUtils/target/*
+/FancyRSB/target/*
+/FancyRoot/target/*
+/FancyRCB/target/*
