@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="1" time="0.036" errors="0" skipped="0" tests="1" name="cn.fancy.test.TestShiro">
+<testsuite failures="1" time="0.035" errors="0" skipped="0" tests="1" name="cn.fancy.test.TestShiro">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="D:\MySoft\Java\jdk1.7.0_13\jre\bin"/>
     <property name="java.vm.version" value="23.7-b01"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="D:\Project\newEclipse\复件 Fancy\Fancy"/>
+    <property name="maven.multiModuleProjectDirectory" value="D:\git\Fancy\Fancy"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=";"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value="Service Pack 1"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="D:\Project\newEclipse\复件 Fancy\Fancy"/>
+    <property name="user.dir" value="D:\git\Fancy\Fancy"/>
     <property name="java.runtime.version" value="1.7.0_13-b20"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="D:\MySoft\Java\jdk1.7.0_13\jre\lib\endorsed"/>
@@ -27,9 +27,9 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="user.variant" value=""/>
     <property name="os.name" value="Windows 7"/>
-    <property name="classworlds.conf" value="D:\Project\newEclipse\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf7787365302863651481.tmp"/>
+    <property name="classworlds.conf" value="D:\Project\newEclipse\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf5715993165692997275.tmp"/>
     <property name="sun.jnu.encoding" value="GBK"/>
-    <property name="java.library.path" value="D:\MySoft\Java\jdk1.7.0_13\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\app\Simpo16002\product\11.2.0\client_1;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;D:\MySoft\Java\jdk1.7.0_13\bin;D:\MySoft\Java\jdk1.7.0_13\jre\bin;D:\MySoft\TortoiseSVN\bin;."/>
+    <property name="java.library.path" value="D:\MySoft\Java\jdk1.7.0_13\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;D:\app\Simpo16002\product\11.2.0\client_1;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;D:\MySoft\Java\jdk1.7.0_13\bin;D:\MySoft\Java\jdk1.7.0_13\jre\bin;D:\MySoft\TortoiseSVN\bin;C:\Windows\system32\config\systemprofile\.dnx\bin;D:\MySoft\Microsoft DNX\Dnvm\;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="51.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -53,7 +53,7 @@
     <property name="java.ext.dirs" value="D:\MySoft\Java\jdk1.7.0_13\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
     <property name="sun.boot.class.path" value="D:\MySoft\Java\jdk1.7.0_13\jre\lib\resources.jar;D:\MySoft\Java\jdk1.7.0_13\jre\lib\rt.jar;D:\MySoft\Java\jdk1.7.0_13\jre\lib\sunrsasign.jar;D:\MySoft\Java\jdk1.7.0_13\jre\lib\jsse.jar;D:\MySoft\Java\jdk1.7.0_13\jre\lib\jce.jar;D:\MySoft\Java\jdk1.7.0_13\jre\lib\charsets.jar;D:\MySoft\Java\jdk1.7.0_13\jre\lib\jfr.jar;D:\MySoft\Java\jdk1.7.0_13\jre\classes"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="D:\Project\newEclipse\复件 Fancy\Fancy\EMBEDDED"/>
+    <property name="maven.home" value="D:\git\Fancy\Fancy\EMBEDDED"/>
     <property name="file.separator" value="\"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -61,7 +61,7 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase time="0.036" classname="cn.fancy.test.TestShiro" name="test">
+  <testcase time="0.035" classname="cn.fancy.test.TestShiro" name="test">
     <failure message="expected:&lt;true&gt; but was:&lt;false&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;true&gt; but was:&lt;false&gt;
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)
@@ -98,14 +98,14 @@
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
 </failure>
-    <system-out>DEBUG [2016-03-22 14:53:20,758] org.apache.shiro.io.ResourceUtils - Opening resource from class path [shiro.ini]
- DEBUG [2016-03-22 14:53:20,764] org.apache.shiro.config.Ini - Parsing [users]
- DEBUG [2016-03-22 14:53:20,766] org.apache.shiro.config.IniFactorySupport - Creating instance from Ini [sections=users]
- DEBUG [2016-03-22 14:53:20,792] org.apache.shiro.realm.text.IniRealm - Discovered the [users] section.  Processing...
- DEBUG [2016-03-22 14:53:20,835] org.apache.shiro.realm.AuthenticatingRealm - Looked up AuthenticationInfo [zhang] from doGetAuthenticationInfo
- DEBUG [2016-03-22 14:53:20,836] org.apache.shiro.realm.AuthenticatingRealm - AuthenticationInfo caching is disabled for info [zhang].  Submitted token: [org.apache.shiro.authc.UsernamePasswordToken - zhang, rememberMe=false].
- DEBUG [2016-03-22 14:53:20,836] org.apache.shiro.authc.credential.SimpleCredentialsMatcher - Performing credentials equality check for tokenCredentials of type [[C and accountCredentials of type [java.lang.String]
- DEBUG [2016-03-22 14:53:20,837] org.apache.shiro.authc.credential.SimpleCredentialsMatcher - Both credentials arguments can be easily converted to byte arrays.  Performing array equals comparison
+    <system-out>DEBUG [2016-03-28 16:30:15,500] org.apache.shiro.io.ResourceUtils - Opening resource from class path [shiro.ini]
+ DEBUG [2016-03-28 16:30:15,506] org.apache.shiro.config.Ini - Parsing [users]
+ DEBUG [2016-03-28 16:30:15,509] org.apache.shiro.config.IniFactorySupport - Creating instance from Ini [sections=users]
+ DEBUG [2016-03-28 16:30:15,553] org.apache.shiro.realm.text.IniRealm - Discovered the [users] section.  Processing...
+ DEBUG [2016-03-28 16:30:15,566] org.apache.shiro.realm.AuthenticatingRealm - Looked up AuthenticationInfo [zhang] from doGetAuthenticationInfo
+ DEBUG [2016-03-28 16:30:15,566] org.apache.shiro.realm.AuthenticatingRealm - AuthenticationInfo caching is disabled for info [zhang].  Submitted token: [org.apache.shiro.authc.UsernamePasswordToken - zhang, rememberMe=false].
+ DEBUG [2016-03-28 16:30:15,566] org.apache.shiro.authc.credential.SimpleCredentialsMatcher - Performing credentials equality check for tokenCredentials of type [[C and accountCredentials of type [java.lang.String]
+ DEBUG [2016-03-28 16:30:15,566] org.apache.shiro.authc.credential.SimpleCredentialsMatcher - Both credentials arguments can be easily converted to byte arrays.  Performing array equals comparison
  ���������</system-out>
   </testcase>
 </testsuite>
