@@ -15,6 +15,6 @@ package dynamicProxy;
  * @author caosheng
  */
 public interface Car {
-	public void run();
+	public abstract void run();
 }
 

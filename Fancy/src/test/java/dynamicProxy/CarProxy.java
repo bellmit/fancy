@@ -30,21 +30,26 @@ public class CarProxy implements InvocationHandler {
 	  */
 	public Object bind(Object object) {
 		this.target = object;
-		System.out.println("target.getClass().getClassLoader():"+target.getClass().getClassLoader());
+		ClassLoader classLoader=target.getClass().getClassLoader();
+		Class<?>[] interfa1ce=target.getClass().getInterfaces();
+		for (int i = 0; i < interfa1ce.length; i++) {
+          System.out.println(interfa1ce[i]);
+        }
+		System.out.println("target.getClass().getClassLoader():"+classLoader+"----interface");
 		return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), this);
 	}
 
 	/**
 	 * 
 	 * 通过反射动态执行方法
+	 * 代理类  new BusCar
+	 * method 动态获取到的接口方法run   target.getClass().getInterfaces()
+	 * args 方法参数
 	 * **/
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		Object result;
 		System.out.println("开始");
-		System.out.println("method.getName()："+method.getName());
-		System.out.println("method.getDeclaredAnnotations()："+method.getDeclaredAnnotations());
-		System.out.println("method.getClass()："+method.getClass());
 		result = method.invoke(target, args);
 		System.out.println("结束");
 		return result;
