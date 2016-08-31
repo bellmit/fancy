@@ -2,6 +2,9 @@ package thread;
 
 /**
  * Created by Fan on 2016/8/29.
+ * 需求 
+ * 打印一个 取一个
+ * 
  * 单纯的实现需求（未优化代码）
  * wait;
  * notifyAll();
