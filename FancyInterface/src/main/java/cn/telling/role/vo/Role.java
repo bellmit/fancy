@@ -11,7 +11,7 @@ package cn.telling.role.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 
 /**
