@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>欢迎登录后台管理系统</title>
-<%-- <link href="${ctx}/css/style.css" rel="stylesheet" type="text/css" /> --%>
+<link href="${ctx}/css/style.css" rel="stylesheet" type="text/css" /> 
  <style type="text/css">
 	.c{
   float: right;
@@ -18,13 +18,11 @@
 </style> 
 <script type="text/javascript">var ctx="${ctx}";</script>
 </head>
-<body 
-<%-- style="background-color: #1c77ac;  --%>
-<%-- background-image: url(${ctx}/images/light.png); --%>
-<!--  background-repeat: no-repeat; -->
-<!--   background-position: center top; -->
-<%--    overflow: hidden;"  --%>
-   >
+<body style="background-color: #1c77ac; 
+background-image: url(${ctx}/images/light.png); 
+  background-repeat: no-repeat;
+  background-position: center top; 
+ overflow: hidden;" >
 
 	<div id="mainBody">
 		<div id="cloud1" class="cloud"></div>

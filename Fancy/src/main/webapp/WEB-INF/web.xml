@@ -145,8 +145,8 @@
   </listener>
   
   <listener>
-    <!-- <listener-class>cn.telling.web.CoreListener</listener-class> -->
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    <listener-class>cn.telling.web.CoreListener</listener-class>
+   <!--  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
   </listener>
     <servlet>
     <servlet-name>kaptcha</servlet-name>
@@ -200,7 +200,7 @@
 		<location>/WEB-INF/webPage/error/500.jsp</location>
 	</error-page>
 	
-	<!-- session超时配置 -->
+	<!-- session超时配置(页面不点击  不活动状态30分钟失效) -->
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
