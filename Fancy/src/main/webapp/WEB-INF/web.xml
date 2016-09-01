@@ -145,8 +145,8 @@
   </listener>
   
   <listener>
-    <!-- <listener-class>cn.telling.web.CoreListener</listener-class> -->
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    <listener-class>cn.telling.web.CoreListener</listener-class>
+   <!--  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
   </listener>
     <servlet>
     <servlet-name>kaptcha</servlet-name>
