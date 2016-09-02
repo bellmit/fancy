@@ -54,7 +54,7 @@
 			<mvc:exclude-mapping path="${adminPath}/sys/menu/tree"/>
 			<mvc:exclude-mapping path="${adminPath}/sys/menu/treeData"/>
 			<mvc:exclude-mapping path="${adminPath}/oa/oaNotify/self/count"/> -->
-			<mvc:mapping path="${adminPath}/**" />
+			<mvc:mapping path="/**" /><!-- ${adminPath}暂时获取不到   /**代表一级请求路径会被拦截 /**/**二级请求路径会被拦截-->
 			<bean class="cn.telling.common.interceptor.PurviewIntercept" />
 		</mvc:interceptor>
 		<!-- 手机视图拦截器 -->
