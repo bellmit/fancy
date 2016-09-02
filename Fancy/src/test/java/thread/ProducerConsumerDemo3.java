@@ -17,90 +17,94 @@ import java.util.concurrent.locks.ReentrantLock;
 
 class Resouce7 {
 
-  private String name;
+	private String name;
 
-  private int count = 1;
+	private int count = 1;
 
-  private boolean flag = false;
-  Lock lock = new ReentrantLock();
-  Condition condition = lock.newCondition();
-  public void set(String name)
-  {
-    
-    while (flag)
-      try { condition.await(); } catch (InterruptedException e) { e.printStackTrace();lock.unlock();}
-    lock.lock();
-    this.name = name + "---" + count++;
-    System.out.println(Thread.currentThread().getName() + "...生产者" + this.name);
-    flag = true;
-    condition.notifyAll();
-    lock.unlock();
-  }
+	private boolean flag = false;
 
-  public  void out()
-  {
-    while (!flag)
-      try { condition.await(); } catch (InterruptedException e) { e.printStackTrace();lock.unlock();}
-    System.out.println(Thread.currentThread().getName() + "---------消费者" + this.name);
-    flag = false;
-    condition.notifyAll();
-    lock.unlock();
-  }
+	Lock lock = new ReentrantLock();
+
+	Condition condition_pro = lock.newCondition();
+	Condition condition_con = lock.newCondition();
+	public void set(String name) {
+
+		try {
+		while (flag)
+			condition_con.await();
+				lock.lock();
+				this.name = name + "---" + count++;
+				System.out.println(Thread.currentThread().getName() + "...生产者" + this.name);
+				flag = true;
+				condition_pro.signal();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				lock.unlock();
+			}
+	}
+
+	public void out() {
+		lock.lock();
+		try {
+			while (!flag)
+				condition_pro.await();
+			System.out.println(Thread.currentThread().getName() + "---------消费者" + this.name);
+			flag = false;
+			condition_con.signal();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			lock.unlock();
+		}
+	}
 }
-
 
 class Producer2 implements Runnable {
 
-  Resouce7 r;
+	Resouce7 r;
 
-  @Override
-  public void run()
-  {
-    while (true) {
-      r.set("+商品+");
-    }
-  }
+	@Override
+	public void run() {
+		while (true) {
+			r.set("+商品+");
+		}
+	}
 
-  public Producer2(Resouce7 r) {
-    this.r = r;
-  }
+	public Producer2(Resouce7 r) {
+		this.r = r;
+	}
 
 }
-
 
 public class ProducerConsumerDemo3 {
 
-  public static void main(String[] args)
-  {
-    Resouce7 r = new Resouce7();
-    Producer2 P = new Producer2(r);
-    Consumer3 consumer = new Consumer3(r);
-    Thread t1 = new Thread(consumer);
-    t1.start();
-    Thread t2 = new Thread(P);
-    t2.start();
-    Thread t3 = new Thread(consumer);
-    t3.start();
-    Thread t4 = new Thread(P);
-    t4.start();
-  }
+	public static void main(String[] args) {
+		Resouce7 r = new Resouce7();
+		Producer2 P = new Producer2(r);
+		Consumer3 consumer = new Consumer3(r);
+		Thread t1 = new Thread(consumer);
+		t1.start();
+		Thread t2 = new Thread(P);
+		t2.start();
+		Thread t3 = new Thread(consumer);
+		t3.start();
+		Thread t4 = new Thread(P);
+		t4.start();
+	}
 }
-
 
 class Consumer3 implements Runnable {
 
-  Resouce7 r;
+	Resouce7 r;
 
-  public Consumer3(Resouce7 r) {
-    this.r = r;
-  }
+	public Consumer3(Resouce7 r) {
+		this.r = r;
+	}
 
-  @Override
-  public void run()
-  {
-    while (true) {
-      r.out();
-    }
-  }
+	@Override
+	public void run() {
+		while (true) {
+			r.out();
+		}
+	}
 
 }
