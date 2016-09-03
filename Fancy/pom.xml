@@ -108,6 +108,7 @@
 	
 	<properties>
 	
+		<java-memcached>C://Users//Simpo16002//.m2\repository//com//com.danga//java-memcached//1.6//java_memcached-release_1.6.jar</java-memcached>
 		<comen4jname>C://Users//Simpo16002//.m2\repository//org//coment4j//comet4j-tomcat6.jar</comen4jname>
 		<!-- 		<googlekaptchea>f://.m2//repository//org//kaptcha//kaptcha-2.3.2.jar</googlekaptchea> -->
 		<!-- 		<comen4jname>/home/fancy/.m2/repository/org/coment4j/comet4j-tomcat6.jar</comen4jname> -->
@@ -222,7 +223,6 @@
   
 	
 
-
 	<dependency>
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-test</artifactId>
@@ -298,7 +298,7 @@
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>Fancy</finalName>
-		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
+		<!-- <outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory> -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
