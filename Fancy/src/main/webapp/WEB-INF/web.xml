@@ -64,14 +64,6 @@
         <listener-class>net.bull.javamelody.SessionListener</listener-class>  
     </listener>
     
-   <!---kaptcha 验证码 -->
-   <servlet>
-    <servlet-name>kaptcha</servlet-name>
-    <servlet-class>  
-            com.google.code.kaptcha.servlet.KaptchaServlet  
-        </servlet-class>
-  </servlet>
-
 	<!-- DruidStatView -->
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
