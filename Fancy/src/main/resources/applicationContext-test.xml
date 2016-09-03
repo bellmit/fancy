@@ -24,11 +24,12 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd" default-lazy-init="true">
 	<!-- 加载属性文件 -->
+	
 	<context:property-placeholder ignore-unresolvable="true"  location="classpath:fancy.properties" />
 <!-- ====================================================================================== -->
 	<!-- 启用基于注解（Annotation-based）的配置 -->
 	<!-- ====================================================================================== -->
-	<context:component-scan base-package="cn.fancy.spring" />
+	<context:component-scan base-package="cn.fancy.spring,cn.telling.common" />
 	<!-- ====================================================================================== -->
 	<!-- 基于注解的事务配置 <tx:annotation-driven transaction-manager="txManager" /> -->
 	<!-- ====================================================================================== -->
@@ -126,6 +127,7 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="b2b-ds-1" />
 	</bean>
+	
 	
 	<!-- Fancy 事务配置 -->
 	<bean id="fancyTxManager"
