@@ -22,7 +22,7 @@ public class CacheManagerAction {
 	@Resource
 	private IAreaInfoService areaInfoService;
 
-	@Resource
+	@Resource(name="memcachedClient")
 	private MemCachedClient memClient;
 	
 	@Resource

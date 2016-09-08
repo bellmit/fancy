@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.telling.common.Pager.PageVo;
 import cn.telling.user.service.IUserService;
 import cn.telling.user.vo.ReturnUserVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -95,7 +95,7 @@ public class UserAction {
 	@RequestMapping("/addUser")
 	public ModelAndView addUserAction() {
 		ModelAndView mav = new ModelAndView("sys/addUser");
-		Users u = new Users();
+		User u = new User();
 		mav.getModelMap().put("psu", u);
 		return mav;
 	}

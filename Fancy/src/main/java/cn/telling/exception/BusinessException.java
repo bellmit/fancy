@@ -1,7 +1,6 @@
 package cn.telling.exception;
 
-import cn.telling.utils.PropertiesLoader;
-
+import cn.telling.config.Global;
 
 public class BusinessException extends RuntimeException {
 
@@ -57,7 +56,7 @@ public class BusinessException extends RuntimeException {
      * @param param 异常参数
      */
     public BusinessException(int exType, String key, Object... param) {
-        super(PropertiesLoader.getMsg(key, param));
+        super(Global.getMsg(key, param));
         this.type = exType;
         this.key = key;
     }

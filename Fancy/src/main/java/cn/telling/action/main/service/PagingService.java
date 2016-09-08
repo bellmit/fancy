@@ -3,7 +3,7 @@ package cn.telling.action.main.service;
 import java.util.List;
 
 import cn.telling.common.Pager.PageVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.Paging;
 
 
@@ -43,7 +43,7 @@ public interface PagingService
 	 * @date 2015-3-30 下午1:26:31 
 	 * @version V1.0
 	 */
-	public List<Users> getPageData(Paging page);
+	public List<User> getPageData(Paging page);
 
     /**
      * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。
@@ -56,7 +56,7 @@ public interface PagingService
      * @version V1.0  
     */
     
-    public List<Users> getPageData(PageVo pageVo);
+    public List<User> getPageData(PageVo pageVo);
     
     public Integer getUserCount(PageVo pageVo);
 }

@@ -1,6 +1,6 @@
 package cn.telling.web;
 
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 
 /**
  * CMS线程变量
@@ -11,19 +11,19 @@ public class UserThreadVariable
 	/**
 	 * 当前用户线程变量
 	 */
-	private static ThreadLocal<Users> userUserVariable = new ThreadLocal<Users>();
+	private static ThreadLocal<User> userUserVariable = new ThreadLocal<User>();
 
 	/**
 	 * 当前站点线程变量
 	 */
-	private static ThreadLocal<Users> userSiteVariable = new ThreadLocal<Users>();
+	private static ThreadLocal<User> userSiteVariable = new ThreadLocal<User>();
 
 	/**
 	 * 获得当前用户
 	 * 
 	 * @return
 	 */
-	public static Users getUser()
+	public static User getUser()
 	{
 		return userUserVariable.get();
 	}
@@ -33,7 +33,7 @@ public class UserThreadVariable
 	 * 
 	 * @param user
 	 */
-	public static void setUser(Users user)
+	public static void setUser(User user)
 	{
 		userUserVariable.set(user);
 	}
@@ -51,7 +51,7 @@ public class UserThreadVariable
 	 * 
 	 * @return
 	 */
-	public static Users getSite()
+	public static User getSite()
 	{
 		return userSiteVariable.get();
 	}
@@ -61,7 +61,7 @@ public class UserThreadVariable
 	 * 
 	 * @param site
 	 */
-	public static void setSite(Users site)
+	public static void setSite(User site)
 	{
 		userSiteVariable.set(site);
 	}

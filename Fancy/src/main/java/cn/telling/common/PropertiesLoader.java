@@ -3,12 +3,10 @@
  * 
  * $Id: PropertiesLoader.java 1690 2012-02-22 13:42:00Z calvinxiu $
  */
-package cn.telling.utils;
+package cn.telling.common;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.MessageFormat;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
@@ -19,8 +17,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import com.google.common.collect.Maps;
-
 
 
 /**
@@ -30,12 +26,9 @@ import com.google.common.collect.Maps;
  */
 public class PropertiesLoader {
 
-    
-
     /**
      * 保存全局属性值
      */
-    private static Map<String, String> map = Maps.newHashMap();
 	private static Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
 
 	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -178,35 +171,13 @@ public class PropertiesLoader {
      * @date 2013-5-23 下午3:48:49
      * @version V1.0
      */
-    public static boolean isFind(String key) {
+    public  boolean isFind(String key) {
         if (key == null || key.trim().length() == 0) {
             return false;
         }
 
-        return map.keySet().contains(key.trim());
+        return properties.containsKey(key.trim());
     }
 
-    /**
-     * 
-     * @Description: 根据MessageCode返回消息,带参数。
-     * @param 消息代码
-     *            消息参数
-     * @return 消息内容
-     * @exception 异常描述
-     * @see 需要参见的其它内容。（可选）
-     * @author guohui
-     * @date 2013-5-23 下午3:48:49
-     * @version V1.0
-     */
-    public static String getMsg(String key, Object... param) {
-        if (!isFind(key)) {
-            return null;
-        }
-        String strMsgPattern = map.get(key.trim());
-        if (param == null || param.length == 0) {
-            return strMsgPattern;
-        }
-
-        return MessageFormat.format(strMsgPattern, param);
-    }
+    
 }

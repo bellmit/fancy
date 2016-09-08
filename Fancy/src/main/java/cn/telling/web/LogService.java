@@ -18,7 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import cn.telling.log.service.ISysLogService;
 import cn.telling.log.vo.Syslog;
 import cn.telling.role.vo.Role;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.LogUtils;
 import cn.telling.utils.StringHelperTools;
 import cn.telling.utils.TCPIPUtil;
@@ -45,7 +45,7 @@ public class LogService {
 
 	public LogService()
 	{
-	    LogUtils.debug("------------Aop init");
+	    LogUtils.debug("Aop init");
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class LogService {
 	// @Pointcut("execution(public *cn.fancy.web..*.*(..))")
 	public void methodCachePointcut()
 	{
-	    LogUtils.debug("==================================进来了");
+	    LogUtils.debug("Aop Pointcut invoke");
 	}
 
 	// // @Before("execution(* com.wssys.controller.*(..))")
@@ -84,7 +84,7 @@ public class LogService {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
 		String ip = TCPIPUtil.getIpAddr(request);
-		Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
 		String loginName;
 
 		if (user != null)
@@ -141,7 +141,7 @@ public class LogService {
 			sysLog.setOperatingContent("新增角色:" + pr.getName());
 		} else if (StringHelperTools.nvl(monthRemark).equals("用户登录"))
 		{
-			Users currUser = (Users) method_param[0];
+			User currUser = (User) method_param[0];
 			sysLog.setOperatingContent("登录帐号:" + currUser.getUsername());
 		} else if (StringHelperTools.nvl(monthRemark).equals("用户退出"))
 		{
@@ -152,7 +152,7 @@ public class LogService {
 			sysLog.setOperatingContent("修改角色:" + pr.getName());
 		} else if (StringHelperTools.nvl(monthRemark).equals("新增后台用户"))
 		{
-			Users psu = (Users) method_param[0];
+			User psu = (User) method_param[0];
 			sysLog.setOperatingContent("新增后台用户:" + psu.getUsername());
 		} else if (StringHelperTools.nvl(monthRemark).equals("更新菜单"))
 		{

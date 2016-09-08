@@ -174,30 +174,30 @@
 
   <!-- ====================================Memcacheed缓存客服端 ========================================= -->
 
-	<bean id="memcachedPool" class="com.danga.MemCached.SockIOPool"
+	<!-- <bean id="memcachedPool" class="com.danga.MemCached.SockIOPool"
 		factory-method="getInstance" init-method="initialize" destroy-method="shutDown">
 		<constructor-arg>
 			<value>neeaMemcachedPool</value>
 		</constructor-arg>
 		<property name="servers">
 			<list>
-				<!--<value>220.181.188.246:12000</value> 测试缓存服务器 -->
-				 <value>220.181.188.246:12000</value><!--正式缓存服务器 -->
-				<!--多服务器 -->
-				<!-- <value>172.100.1.241:12000</value> -->
-				<!-- <value>172.100.1.242:12000</value> -->
-				<!-- <value>172.100.1.243:12000</value> -->
-				<!-- <value>172.100.1.245:12000</value> -->
+				<value>220.181.188.246:12000</value> 测试缓存服务器
+				 <value>10.110.1.232:11211</value>正式缓存服务器
+				多服务器
+				<value>172.100.1.241:12000</value>
+				<value>172.100.1.242:12000</value>
+				<value>172.100.1.243:12000</value>
+				<value>172.100.1.245:12000</value>
 			</list>
 		</property>
-		<!-- <property name="weights"> -->
-		<!-- <list> -->
-		<!-- <value>5</value> -->
-		<!-- <value>5</value> -->
-		<!-- <value>5</value> -->
-		<!-- <value>5</value> -->
-		<!-- </list> -->
-		<!-- </property> -->
+		<property name="weights">
+		<list>
+		<value>5</value>
+		<value>5</value>
+		<value>5</value>
+		<value>5</value>
+		</list>
+		</property>
 		<property name="initConn">
 			<value>40</value>
 		</property>
@@ -216,14 +216,14 @@
 		<property name="socketTO">
 			<value>3000</value>
 		</property>
-	</bean>
-	<bean id="memcachedClient" class="com.danga.MemCached.MemCachedClient">
+	</bean> -->
+	<!-- <bean id="memcachedClient" class="com.danga.MemCached.MemCachedClient">
 		<constructor-arg>
 			<value>memcachedPool</value>
-		</constructor-arg>
+		</constructor-arg> -->
 		<!-- <property name="compressEnable"> <value>true</value> </property> <property 
 			name="compressThreshold"> <value>4096</value> </property> -->
-	</bean>
+<!-- 	</bean> -->
 	
 		<!-- <bean id="wechatBean" class="cn.telling.common.WechatConfig">
 	    <property name="appId">
@@ -238,10 +238,10 @@
 	</bean>	 -->
 	
 	
-	<bean id="cacheManaer" class="cn.telling.tools.cache.CacheManager"
+	<!-- <bean id="cacheManaer" class="cn.telling.tools.cache.CacheManager"
 		init-method="initCache">
 		<property name="memClient" ref="memcachedClient" />
 		<property name="areaInfoService" ref="areaInfoServiceImpl" />
 		<property name="dictionaryService" ref="DictionaryService" />
-	</bean>
+	</bean> -->
 </beans>

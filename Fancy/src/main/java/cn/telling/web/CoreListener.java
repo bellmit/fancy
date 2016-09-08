@@ -17,12 +17,6 @@ import cn.telling.config.Global;
  * @version V1.0
  */
 public class CoreListener extends ContextLoaderListener {
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.springframework.web.context.ContextLoader#initWebApplicationContext(javax.servlet.
-     * ServletContext)
-     */
     @Override
     public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
         StringBuilder sb = new StringBuilder();

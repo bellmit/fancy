@@ -1,6 +1,6 @@
 package cn.fancy.test;
 
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 
 /**
  * @Title: ServiceTest.java
@@ -13,14 +13,14 @@ import cn.telling.user.vo.Users;
 public class ServiceTest {
 
 	public static void main(String[] args) {
-		Users u = new Users();
+		User u = new User();
 		u.setAccount("我是");
 		;
 		test(u);
 		System.out.println(u.getAge());
 	}
 
-	public static void test(Users us) {
+	public static void test(User us) {
 		us.setAge("122");
 	}
 }

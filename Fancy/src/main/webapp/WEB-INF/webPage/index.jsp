@@ -4,7 +4,6 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<%-- <c:set var="basePath" value="${pageContext.request.contextPath}" /> --%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -24,9 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link rel="stylesheet" type="text/css" id="easyuiTheme"  href="<%=path %>/ui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="<%=path %>/ui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="<%=path %>/ui/demo.css">
-
-
-
+	<script type="text/javascript">var ctx='${ctx}';</script>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -72,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div data-options="region:'north',collapsed:false"
 		style="height: 60px; background: #B3DFDA; padding: 10px">
 		欢迎您登录系统：
-		<shiro:principal property="username" />
+		<shiro:principal property="loginName" />
 		<a href="javascript:exit('userlogout.html');">退出</a>
 		<div style="padding: 5px; border: 1px solid #ddd">
 			<a href="javascript:addTab('主页','monitoring?period=jour');"
@@ -159,9 +156,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<!--  <div title="xx交易平台" style="padding:10px">
 
 			  </div>  -->
-
-			<ul id="et" class="easyui-tree"
-				data-options="url:'viewLeftMenuJson.html?index=true',method:'get',animate:true,dnd:true"></ul>
+			  		<!-- 数据加载方式可以使用easyui在class上面加入以下代码 -->
+					<!--  class="easyui-tree" data-options="url:'viewLeftMenuJson.html?index=true',method:'get',animate:true,dnd:true" -->
+			<ul id="et"></ul>
 		</div>
 
 	</div>
@@ -186,14 +183,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 	<script type="text/javascript" src="<%=path %>/ui/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/js/jquery.cookie.js"></script>
 	<script type="text/javascript" src="<%=path %>/ui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=path %>/ui/locale/easyui-lang-zh_CN.js"></script>
  	<script type="text/javascript" src="<%=path %>/ui/changeEasyuiTheme.js"></script>
-	<script type="text/javascript" src="<%=path %>/js/Common.js"></script>
+	<script type="text/javascript" src="<%=path %>/js/mth_operator.js"></script>
 	<script type="text/javascript" src="<%=path%>/js/contacts.js"></script>
 	<script type="text/javascript" src="<%=path%>/ui/tabs.js"></script>
 	<script type="text/javascript">
 		$(function(){
+			/**
+			*加载左侧菜单
+			*/
+			$("#et").tree({   
+		        url: "viewLeftMenuJson.ajax?index=true",  
+		        loadFilter: function(data){ return data;},
+		        onLoadSuccess:function(node,data){}       
+		    }); 
+			
 			$(document).bind('contextmenu',function(e){
 				e.preventDefault();
 				$('#menu').menu('show', {
@@ -212,6 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        //alert(node.text);  // alert node text property when clicked
 		    }
 		});
+		
 	});
 	function onChangeTheme(theme){
 		//alert(theme);

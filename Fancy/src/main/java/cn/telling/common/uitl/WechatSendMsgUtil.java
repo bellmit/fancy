@@ -8,8 +8,8 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
+import cn.telling.config.Global;
 import cn.telling.constant.MessageCode;
-import cn.telling.utils.PropertiesLoader;
 import cn.telling.utils.StringHelperTools;
 
 /**
@@ -106,7 +106,7 @@ public class WechatSendMsgUtil {
 			postData = "userid=" + userid
 					+ "&reason=" + java.net.URLEncoder.encode(reason, "utf-8")
 					+ "&refund=" + java.net.URLEncoder.encode(refund, "utf-8");
-			sendWSM(postData,PropertiesLoader.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/returnmoney.html");
+			sendWSM(postData,Global.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/returnmoney.html");
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>退款通知微信推送返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>退款通知微信推送返回失败！");
@@ -128,7 +128,7 @@ public class WechatSendMsgUtil {
 			postData = "userid=" + userid
 					+ "&orderMoneySum=" + java.net.URLEncoder.encode(orderMoneySum, "utf-8")
 					+ "&orderProductName=" + java.net.URLEncoder.encode(orderProductName, "utf-8");
-			sendWSM(postData,PropertiesLoader.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/ordersuccess.html");
+			sendWSM(postData,Global.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/ordersuccess.html");
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>退订单支付成功微信推送返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>订单支付成功微信推送返回失败！");
@@ -152,7 +152,7 @@ public class WechatSendMsgUtil {
 					+ "&loginname=" + java.net.URLEncoder.encode(loginname, "utf-8")
 					+ "&logintime=" + java.net.URLEncoder.encode(logintime, "utf-8")
 					+ "&logindevice=" + java.net.URLEncoder.encode(logindevice, "utf-8");
-			sendWSM(postData,PropertiesLoader.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/loginsuccess.html");
+			sendWSM(postData,Global.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/loginsuccess.html");
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>退款通知微信推送返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>退款通知微信推送返回失败！");
@@ -176,7 +176,7 @@ public class WechatSendMsgUtil {
 					+ "&ordercode=" + java.net.URLEncoder.encode(ordercode, "utf-8")
 					+ "&expressname=" + java.net.URLEncoder.encode(expressname, "utf-8")
 					+ "&expressno=" + java.net.URLEncoder.encode(expressno, "utf-8");
-			sendWSM(postData,PropertiesLoader.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/delivery.html");
+			sendWSM(postData,Global.getMsg(MessageCode.WSM_URL)+"/TellingWechat/wechatsendmsg/delivery.html");
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>订单发货提醒微信推送返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>订单发货提醒微信推送返回失败！");

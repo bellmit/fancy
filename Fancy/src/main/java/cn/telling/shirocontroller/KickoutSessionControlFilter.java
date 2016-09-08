@@ -17,7 +17,8 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 
-import cn.telling.user.vo.Users;
+import cn.telling.action.user.util.UserUtils;
+import cn.telling.user.vo.User;
 
 /**
  * 同一个帐号 并发控制登录人数
@@ -82,8 +83,8 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 		}
 
 		Session session = subject.getSession();
-		Users user = (Users) subject.getPrincipal();
-		String username = user.getAccount();
+		User user = UserUtils.getUser();
+		String username = user.getUsername();
 		Serializable sessionId = session.getId();
 
 		// TODO 同步控制

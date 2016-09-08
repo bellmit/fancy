@@ -22,14 +22,13 @@
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd  
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd" default-lazy-init="true">
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 	<!-- 加载属性文件 -->
-	
 	<context:property-placeholder ignore-unresolvable="true"  location="classpath:fancy.properties" />
 <!-- ====================================================================================== -->
 	<!-- 启用基于注解（Annotation-based）的配置 -->
 	<!-- ====================================================================================== -->
-	<context:component-scan base-package="cn.fancy.spring,cn.telling.common" />
+	<context:component-scan base-package="cn.fancy.spring" />
 	<!-- ====================================================================================== -->
 	<!-- 基于注解的事务配置 <tx:annotation-driven transaction-manager="txManager" /> -->
 	<!-- ====================================================================================== -->
@@ -81,53 +80,6 @@
 	</bean>
 	
 	
-	<!--配置 数据源 连接池 c3p0   读写数据源 -->
-	<bean id="b2b-ds-1" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close" lazy-init="default">
-		<property name="driverClass" value="${b2b-ds-1.driver}"></property>
-		<property name="jdbcUrl" value="${b2b-ds-1.url}"></property>
-		<property name="user" value="${b2b-ds-1.username}"></property>
-		<property name="password" value="${b2b-ds-1.password}"></property>
-		<property name="initialPoolSize" value="${b2b-ds-1.initialPoolSize}"></property>
-		<property name="minPoolSize" value="${b2b-ds-1.minPoolSize}"></property>
-		<property name="maxPoolSize" value="${b2b-ds-1.maxPoolSize}"></property>
-		<property name="maxIdleTime" value="${b2b-ds-1.maxIdleTime}"></property>
-		<property name="acquireIncrement" value="${b2b-ds-1.acquireIncrement}"></property>
-		<property name="idleConnectionTestPeriod" value="${b2b-ds-1.idleConnectionTestPeriod}"></property>
-		<property name="acquireRetryAttempts" value="${b2b-ds-1.acquireRetryAttempts}"></property>
-		<property name="breakAfterAcquireFailure" value="${b2b-ds-1.breakAfterAcquireFailure}"></property>
-		<property name="maxStatements" value="${b2b-ds-1.maxStatements}"></property>
-		<property name="maxStatementsPerConnection" value="${b2b-ds-1.maxStatementsPerConnection}"></property>
-		<property name="testConnectionOnCheckout" value="${b2b-ds-1.testConnectionOnCheckout}"></property>
-		<property name="numHelperThreads" value="${b2b-ds-1.numHelperThreads}"></property>
-	</bean>
-	
-	<bean id="mysql" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close" lazy-init="default">
-		<property name="driverClass" value="${mysql-fancy.driver}"></property>
-		<property name="jdbcUrl" value="${mysql-fancy.url}"></property>
-		<property name="user" value="${mysql-fancy.username}"></property>
-		<property name="password" value="${mysql-fancy.password}"></property>
-		<property name="initialPoolSize" value="${mysql-fancy.initialPoolSize}"></property>
-		<property name="minPoolSize" value="${mysql-fancy.minPoolSize}"></property>
-		<property name="maxPoolSize" value="${mysql-fancy.maxPoolSize}"></property>
-		<property name="maxIdleTime" value="${mysql-fancy.maxIdleTime}"></property>
-		<property name="acquireIncrement" value="${mysql-fancy.acquireIncrement}"></property>
-		<property name="idleConnectionTestPeriod" value="${mysql-fancy.idleConnectionTestPeriod}"></property>
-		<property name="acquireRetryAttempts" value="${mysql-fancy.acquireRetryAttempts}"></property>
-		<property name="breakAfterAcquireFailure" value="${mysql-fancy.breakAfterAcquireFailure}"></property>
-		<property name="maxStatements" value="${mysql-fancy.maxStatements}"></property>
-		<property name="maxStatementsPerConnection" value="${mysql-fancy.maxStatementsPerConnection}"></property>
-		<property name="testConnectionOnCheckout" value="${mysql-fancy.testConnectionOnCheckout}"></property>
-		<property name="numHelperThreads" value="${mysql-fancy.numHelperThreads}"></property>
-	</bean>
-	
-	<!-- 事务配置 -->
-	<bean id="txManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="b2b-ds-1" />
-	</bean>
-	
 	
 	<!-- Fancy 事务配置 -->
 	<bean id="fancyTxManager"
@@ -135,11 +87,6 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<!-- SpringJDBC Template 配置 -->
-	<!-- ====================================================================================== -->
-    <bean id="film-template" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="b2b-ds-1" />
-	</bean>
 
 	<!-- Fancy Template 配置 -->
 	<!-- ====================================================================================== -->
@@ -182,6 +129,57 @@
 	<!--  请求action方法上应用   public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir,  -->
     <util:properties id="APP_PROP" location="classpath:fancy.properties" local-override="true"/>
 	
-	
+		<!-- ====================================Memcacheed缓存客服端 ========================================= -->
+
+
+	<bean id="memcachedPool" class="com.danga.MemCached.SockIOPool"
+		factory-method="getInstance" init-method="initialize" destroy-method="shutDown">
+		<property name="servers">
+			<list>
+			    <value>10.110.1.123:11211</value>
+				<!-- <value>192.168.102.207:12000</value> 测试缓存服务器 -->
+				<!-- <value>172.100.1.241:12000</value>正式缓存服务器 -->
+				<!--多服务器 -->
+				<!-- <value>172.100.1.241:12000</value> -->
+				<!-- <value>172.100.1.242:12000</value> -->
+				<!-- <value>172.100.1.243:12000</value> -->
+				<!-- <value>172.100.1.245:12000</value> -->
+			</list>
+			
+		</property>
+		<!-- <property name="weights"> -->
+		<!-- <list> -->
+		<!-- <value>5</value> -->
+		<!-- <value>5</value> -->
+		<!-- <value>5</value> -->
+		<!-- <value>5</value> -->
+		<!-- </list> -->
+		<!-- </property> -->
+		<property name="initConn">
+			<value>20</value>
+		</property>
+		<property name="minConn">
+			<value>10</value>
+		</property>
+		<property name="maxConn">
+			<value>50</value>
+		</property>
+		<property name="maintSleep">
+			<value>3000</value>
+		</property>
+		<property name="nagle">
+			<value>false</value>
+		</property>
+		<property name="socketTO">
+			<value>3000</value>
+		</property>
+	</bean>
+	<bean id="memcachedClient" class="com.danga.MemCached.MemCachedClient">
+	<!-- 	<constructor-arg>
+			<value>neeaMemcachedPool</value>
+		</constructor-arg> -->
+		<!-- <property name="compressEnable"> <value>true</value> </property> <property 
+			name="compressThreshold"> <value>4096</value> </property> -->
+	</bean>
 	
 </beans>

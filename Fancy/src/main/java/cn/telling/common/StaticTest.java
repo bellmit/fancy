@@ -1,7 +1,5 @@
 package cn.telling.common;
 
-import cn.telling.utils.PropertiesLoader;
-
 /**   
  * @Title: StaticTest.java 
  * @Package cn.fancy.test 

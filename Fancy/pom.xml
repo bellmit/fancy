@@ -13,9 +13,8 @@
 			<version>1.0</version>
 		</parent> 
 	 
-<!-- 设定主仓库，按设定顺序进行查找。 -->
+	<!-- 设定主仓库，按设定顺序进行查找。 -->
 	<repositories>
-		
 		<repository>
             <id>oschina-repos</id>
             <name>Oschina Releases</name>
@@ -114,7 +113,6 @@
 		<!-- 		<comen4jname>/home/fancy/.m2/repository/org/coment4j/comet4j-tomcat6.jar</comen4jname> -->
 		<!-- 		<googlekaptchea>/home/fancy/.m2/repository/org/kaptcha/kaptcha-2.3.2.jar</googlekaptchea> -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 		<!-- tools version setting -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
@@ -141,7 +139,6 @@
 		
 		
 			<!-- main version setting -->
-		<spring.version>4.0.8.RELEASE</spring.version>
 		<validator.version>5.1.1.Final</validator.version>
 		<mybatis.version>3.2.8</mybatis.version>
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
@@ -223,12 +220,7 @@
   
 	
 
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-test</artifactId>
-		<version>3.1.2.RELEASE</version>
-		<scope>test</scope>
-	</dependency>
+	
 	<dependency>
 		<groupId>org.imgscalr</groupId>
 		<artifactId>imgscalr-lib</artifactId>
@@ -292,7 +284,66 @@
 		<artifactId>druid</artifactId>
 		<version>${druid.version}</version>
 	</dependency>
+	
+	<!-- User Agent -->
+	<dependency>
+		<groupId>bitwalker</groupId>
+		<artifactId>UserAgentUtils</artifactId>
+		<version>1.13</version>
+	</dependency>
+	<!-- Activiti -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-engine</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-explorer</artifactId>
+			<version>${activiti.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>vaadin</artifactId>
+					<groupId>com.vaadin</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>dcharts-widget</artifactId>
+					<groupId>org.vaadin.addons</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>activiti-simple-workflow</artifactId>
+					<groupId>org.activiti</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-modeler</artifactId>
+            <version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-diagram-rest</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
 		
+		<!-- 支持activiti缓存 -->
+		<!-- <dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+			<version>5.1.7.Final</version>
+		</dependency> -->
+		<!-- pojo copy -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>${dozer.version}</version>
+		</dependency>
 	</dependencies>
 	
 	<build>

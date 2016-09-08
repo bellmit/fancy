@@ -8,6 +8,7 @@
  *
  */
 package cn.telling.user.dao.impl;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,7 +23,7 @@ import cn.telling.common.Pager.PageVo;
 import cn.telling.menu.vo.Menu;
 import cn.telling.user.dao.IUserDao;
 import cn.telling.user.vo.ReturnUserVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.Common;
 import cn.telling.utils.MySQLAutoInjection;
 import cn.telling.utils.StringHelperTools;
@@ -39,21 +40,21 @@ import cn.telling.utils.StringHelperTools;
 public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	private Logger logger = Logger.getLogger(UserDaoImpl.class);
 	@Override
-	public Users userLogin(String uusername, String pWd)
+	public User userLogin(String uusername, String pWd)
 	{
 		try
 		{
 			String uLoginSql = "select u.id,u.username,u.email,u.realname,u.lasttime from Users u where u.username=? and u.password=?";
 			logger.debug("用户登录:" + Common.logSQL(uLoginSql, new Object[]
 			{ uusername, pWd }));
-			List<Users> uList = jdbcTemplate.query(uLoginSql, new Object[]
-			{ uusername, pWd }, new RowMapper<Users>() {
+			List<User> uList = jdbcTemplate.query(uLoginSql, new Object[]
+			{ uusername, pWd }, new RowMapper<User>() {
 
 				@Override
-				public Users mapRow(ResultSet rs, int arg1) throws SQLException
+				public User mapRow(ResultSet rs, int arg1) throws SQLException
 				{
 
-					Users user = new Users();
+					User user = new User();
 					MySQLAutoInjection.Rs2Vo(rs, user, null);
 					return user;
 				}
@@ -90,20 +91,20 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	}
 
 	@Override
-	public Users userTest(String uusername)
+	public User userTest(String uusername)
 	{
 		try
 		{
 			String uLoginSql = "select id,username,password,realname from Users u where u.username=?";
 			logger.debug("根据用户名查询用户Vo:" + Common.logSQL(uLoginSql, new Object[]
 			{ uusername }));
-			List<Users> uList = jdbcTemplate.query(uLoginSql, new Object[]
-			{ uusername }, new RowMapper<Users>() {
+			List<User> uList = jdbcTemplate.query(uLoginSql, new Object[]
+			{ uusername }, new RowMapper<User>() {
 
 				@Override
-				public Users mapRow(ResultSet rs, int arg1) throws SQLException
+				public User mapRow(ResultSet rs, int arg1) throws SQLException
 				{
-					Users user = new Users();
+					User user = new User();
 					MySQLAutoInjection.Rs2Vo(rs, user, null);
 					return user;
 				}
@@ -116,20 +117,20 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	}
 
 	@Override
-	public Users getUserInfo(Integer id)
+	public User getUserInfo(BigDecimal id)
 	{
 		try
 		{
 			String uLoginSql = "select id,username,password from Users u where u.id=?";
 			logger.debug("根据用户编号查询用户Vo:" + Common.logSQL(uLoginSql, new Object[]
 			{ id }));
-			List<Users> uList = jdbcTemplate.query(uLoginSql, new Object[]
-			{ id }, new RowMapper<Users>() {
+			List<User> uList = jdbcTemplate.query(uLoginSql, new Object[]
+			{ id }, new RowMapper<User>() {
 
 				@Override
-				public Users mapRow(ResultSet rs, int arg1) throws SQLException
+				public User mapRow(ResultSet rs, int arg1) throws SQLException
 				{
-					Users user = new Users();
+					User user = new User();
 					MySQLAutoInjection.Rs2Vo(rs, user, null);
 					return user;
 				}
@@ -143,20 +144,20 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 
 	// 查询所有，不要key,默认以方法名+参数值+内容 作为key
 
-	public List<Users> getUsers()
+	public List<User> getUsers()
 	{
 		String userName = "";
 		try
 		{
 			String uLoginSql = "select id,username from users where username like  ? ";
 
-			List<Users> uList = jdbcTemplate.query(uLoginSql, new Object[]
-			{ userName.equals("") ? "%%" : "" }, new RowMapper<Users>() {
+			List<User> uList = jdbcTemplate.query(uLoginSql, new Object[]
+			{ userName.equals("") ? "%%" : "" }, new RowMapper<User>() {
 
 				@Override
-				public Users mapRow(ResultSet rs, int arg1) throws SQLException
+				public User mapRow(ResultSet rs, int arg1) throws SQLException
 				{
-					Users user = new Users();
+					User user = new User();
 					MySQLAutoInjection.Rs2Vo(rs, user, null);
 					return user;
 				}
@@ -188,17 +189,17 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	}
 
 	@Override
-	public Users queryUserByName(String uName)
+	public User queryUserByName(String uName)
 	{
 
 		String sql = "SELECT u.id, u.username, u.`password`, u.realname, u.email, u.lasttime, u.sex, u.phone, u.address, u.state, u.description, u.age, u.createtime,u.account FROM users AS u WHERE u.username =?";
-		List<Users> uList = jdbcTemplate.query(sql, new Object[]
-		{ uName }, new RowMapper<Users>() {
+		List<User> uList = jdbcTemplate.query(sql, new Object[]
+		{ uName }, new RowMapper<User>() {
 
 			@Override
-			public Users mapRow(ResultSet rs, int rowNum) throws SQLException
+			public User mapRow(ResultSet rs, int rowNum) throws SQLException
 			{
-				Users u = new Users();
+				User u = new User();
 				MySQLAutoInjection.Rs2Vo(rs, u, null);
 				return u;
 			}
@@ -207,7 +208,7 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	}
 
 	@Override
-	public Boolean saveUser(Users user)
+	public Boolean saveUser(User user)
 	{
 
 		return null;
@@ -217,7 +218,7 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	 * @see cn.telling.user.dao.IUserDao#queryUserPagesByAccount(java.lang.String, cn.telling.user.vo.Page)
 	 */
 	@Override
-	public List<Users> queryUserPagesByAccount(String account, PageVo page) {
+	public List<User> queryUserPagesByAccount(String account, PageVo page) {
 		String sql="select u.id,u.username,u.account,r.name rolename,u.createtime from users u" +
 				" left join re_user_role ur on u.id=ur.userid" +
 				" left join role r on r.id=ur.roleid" +
@@ -230,7 +231,7 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 		}
 		sql+=" order by u.createtime desc";
 		
-		List<Users> userLs = queryByPage(sql, page,params ,new AutoInjectionRowMapper<Users>(Users.class));
+		List<User> userLs = queryByPage(sql, page,params ,new AutoInjectionRowMapper<User>(User.class));
 		return userLs;
 	}
 
@@ -250,7 +251,7 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 			params[0]=account;
 		}
 		sql+=" order by u.createtime desc";
-		List<Users> userLs = queryByPage(sql, page,params ,new AutoInjectionRowMapper<Users>(Users.class));
+		List<User> userLs = queryByPage(sql, page,params ,new AutoInjectionRowMapper<User>(User.class));
 		ReturnUserVo ruv=new ReturnUserVo();
 		ruv.setTotalCount(page.getTotalCount());
 		ruv.setUserLs(userLs);

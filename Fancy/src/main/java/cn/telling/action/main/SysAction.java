@@ -11,22 +11,16 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +28,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.danga.MemCached.MemCachedClient;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import cn.telling.action.BaseController;
 import cn.telling.action.main.service.PagingService;
-import cn.telling.action.user.UserAction;
-import cn.telling.common.CacheManager;
+import cn.telling.action.user.util.UserUtils;
+import cn.telling.common.StringUtils;
 import cn.telling.common.Pager.PageVo;
 import cn.telling.common.Pager.Pager;
 import cn.telling.common.constants.Constants;
+import cn.telling.common.servlet.ValidateCodeServlet;
+import cn.telling.common.uitl.CacheUtils;
+import cn.telling.common.uitl.IdGen;
 import cn.telling.common.uitl.StringUtil;
 import cn.telling.common.uitl.TimestampTypeAdapter;
 import cn.telling.log.service.IUserLoginLogService;
@@ -47,18 +50,16 @@ import cn.telling.log.vo.UserLoginLog;
 import cn.telling.menu.service.IMenuService;
 import cn.telling.menu.vo.Menu;
 import cn.telling.menu.vo.TreeNode;
-import cn.telling.shirocontroller.CaptchaToken;
+import cn.telling.shirocontroller.FormAuthenticationFilter;
+import cn.telling.shirocontroller.ShiroRealm.Principal;
 import cn.telling.user.service.IUserService;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.LogType;
 import cn.telling.utils.Paging;
 import cn.telling.utils.StringHelperTools;
 import cn.telling.utils.TCPIPUtil;
 import cn.telling.web.AuthImg;
 import cn.telling.web.MethodLog;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * @Title: SysAction.java
@@ -69,20 +70,16 @@ import com.google.gson.GsonBuilder;
  * @version V1.0
  */
 @Controller
-public class SysAction extends FormAuthenticationFilter {
+public class SysAction extends BaseController{
     
-	private Logger logger = LoggerFactory.getLogger(UserAction.class);
+ 
 
 	private AuthImg ai = null;
-
 	@Resource
 	public PagingService pagingService;
 
 	@Resource
 	private IUserService userService;
-
-	@Resource
-	private CacheManager cacheManager;
 
 	@Resource
 	private org.apache.shiro.cache.CacheManager shiroCacheManager;
@@ -92,18 +89,17 @@ public class SysAction extends FormAuthenticationFilter {
 
 	@Resource
 	IMenuService menuService;
-	
-
+  	
+  @Autowired
+  private MemCachedClient memCachedClient;
+  
 	@RequestMapping("/viewLeftMenuJson")
-	/*@MethodLog(remark = "系统左侧菜单查询")*/
+	@MethodLog(remark = "系统左侧菜单查询")
 	public void getLeftMenuJson(HttpServletResponse response, String index) {
 		response.setContentType("text/html;charset=utf-8");
-
 		// shiro几乎所有的环境下，都可以通过这种方式获取当前用户
-		Users user = (Users) SecurityUtils.getSubject().getPrincipal();
-
+		User user =UserUtils.getUser();
 		BigDecimal userid = user.getId();
-
 		List<Menu> listpm = new ArrayList<Menu>();
 		try {
 			listpm = menuService.findMenuByUserId(userid);
@@ -111,7 +107,6 @@ public class SysAction extends FormAuthenticationFilter {
 			e1.printStackTrace();
 		}
 		// 拉出数据库的数据，放入list2中
-
 		List<TreeNode> list = new ArrayList<TreeNode>();
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		// 拉出数据库的数据，放入list2中
@@ -139,11 +134,9 @@ public class SysAction extends FormAuthenticationFilter {
 			}
 			// node.setParentId(pm.getId());
 			map.put(pm.getId(), node);
-
 		}
 
 		// 遍历listpm的数据，把每个节点加入他的父节点的孩子List
-
 		for (Menu pm : listpm) {
 
 			if (pm.getPm() != null) {
@@ -201,17 +194,18 @@ public class SysAction extends FormAuthenticationFilter {
 		out.flush();
 	}
 
-	@RequestMapping("/validate")
+	@RequestMapping("validate")
 	public void validate(HttpServletRequest request, HttpServletResponse response) {
 		ai = new AuthImg();
 		ai.service(request, response);
 	}
 
-	@RequestMapping("/login")
+	@RequestMapping(value="login",method=RequestMethod.GET)
 	public String login() {
-		return "login";
+	  return "login";
 	}
-
+	   
+	 
 	/****
 	 * 用户登录
 	 * 
@@ -221,8 +215,8 @@ public class SysAction extends FormAuthenticationFilter {
 	 * @version V1.0
 	 */
 	@MethodLog(remark = "用户登录", operType = LogType.LOGIN)
-	@RequestMapping(value = "/loginValid", method = { RequestMethod.GET, RequestMethod.POST })
-	public String userLogin(Users users, ModelMap model, HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false, defaultValue = "0") boolean remembered) {
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public String userLogin(User user, ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 
 		// if (userName != null && !"".equals(userName) && passWord != null &&
 		// !"".equals(passWord)) {
@@ -246,20 +240,22 @@ public class SysAction extends FormAuthenticationFilter {
 		// }
 		// model.put("msg", "登录失败");
 		// }
-
-		Subject user = SecurityUtils.getSubject();
-
 //		 PasswordService svc = new DefaultPasswordService();
 //		 String encrypted = svc.encryptPassword(users.getPassword());
-		UsernamePasswordToken token = new UsernamePasswordToken(users.getAccount(), users.getPassword());
+	    Principal principal = UserUtils.getPrincipal();
+        
+        // 如果已经登录，则跳转到管理首页
+        if(principal != null){
+            return "redirect:/";
+        }
+
 		String validate = (String) request.getSession().getAttribute("validate");
 		String vali = request.getParameter("validate");
-
-		if (StringHelperTools.nvl(users.getAccount()).equals("")) {
+		if (StringHelperTools.nvl(user.getAccount()).equals("")) {
 			model.addAttribute("message", "帐号不能为空!");
 			return "forward:login.html";
 		}
-		else if (StringHelperTools.nvl(users.getPassword()).equals("")) {
+		else if (StringHelperTools.nvl(user.getPassword()).equals("")) {
 			model.addAttribute("message", "密码不能为空!");
 			return "forward:login.html";
 		}
@@ -277,9 +273,13 @@ public class SysAction extends FormAuthenticationFilter {
 			model.addAttribute("message", "验证码错误!");
 			return "forward:login.html";
 		}
+		
+		
+		
+		/*UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
 		token.setRememberMe(remembered);
 		try {
-			user.login(token);
+		  subj.login(token);
 		} catch (UnknownAccountException uae) {
 			model.addAttribute("message", "账号不存在!");
 			return "forward:login.html";
@@ -297,16 +297,99 @@ public class SysAction extends FormAuthenticationFilter {
 			 e.printStackTrace();
 			logger.error("未知错误,请联系管理员", e);
 			return "forward:login.html";
-		}
+		}*/
+		
+		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
+        boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
+        boolean mobile = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_MOBILE_PARAM);
+        String exception = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
+        String message = (String)request.getAttribute(FormAuthenticationFilter.DEFAULT_MESSAGE_PARAM);
+        
+        if (StringUtils.isBlank(message) || StringUtils.equals(message, "null")){
+            message = "用户或密码错误, 请重试.";
+        }
+
+        model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
+        model.addAttribute(FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
+        model.addAttribute(FormAuthenticationFilter.DEFAULT_MOBILE_PARAM, mobile);
+        model.addAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, exception);
+        model.addAttribute(FormAuthenticationFilter.DEFAULT_MESSAGE_PARAM, message);
+        
+        if (logger.isDebugEnabled()){
+            logger.debug("login fail, active session size:, message: {}, exception: {}",  message, exception);
+        }
+        
+        // 非授权异常，登录失败，验证码加1。
+        if (!UnauthorizedException.class.getName().equals(exception)){
+            model.addAttribute("isValidateCodeLogin", isValidateCodeLogin(username, true, false));
+        }
+        
+        // 验证失败清空验证码
+        request.getSession().setAttribute(ValidateCodeServlet.VALIDATE_CODE, IdGen.uuid());
+        
+        // 如果是手机登录，则返回JSON字符串
+        if (mobile){
+            return renderString(response, model);
+        }
+        
+		
+		
+		
+		
 		logger.info("login sucesss!");
 		UserLoginLog ulog = new UserLoginLog();
 		ulog.setType(0);
-		ulog.setUseraccount(users.getAccount());
+		ulog.setUseraccount(user.getAccount());
 		ulog.setIp(TCPIPUtil.getIpAddr(request));
 		userLoginLogService.saveLog(ulog);
+		
+		// 登录成功后，验证码计算器清零
+        //isValidateCodeLogin(principal.getLoginName(), false, true);
+		System.out.println(UserUtils.getUser().getUsername());
 		return "index";
 	}
 
+	   /**
+     * 登录成功，进入管理首页
+     */
+    @RequiresPermissions("user")
+    @RequestMapping(value = "")
+    public String index(HttpServletRequest request, HttpServletResponse response) {
+        return "index";
+    }
+	/**
+     * 是否是验证码登录
+     * 
+     * @param useruame
+     *            用户名
+     * @param isFail
+     *            计数加1
+     * @param clean
+     *            计数清零
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static boolean isValidateCodeLogin(String useruame, boolean isFail,
+            boolean clean) {
+        Map<String, Integer> loginFailMap = (Map<String, Integer>) CacheUtils
+                .get("loginFailMap");
+        if (loginFailMap == null) {
+            loginFailMap = Maps.newHashMap();
+            CacheUtils.put("loginFailMap", loginFailMap);
+        }
+        Integer loginFailNum = loginFailMap.get(useruame);
+        if (loginFailNum == null) {
+            loginFailNum = 0;
+        }
+        if (isFail) {
+            loginFailNum++;
+            loginFailMap.put(useruame, loginFailNum);
+        }
+        if (clean) {
+            loginFailMap.remove(useruame);
+        }
+        return loginFailNum >= 3;
+    }
 	@RequestMapping(value = "/noAuth", method = RequestMethod.GET)
 	public ModelAndView noAuthAction() {
 		ModelAndView mav = new ModelAndView("/NoCompetence");
@@ -360,7 +443,7 @@ public class SysAction extends FormAuthenticationFilter {
         }
         pageVo.setMessageForPage(10);
         pageVo.setUrl(req.getContextPath() + "/i.html");
-        List<Users> userLs = pagingService.getPageData(pageVo);
+        List<User> userLs = pagingService.getPageData(pageVo);
         map = Pager.setPageerToPage(map, pageVo);
         map.put("userLs", userLs);
         map.put("page", pageNow);
@@ -370,35 +453,38 @@ public class SysAction extends FormAuthenticationFilter {
 
 	 
 	 
-	 @RequestMapping("/loginout") public String loginout(HttpServletRequest
-	 request, HttpServletResponse reponse) { Subject subject =
-	 SecurityUtils.getSubject();
-	 
-	 Users user = (Users) SecurityUtils.getSubject().getPrincipal(); if (user
-	 != null) { Cookie cookie = new Cookie(user.getUsername(), null);
-	 cookie.setMaxAge(0); // 如果参数是0，就说明立即删除 reponse.addCookie(cookie); }
-	 
-	 if (subject != null) { subject.logout(); } //
-	 request.getSession().invalidate(); // 刷新权限缓存
-	 shiroCacheManager.getCache(Constants.authorizationCacheName).clear();
-	 
-	 // org.apache.shiro.web.filter.authc.LogoutFilter // 记录日志 //
-	 UserLoginLog ulog = new UserLoginLog(); // ulog.setType(1); //
-	 ulog.setUseraccount(user.getAccount()); //
-	 ulog.setIp(TCPIPUtil.getIpAddr(request)); //
-	 userLoginLogService.saveLog(ulog); 
-	 }
-	 return "redirect:/user/login.html"; 
-	 }
+  @RequestMapping("/loginout")
+  public String loginout(HttpServletRequest request, HttpServletResponse reponse)
+  {
+    Subject subject = SecurityUtils.getSubject();
+    User user =UserUtils.getUser();
+    if (user != null) {
+      Cookie cookie = new Cookie(user.getUsername(), null);
+      cookie.setMaxAge(0); // 如果参数是0，就说明立即删除 reponse.addCookie(cookie); }
+
+      if (subject != null) {
+        subject.logout();
+      } //
+      request.getSession().invalidate(); // 刷新权限缓存
+      shiroCacheManager.getCache(Constants.authorizationCacheName).clear();
+
+      // org.apache.shiro.web.filter.authc.LogoutFilter // 记录日志 //
+      UserLoginLog ulog = new UserLoginLog(); // ulog.setType(1); //
+      ulog.setUseraccount(user.getAccount()); //
+      ulog.setIp(TCPIPUtil.getIpAddr(request)); //
+      userLoginLogService.saveLog(ulog);
+    }
+    return "redirect:/user/login.html";
+  }
 	 
 	@RequestMapping(value = "/userlogout")
 	@MethodLog(remark = "用户退出")
 	public String userlogout(HttpServletRequest request, HttpServletResponse httpresponse) {
 		Subject subject = SecurityUtils.getSubject();
 
-		Users user = (Users) SecurityUtils.getSubject().getPrincipal();
+		User user =UserUtils.getUser();
 		if (user != null) {
-			Cookie cookie = new Cookie(user.getAccount(), null);
+			Cookie cookie = new Cookie(user.getUsername(), null);
 			cookie.setMaxAge(0); // 如果参数是0，就说明立即删除
 			httpresponse.addCookie(cookie);
 		}
@@ -467,18 +553,7 @@ public class SysAction extends FormAuthenticationFilter {
 		return WebUtils.getCleanParam(request, getCaptchaParam());
 	}
 
-	@Override
-	protected CaptchaToken createToken(ServletRequest request, ServletResponse response) {
-		String captcha = getCaptcha(request);
 
-		return new CaptchaToken(captcha);
-	}
-
-	// 保存异常对象到request
-	@Override
-	protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
-		request.setAttribute(getFailureKeyAttribute(), ae);
-	}
 
 	@RequestMapping("/menus")
 	public String getMenus()
@@ -490,8 +565,11 @@ public class SysAction extends FormAuthenticationFilter {
 	@RequestMapping("/viewAllMenuJson")
     @MethodLog(remark = "菜单列表数据查看")
     public void getViewAllMenuJson(@RequestParam(required = false, defaultValue = "") String name, HttpServletResponse response) {
-
-        response.setContentType("text/html;charset=utf-8");
+	  memCachedClient.add("testjava", "hhaha");
+	  System.out.println("==========================读取memcached---"+memCachedClient.get("testjava"));
+	  CacheUtils.put("testjava", "fasdfasdfasdf");
+	  System.out.println("ehcache读取：=================："+CacheUtils.get("testjava"));
+       response.setContentType("text/html;charset=utf-8");
 
         // shiro几乎所有的环境下，都可以通过这种方式获取当前用户
 //        Users user = (Users) SecurityUtils.getSubject().getPrincipal();

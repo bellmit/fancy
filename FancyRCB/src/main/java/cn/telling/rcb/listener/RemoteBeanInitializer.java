@@ -38,8 +38,7 @@ import cn.telling.rcb.router.RemoteServiceRouter;
 
 
 @Component
-public class RemoteBeanInitializer implements BeanDefinitionRegistryPostProcessor,
-		ServletContextAware {
+public class RemoteBeanInitializer implements BeanDefinitionRegistryPostProcessor,ServletContextAware {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -53,7 +52,7 @@ public class RemoteBeanInitializer implements BeanDefinitionRegistryPostProcesso
 
 	private ServletContext servletContext;
 
-	/*****
+	/**
 	 * spring bean create before register customer bean 
 	 */
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
@@ -126,7 +125,7 @@ public class RemoteBeanInitializer implements BeanDefinitionRegistryPostProcesso
 		String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX+ resolveBasePackage(basePackage) + "/" + "**/*.class";
 		Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
 		for (Resource resource : resources) {
-			if (resource.isReadable()) {
+			if (resource.isReadable()&&!resource.getFilename().contains("CacheUtils")&&!resource.getFilename().contains("UserUtils")) {
 				MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
 				if (isCandidate(metadataReader)) {
 					candidates.add(Class.forName(metadataReader.getClassMetadata().getClassName()));
@@ -142,6 +141,7 @@ public class RemoteBeanInitializer implements BeanDefinitionRegistryPostProcesso
 
 	private boolean isCandidate(MetadataReader metadataReader) throws ClassNotFoundException {
 		Class<?> c = Class.forName(metadataReader.getClassMetadata().getClassName());
+		logger.debug("sacanner *.class and validate is Candidate:"+c);
 		if (c.isInterface()) {
 			return true;
 		}

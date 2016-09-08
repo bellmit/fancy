@@ -14,6 +14,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
        classpath:spring-context.xml
+       classpath:applicationContext-shiro.xml
 	  <!-- classpath:interceptConfig.xml -->
 	  <!-- classpath:quartConfig/*.xml -->
       </param-value>
@@ -87,19 +88,15 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+		<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<filter>
 		<filter-name>httpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
-	
-	<filter-mapping>
-		<filter-name>shiroFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-		<dispatcher>ERROR</dispatcher>
-	</filter-mapping>
 	<filter-mapping>
 		<filter-name>httpMethodFilter</filter-name>
 		<servlet-name>mailsys</servlet-name>
@@ -163,7 +160,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Fancy_FrontControl</servlet-name>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- 文件上传后缀请求 配置 -->
@@ -171,8 +168,15 @@
 		<servlet-name>Fancy_FrontControl</servlet-name>
 		<url-pattern>*.ajax</url-pattern>
 	</servlet-mapping>
-  
-	
+
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- 错误页面控制 -->
 	<error-page>
@@ -199,7 +203,7 @@
 	
 	<!--首页配置 -->
 	<welcome-file-list>
-		<welcome-file>login.html</welcome-file>
+		<welcome-file>login</welcome-file>
 	</welcome-file-list>
 	
 </web-app>

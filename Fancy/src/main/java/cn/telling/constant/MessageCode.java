@@ -72,6 +72,7 @@ public class MessageCode {
 	public static final String APP_ID = "APP_ID";
 	/** 呼叫中心定义判断身份**/
 	public static final String APP_KEY = "APP_KEY";
-	
+	/** 业务逻辑错误**/
+	public static final String BUSINESSERROR = "500";
 
 }

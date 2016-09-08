@@ -13,7 +13,7 @@ import java.util.Date;
  * @date 2015-3-30 上午11:54:02
  * @version V1.0
  */
-public class Users implements Serializable {
+public class User implements Serializable {
 
 
 	private static final long serialVersionUID = 8291538730234781395L;
@@ -58,10 +58,10 @@ public class Users implements Serializable {
 		this.account = account;
 	}
 
-	public Users() {
+	public User() {
 	}
 
-	public Users(Users u) {
+	public User(User u) {
 		this.id = u.getId();
 		this.username = u.getUsername();
 		this.password = u.getPassword();

@@ -25,6 +25,7 @@ import org.springframework.jdbc.support.lob.OracleLobHandler;
  * @date 2011-11-28 下午2:04:49
  * @version V1.0
  */
+@SuppressWarnings("deprecation")
 public class AutoInjection {
 	/**
 	 * 
@@ -45,7 +46,7 @@ public class AutoInjection {
 	 * @date 2011-11-28 下午2:07:11
 	 */
 	public static boolean Rs2Vo(ResultSet rs, Object obj,
-			OracleLobHandler oracleLobHandler) {
+			@SuppressWarnings("deprecation") OracleLobHandler oracleLobHandler) {
 
 		try {
 			// 取得所有vo的属性和方法

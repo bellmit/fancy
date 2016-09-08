@@ -9,6 +9,7 @@
  */
 package cn.telling.user.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -22,7 +23,7 @@ import cn.telling.role.dao.IRoleDao;
 import cn.telling.user.dao.IUserDao;
 import cn.telling.user.service.IUserService;
 import cn.telling.user.vo.ReturnUserVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 
 /**
  * ClassName:UserServiceImpl <br/>
@@ -42,7 +43,7 @@ public class UserServiceImpl implements IUserService {
 	IRoleDao roleDao;
 
 	@Override
-	public Users userLogin(String uName, String pWd)
+	public User userLogin(String uName, String pWd)
 	{
 		return userDao.userLogin(uName, pWd);
 	}
@@ -56,27 +57,27 @@ public class UserServiceImpl implements IUserService {
 
 	// 根据ID查询，ID 我们默认是唯一的
 	@Cacheable(value = "serviceCache", key = "#id")
-	public Users getUserInfo(Integer id)
+	public User getUserInfo(BigDecimal id)
 	{
 		return userDao.getUserInfo(id);
 	}
 
 	@Cacheable(value = "serviceCache")
-	public List<Users> getUsers()
+	public List<User> getUsers()
 	{
 		return userDao.getUsers();
 	}
 
 	@Override
-	public Users queryUserByName(String uName)
+	public User queryUserByName(String uName)
 	{
 
-	    Users user=userDao.queryUserByName(uName);;
+	    User user=userDao.queryUserByName(uName);;
 		return user;
 	}
 
 	@Override
-	public Boolean saveUser(Users user)
+	public Boolean saveUser(User user)
 	{
 
 		return null;
@@ -86,7 +87,7 @@ public class UserServiceImpl implements IUserService {
 	 * @see cn.telling.user.service.IUserService#queryUserPagesByAccount(java.lang.String, cn.telling.user.vo.Page)
 	 */
 	@Override
-	public List<Users> queryUserPagesByAccount(String account, PageVo page) {
+	public List<User> queryUserPagesByAccount(String account, PageVo page) {
 		return userDao.queryUserPagesByAccount(account,page);
 	}
 

@@ -9,11 +9,12 @@
  */
 package cn.telling.user.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import cn.telling.common.Pager.PageVo;
 import cn.telling.user.vo.ReturnUserVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 
 /**
  * ClassName:UserDaoService <br/>
@@ -25,19 +26,19 @@ import cn.telling.user.vo.Users;
  */
 public interface IUserService {
 
-	public  abstract Users getUserInfo(Integer uId);
+	User getUserInfo(BigDecimal uId);
 
 	Integer getUserId(String uName);
 
-	Users queryUserByName(String uName);
+	User queryUserByName(String uName);
 
-	Users userLogin(String uName, String pWd);
+	User userLogin(String uName, String pWd);
 
-	List<Users> getUsers();
+	List<User> getUsers();
 
-	Boolean saveUser(Users user);
+	Boolean saveUser(User user);
 
-	List<Users> queryUserPagesByAccount(String account, PageVo page);
+	List<User> queryUserPagesByAccount(String account, PageVo page);
 
 	ReturnUserVo queryUsers(String account, PageVo page);
 }

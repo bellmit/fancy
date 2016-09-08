@@ -19,8 +19,7 @@
 	<!--设定整个项目的统一字符集编码  -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
-		
+		<org.springframework.version>4.0.8.RELEASE</org.springframework.version>
 		<!-- tools version setting -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
@@ -35,6 +34,18 @@
 		<dozer.version>5.5.1</dozer.version>
 		<poi.version>3.9</poi.version>
 		<freemarker.version>2.3.20</freemarker.version>
+		
+			<!-- main version setting -->
+		<validator.version>5.1.1.Final</validator.version>
+		<mybatis.version>3.2.8</mybatis.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<druid.version>1.0.11</druid.version>
+		<ehcache.version>2.6.9</ehcache.version>
+		<ehcache-web.version>2.0.4</ehcache-web.version>
+		<shiro.version>1.2.3</shiro.version>
+		<sitemesh.version>2.4.2</sitemesh.version>
+		<activiti.version>5.15.1</activiti.version>
+		<validator.version>5.1.1.Final</validator.version>
 	</properties>
 	
 	<!--用于配置分发管理，配置相应的产品发布信息,主要用于发布，在执行mvn deploy后表示要发布的位置  -->
@@ -198,13 +209,22 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
-		
-		<dependency>
-			<groupId>com.caucho</groupId>
-			<artifactId>hessian</artifactId>
-			<version>4.0.37</version>
+				<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
 		</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.caucho</groupId>
+				<artifactId>hessian</artifactId>
+				<version>4.0.37</version>
+			</dependency>
 		<dependency>
 			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
 			<artifactId>ehcache-spring-annotations</artifactId>
@@ -326,11 +346,6 @@
 			<artifactId>guava</artifactId>
 			<version>r09</version>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-			<version>2.8.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -338,6 +353,26 @@
 			<version>1.6.6</version>
 		</dependency>
 
+
+<!-- CACHE begin -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>  
+			<artifactId>ehcache-web</artifactId>  
+			<version>${ehcache-web.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			 <version>2.5.1</version>
+		</dependency>
+		<!-- CACHE end -->
+		
+		
 		<!--Apache Shiro所需的jar包 -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
@@ -347,19 +382,29 @@
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-web</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.3</version>
 		</dependency>
-
+	<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-cas</artifactId>
+			<version>${shiro.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
@@ -478,10 +523,15 @@
 			<artifactId>pinyin4j</artifactId>
 			<version>2.5.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
   			<groupId>com.memcached</groupId>
 			<artifactId>memcached_client</artifactId>
 			<version>2.6.6</version>
+		</dependency> -->
+		<dependency>
+  			<groupId>com.danga</groupId>
+			<artifactId>memcached_client</artifactId>
+			<version>1.6</version>
 		</dependency>
 			<dependency>
 		  <groupId>commons-httpclient</groupId>
@@ -531,11 +581,6 @@
         <scope>test</scope>  
     </dependency>  
       
-    <dependency>  
-        <groupId>redis.clients</groupId>  
-        <artifactId>jedis</artifactId>  
-        <version>2.1.0</version>  
-    </dependency>  
   		
   		<!-- google java lib -->
 		<dependency>
@@ -564,6 +609,12 @@
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${validator.version}</version>
 		</dependency>
 </dependencies>
 

@@ -9,6 +9,7 @@
 
 package cn.telling.shirocontroller;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -20,19 +21,19 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import cn.telling.action.user.util.UserUtils;
 import cn.telling.bean.Constants;
 import cn.telling.role.service.IRoleService;
 import cn.telling.user.service.IUserService;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.LogUtils;
 import cn.telling.utils.StringHelperTools;
 
@@ -41,7 +42,7 @@ import cn.telling.utils.StringHelperTools;
  * 
  * @author caosheng
  */
-@Component("shiroRealm")
+@Service
 public class ShiroRealm extends AuthorizingRealm {
 	@Resource
 	private IUserService userService;
@@ -77,7 +78,7 @@ public class ShiroRealm extends AuthorizingRealm {
 			SecurityUtils.getSubject().logout();
 			return null;
 		}
-		Users psu = (Users) principals.getPrimaryPrincipal();
+		User psu = (User) principals.getPrimaryPrincipal();
 		// String userId = (String)
 		// principalCollection.fromRealm(getName()).iterator().next();
 		BigDecimal userId = psu.getId();
@@ -90,6 +91,8 @@ public class ShiroRealm extends AuthorizingRealm {
 		SimpleAuthorizationInfo sazi = new SimpleAuthorizationInfo();
 		try
 		{
+		// 添加用户权限
+		  sazi.addStringPermission("user");
 			sazi.addRoles(roleService.getRolesAsString(userId)); // 获取当前用户所有的角色,
 			// //用于依据角色判断权限的shiro过滤器
 			Set<String> sp = roleService.getPermissionsAsString(userId);
@@ -109,7 +112,7 @@ public class ShiroRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException
 	{
 
-		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+	  UsernamePasswordToken upToken = (UsernamePasswordToken) token;
 
 		// String pwd = new String(upToken.getPassword());
 		// if (StringUtils.isNotBlank(pwd))
@@ -118,7 +121,7 @@ public class ShiroRealm extends AuthorizingRealm {
 		// }
 
 		// 调用业务方法
-		Users user = null;
+		User user = null;
 		String userName = upToken.getUsername();
 		try
 		{
@@ -131,16 +134,13 @@ public class ShiroRealm extends AuthorizingRealm {
 		if (user != null)
 		{
 			// 要放在作用域中的东西，请在这里进行操作
-			// SecurityUtils.getSubject().getSession().setAttribute("c_user",
-			// user);
-			// byte[] salt = EncodeUtils.decodeHex(user.getSalt());
-
-			// Session session = SecurityUtils.getSubject().getSession(false);
-			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(new Users(user), user.getPassword(), getName());
-			// Cache<Object, Object> cache =
-			// shiroCacheMan ager.getCache(GlobalStatic.authenticationCacheName);
-			// cache.put(GlobalStatic.authenticationCacheName+"-"+userName,
-			// session.getId());
+//			SecurityUtils.getSubject().getSession().setAttribute("c_user",user);
+//			byte[] salt = EncodeUtils.decodeHex(user.getSalt());
+//
+//			Session session = SecurityUtils.getSubject().getSession(false);
+			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(new Principal(user,upToken.isMobileLogin()), user.getPassword(), getName());
+//			 Cache<Object, Object> cache =shiroCacheMan ager.getCache(GlobalStatic.authenticationCacheName);
+//			 cache.put(GlobalStatic.authenticationCacheName+"-"+userName,session.getId());
 			return authinfo;
 		}
 		// 认证没有通过
@@ -169,4 +169,94 @@ public class ShiroRealm extends AuthorizingRealm {
 		// matcher.setHashIterations(HASH_INTERATIONS);
 		// setCredentialsMatcher(matcher);
 	}
+	
+	/**
+     * 授权用户信息
+     */
+    public static class Principal implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+        
+        private BigDecimal id; // 编号
+        private String loginName; // 登录名
+        private String name; // 姓名
+        private boolean mobileLogin; // 是否手机登录
+        
+//      private Map<String, Object> cacheMap;
+
+        public Principal(User user, boolean mobileLogin) {
+            this.id = user.getId();
+            this.loginName = user.getUsername();
+            this.mobileLogin = mobileLogin;
+        }
+
+      
+        
+        public BigDecimal getId()
+        {
+          return id;
+        }
+
+
+        
+        public void setId(BigDecimal id)
+        {
+          this.id = id;
+        }
+
+
+        
+        public void setLoginName(String loginName)
+        {
+          this.loginName = loginName;
+        }
+
+
+        
+        public void setName(String name)
+        {
+          this.name = name;
+        }
+
+
+        
+        public void setMobileLogin(boolean mobileLogin)
+        {
+          this.mobileLogin = mobileLogin;
+        }
+
+
+        public String getLoginName() {
+            return loginName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean isMobileLogin() {
+            return mobileLogin;
+        }
+
+//      @JsonIgnore
+//      public Map<String, Object> getCacheMap() {
+//          if (cacheMap==null){
+//              cacheMap = new HashMap<String, Object>();
+//          }
+//          return cacheMap;
+//      }
+
+        /**
+         * 获取SESSIONID
+         */
+        public String getSessionid() {
+            try{
+                return (String) UserUtils.getSession().getId();
+            }catch (Exception e) {
+                return "";
+            }
+        }
+        
+
+    }
 }

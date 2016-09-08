@@ -3,7 +3,7 @@ package cn.telling.user.dao;
 import java.util.List;
 
 import cn.telling.common.Pager.PageVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.Paging;
 
 
@@ -41,6 +41,6 @@ public interface PagingDao {
 	 * @date 2015-3-30 下午1:22:32
 	 * @version V1.0
 	 */
-	public List<Users> getPageData(Paging page) throws Exception;
-	 public List<Users> getPageData(PageVo pageVo);
+	public List<User> getPageData(Paging page) throws Exception;
+	 public List<User> getPageData(PageVo pageVo);
 }

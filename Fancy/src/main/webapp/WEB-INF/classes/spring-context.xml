@@ -39,7 +39,7 @@
 	</context:component-scan>
 	
 	<!--注册两个bean DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapte -->
-	<mvc:annotation-driven />
+	<!-- <mvc:annotation-driven /> -->
 	
 	<!-- 启用Spring对@AspectJ切面配置的支持 <aop:aspectj-autoproxy /> -->
 	<!-- proxy-target-class属性值决定是基于接口的还是基于类的代理被创建。如果proxy-target-class 属性值被设置为true，那么基于类的代理将起作用（这时需要cglib库）。
@@ -57,7 +57,7 @@
 		</constructor-arg>
 		<property name="servers">
 			<list>
-			    <value>220.181.188.246:12000</value>
+			    <value>10.110.1.232:11211</value>
 				<!-- <value>192.168.102.207:12000</value> 测试缓存服务器 -->
 				<!-- <value>172.100.1.241:12000</value>正式缓存服务器 -->
 				<!--多服务器 -->

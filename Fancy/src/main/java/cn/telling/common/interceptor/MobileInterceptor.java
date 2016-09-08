@@ -30,6 +30,7 @@ public class MobileInterceptor  implements HandlerInterceptor {
 		if (modelAndView != null){
 			
 		}
+		
 	}
 
 	@Override

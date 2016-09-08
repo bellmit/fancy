@@ -15,7 +15,7 @@ import cn.telling.common.AutoInjectionRowMapper;
 import cn.telling.common.CommonBaseDao;
 import cn.telling.common.Pager.PageVo;
 import cn.telling.common.Pager.Pager;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 import cn.telling.utils.AutoInjection;
 import cn.telling.utils.LogUtils;
 import cn.telling.utils.MySQLAutoInjection;
@@ -57,15 +57,15 @@ public class PagingDaoImpl extends CommonBaseDao implements PagingDao {
 	 * @see com.fancy.paging.dao.PagingDao#getPageData()
 	 */
 	@Override
-	public List<Users> getPageData(Paging page) {
+	public List<User> getPageData(Paging page) {
 		String sql = "select id,username,password from users limit ?,?";
 		LogUtils.debug("输出sql:" + sql);
 		Object[] params = { page.getStartIndex(), page.getEndIndex() };
-		return jdbcTemplate.query(sql, params, new RowMapper<Users>() {
+		return jdbcTemplate.query(sql, params, new RowMapper<User>() {
 
 			@Override
-			public Users mapRow(ResultSet rs, int arg1) throws SQLException {
-				Users user = new Users();
+			public User mapRow(ResultSet rs, int arg1) throws SQLException {
+				User user = new User();
 				MySQLAutoInjection.Rs2Vo(rs, user, null);
 				return user;
 			}
@@ -87,10 +87,10 @@ public class PagingDaoImpl extends CommonBaseDao implements PagingDao {
         String sql = getUsers();
         LogUtils.debug("输出sql:" + sql);
         sql = Pager.getTotalPageSql(pageVo, sql);
-        return oracleJdbcTemplate.queryForInt(sql, new RowMapper<Users>() {
+        return oracleJdbcTemplate.queryForInt(sql, new RowMapper<User>() {
             @Override
-            public Users mapRow(ResultSet rs, int arg1) throws SQLException {
-                Users user = new Users();
+            public User mapRow(ResultSet rs, int arg1) throws SQLException {
+                User user = new User();
                 AutoInjection.Rs2Vo(rs, user, null);
                 return user;
             }
@@ -106,9 +106,9 @@ public class PagingDaoImpl extends CommonBaseDao implements PagingDao {
      * @see cn.telling.action.main.dao.PagingDao#getPageData(cn.telling.common.Pager.PageVo)
      */
     @Override
-    public List<Users> getPageData(PageVo pageVo) {
+    public List<User> getPageData(PageVo pageVo) {
         String sql = getUsers();
        LogUtils.debug("输出sql:" + sql);
-        return queryByPage(sql, pageVo, new AutoInjectionRowMapper<Users>(Users.class));
+        return queryByPage(sql, pageVo, new AutoInjectionRowMapper<User>(User.class));
     }
 }

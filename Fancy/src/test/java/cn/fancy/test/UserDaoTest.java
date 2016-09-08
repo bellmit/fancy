@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.telling.shop.service.IShopService;
 import cn.telling.user.service.IUserService;
 
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(locations = "classpath:applicationContext-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserDaoTest
 {

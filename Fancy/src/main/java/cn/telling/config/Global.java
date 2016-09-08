@@ -5,16 +5,16 @@ package cn.telling.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.springframework.core.io.DefaultResourceLoader;
 
-
 import com.ckfinder.connector.ServletContextFactory;
 import com.google.common.collect.Maps;
 
+import cn.telling.common.PropertiesLoader;
 import cn.telling.common.StringUtils;
-import cn.telling.utils.PropertiesLoader;
 
 
 /**
@@ -37,7 +37,7 @@ public class Global {
 	/**
 	 * 属性文件加载对象
 	 */
-	private static PropertiesLoader loader = new PropertiesLoader("fancy.properties");
+	private static PropertiesLoader loader = new PropertiesLoader("fancy.properties","messages.properties");
 
 	/**
 	 * 显示/隐藏
@@ -82,6 +82,13 @@ public class Global {
 		return value;
 	}
 	
+	/**
+     * 获取配置
+     * @see ${fns:getConfig('adminPath')}
+     */
+    public static String getProperties(String key) {
+         return loader.getProperty(key);
+    }
 	/**
 	 * 获取管理端根路径
 	 */
@@ -183,5 +190,24 @@ public class Global {
 		}
 		return projectPath;
     }
-	
+    /**
+     * 
+     * @Description: 根据MessageCode返回消息,带参数。
+     * @param 消息代码
+     *            消息参数
+     * @return 消息内容
+     * @exception 异常描述
+     * @see 需要参见的其它内容。（可选）
+     * @author guohui
+     * @date 2013-5-23 下午3:48:49
+     * @version V1.0
+     */
+    public static String getMsg(String key, Object... param) {
+        String strMsgPattern = Global.getConfig(key.trim());
+        if (param == null || param.length == 0) {
+            return strMsgPattern;
+        }
+
+        return MessageFormat.format(strMsgPattern, param);
+    }
 }

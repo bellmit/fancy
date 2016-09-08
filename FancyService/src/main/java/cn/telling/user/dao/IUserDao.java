@@ -9,12 +9,13 @@
  */
 package cn.telling.user.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import cn.telling.common.Pager.PageVo;
 import cn.telling.menu.vo.Menu;
 import cn.telling.user.vo.ReturnUserVo;
-import cn.telling.user.vo.Users;
+import cn.telling.user.vo.User;
 
 /**
  * ClassName:UserDao <br/>
@@ -25,21 +26,21 @@ import cn.telling.user.vo.Users;
  * @see
  */
 public interface IUserDao {
-	public List<Users> getUsers();
+	public List<User> getUsers();
 
-	public Users userTest(String uName);
+	public User userTest(String uName);
 
 	public Integer getUserId(String name);
 
-	public Users userLogin(String uName, String pWd);
+	public User userLogin(String uName, String pWd);
 
-	public Users getUserInfo(Integer id);
+	public User getUserInfo(BigDecimal id);
 
 	public List<Menu> queryMenuByRoleId(Integer mId);
 
-	public Users queryUserByName(String uName);
+	public User queryUserByName(String uName);
 
-	public Boolean saveUser(Users user);
+	public Boolean saveUser(User user);
 
 	/**
 	 * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。
@@ -53,7 +54,7 @@ public interface IUserDao {
 	 * @param users 
 	*/
 	
-	public List<Users> queryUserPagesByAccount(String account, PageVo page);
+	public List<User> queryUserPagesByAccount(String account, PageVo page);
 
 	/**
 	 * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。

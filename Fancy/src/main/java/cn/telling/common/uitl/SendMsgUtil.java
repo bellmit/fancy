@@ -9,8 +9,8 @@ import java.net.URL;
 
 import org.apache.log4j.Logger;
 
+import cn.telling.config.Global;
 import cn.telling.constant.MessageCode;
-import cn.telling.utils.PropertiesLoader;
 /**
  * 短信接口工具类
  * @author dongfengda
@@ -99,15 +99,15 @@ public class SendMsgUtil {
 		String postData;
 		String ret = "";
 		try {
-			postData = "username=" + PropertiesLoader.getMsg(MessageCode.SMS_USER)
-					+ "&password=" + PropertiesLoader.getMsg(MessageCode.SMS_PASS)
+			postData = "username=" +Global.getMsg(MessageCode.SMS_USER)
+					+ "&password=" + Global.getMsg(MessageCode.SMS_PASS)
 					+ "&phone=" + num + "&message="
 					+ java.net.URLEncoder.encode(con, "gbk") + "&epid="
-					+ PropertiesLoader.getMsg(MessageCode.SMS_EPID)
+					+ Global.getMsg(MessageCode.SMS_EPID)
 					+ "&linkid=&subcode=";
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>发送目标号码：" + num);
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>发送短信内容：" + con);
-			ret = sendSMSGet(postData, PropertiesLoader.getMsg(MessageCode.SMS_URL));
+			ret = sendSMSGet(postData, Global.getMsg(MessageCode.SMS_URL));
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>短信平台返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>发送短信失败！");
@@ -120,23 +120,23 @@ public class SendMsgUtil {
 		
 		String postData;
 		String ret = "";
-		String username = PropertiesLoader.getMsg(MessageCode.SMS_USER_GROUP);
-		String password = PropertiesLoader.getMsg(MessageCode.SMS_PASS_GROUP);
+		String username = Global.getMsg(MessageCode.SMS_USER_GROUP);
+		String password = Global.getMsg(MessageCode.SMS_PASS_GROUP);
 		
 		try {
 			if(!"".equals(subcode)){
 				username = subcode;
-				password = PropertiesLoader.getMsg(MessageCode.SMS_PASS_SON);
+				password = Global.getMsg(MessageCode.SMS_PASS_SON);
 			}
 			postData = "username=" + username
 					+ "&password=" + password
 					+ "&phone=" + num + "&message="
 					+ java.net.URLEncoder.encode(con, "gbk") + "&epid="
-					+ PropertiesLoader.getMsg(MessageCode.SMS_EPID_GROUP)
+					+ Global.getMsg(MessageCode.SMS_EPID_GROUP)
 					+ "&linkid=&subcode=";
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>发送目标号码：" + num);
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>发送短信内容：" + con);
-			ret = sendSMSGet(postData, PropertiesLoader.getMsg(MessageCode.SMS_URL));
+			ret = sendSMSGet(postData, Global.getMsg(MessageCode.SMS_URL));
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>短信平台返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>发送短信失败！");
@@ -149,15 +149,15 @@ public class SendMsgUtil {
 		String postData;
 		String ret = "";
 		try {
-			postData = "username=" + PropertiesLoader.getMsg(MessageCode.SMS_USER_TELLING_MALL)
-					+ "&password=" + PropertiesLoader.getMsg(MessageCode.SMS_PASS_TELLING_MALL)
+			postData = "username=" + Global.getMsg(MessageCode.SMS_USER_TELLING_MALL)
+					+ "&password=" + Global.getMsg(MessageCode.SMS_PASS_TELLING_MALL)
 					+ "&phone=" + phoneNum + "&message="
 					+ java.net.URLEncoder.encode(smsContent, "gbk") + "&epid="
-					+ PropertiesLoader.getMsg(MessageCode.SMS_EPID_TELLING_MALL)
+					+ Global.getMsg(MessageCode.SMS_EPID_TELLING_MALL)
 					+ "&linkid=&subcode=";
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>发送目标号码：" + phoneNum);
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>发送短信内容：" + smsContent);
-			ret = sendSMSGet(postData, PropertiesLoader.getMsg(MessageCode.SMS_URL));
+			ret = sendSMSGet(postData, Global.getMsg(MessageCode.SMS_URL));
 			logger.info(">>>>>>>>>>>>>>>>>>>>>>>>短信平台返回：" + ret);
 		} catch (Exception e) {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>发送短信失败！");

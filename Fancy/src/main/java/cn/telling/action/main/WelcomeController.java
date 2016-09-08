@@ -57,6 +57,6 @@ public class WelcomeController {
 	 */
 	@RequestMapping(value = "/BusinessException.html")
 	public void TestBusinessException() throws BusinessException {
-		throw new BusinessException(BusinessException.TYPE_BACK,"this is Business error ");
+		throw new BusinessException(BusinessException.TYPE_BACK,MessageCode.MSG_ERROR);
 	}
 }
