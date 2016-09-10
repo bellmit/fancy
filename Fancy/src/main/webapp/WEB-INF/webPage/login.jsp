@@ -50,10 +50,8 @@
 						<li><input name="username" type="text" class="loginuser" value="admin" placeholder="请输入登录名" onclick="JavaScript:this.value=''" /></li>
 						<li><input name="password" type="password" class="loginpwd" value="123qwe" placeholder="请输入密码" onclick="JavaScript:this.value=''" /></li>
 						<li class="test">
-						<%-- <img alt="验证码" src="${ctx}/images/kaptcha.jpg" title="点击更换"  
-	                    id="img_captcha" onclick="javascript:refreshCaptcha();"> --%>
-	                    <img alt="验证码" onclick="changeValidate()" id="verifyCode" src="${ctx }/validate.html">&nbsp;&nbsp;&nbsp;<input name="validate"
-							type="text" class="validate" onclick="JavaScript:this.value=''" /></li>
+		                    <img alt="验证码" onclick="changeValidate()" id="verifyCode" src="${ctx }/validate.html">&nbsp;&nbsp;&nbsp;
+		                    <input name="validate" type="text" class="validate" /></li>
 						<li>
 						<input name="" type="submit" class="loginbtn" value="登录" /> 
 						<label  for="rememberMe"><input name="rememberMe" id="rememberMe" type="checkbox" ${rememberMe ? 'checked' : ''} checked="checked" />记住密码</label>

@@ -137,16 +137,14 @@
     <listener-class>cn.telling.web.CoreListener</listener-class>
    <!--  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> -->
   </listener>
-    <servlet>
-    <servlet-name>kaptcha</servlet-name>
-    <servlet-class>  
-            com.google.code.kaptcha.servlet.KaptchaServlet  
-        </servlet-class>
+ <!--  <servlet>
+   		 <servlet-name>kaptcha</servlet-name>
+    	<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>kaptcha</servlet-name>
     <url-pattern>/images/kaptcha.jpg</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   
   <!-- spring分发器 前端控制器配置 -->
 	<servlet>

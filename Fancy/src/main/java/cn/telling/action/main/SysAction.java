@@ -72,8 +72,6 @@ import cn.telling.web.MethodLog;
 @Controller
 public class SysAction extends BaseController{
     
- 
-
 	private AuthImg ai = null;
 	@Resource
 	public PagingService pagingService;
@@ -245,36 +243,32 @@ public class SysAction extends BaseController{
 	    Principal principal = UserUtils.getPrincipal();
         
         // 如果已经登录，则跳转到管理首页
-        if(principal != null){
+        if(principal != null)
             return "redirect:/";
-        }
-
 		String validate = (String) request.getSession().getAttribute("validate");
 		String vali = request.getParameter("validate");
-		if (StringHelperTools.nvl(user.getAccount()).equals("")) {
+		if (StringHelperTools.nvl(user.getUsername()).equals("")) {
 			model.addAttribute("message", "帐号不能为空!");
-			return "forward:login.html";
+			return "login";
 		}
 		else if (StringHelperTools.nvl(user.getPassword()).equals("")) {
 			model.addAttribute("message", "密码不能为空!");
-			return "forward:login.html";
+			return "login";
 		}
 		else if (StringHelperTools.nvl(vali).equals("")) {
 			model.addAttribute("message", "验证码不能为空!");
-			return "forward:login.html";
+			return "login";
 		}
 		// 比对
 		else if (StringHelperTools.nvl(validate).equals("")) {
 			model.addAttribute("message", "验证码过期,请重新登录!");
-			return "forward:login.html";
+			return "login";
 		}
 		else if (!validate.equalsIgnoreCase(vali)) {
 			// throw new IncorrectCaptchaException("验证码错误！");
 			model.addAttribute("message", "验证码错误!");
-			return "forward:login.html";
+			return "login";
 		}
-		
-		
 		
 		/*UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
 		token.setRememberMe(remembered);
@@ -331,11 +325,6 @@ public class SysAction extends BaseController{
         if (mobile){
             return renderString(response, model);
         }
-        
-		
-		
-		
-		
 		logger.info("login sucesss!");
 		UserLoginLog ulog = new UserLoginLog();
 		ulog.setType(0);
@@ -450,48 +439,18 @@ public class SysAction extends BaseController{
         return "/user/paging";
     }
 
-
-	 
-	 
-  @RequestMapping("/loginout")
-  public String loginout(HttpServletRequest request, HttpServletResponse reponse)
-  {
-    Subject subject = SecurityUtils.getSubject();
-    User user =UserUtils.getUser();
-    if (user != null) {
-      Cookie cookie = new Cookie(user.getUsername(), null);
-      cookie.setMaxAge(0); // 如果参数是0，就说明立即删除 reponse.addCookie(cookie); }
-
-      if (subject != null) {
-        subject.logout();
-      } //
-      request.getSession().invalidate(); // 刷新权限缓存
-      shiroCacheManager.getCache(Constants.authorizationCacheName).clear();
-
-      // org.apache.shiro.web.filter.authc.LogoutFilter // 记录日志 //
-      UserLoginLog ulog = new UserLoginLog(); // ulog.setType(1); //
-      ulog.setUseraccount(user.getAccount()); //
-      ulog.setIp(TCPIPUtil.getIpAddr(request)); //
-      userLoginLogService.saveLog(ulog);
-    }
-    return "redirect:/user/login.html";
-  }
-	 
 	@RequestMapping(value = "/userlogout")
 	@MethodLog(remark = "用户退出")
 	public String userlogout(HttpServletRequest request, HttpServletResponse httpresponse) {
 		Subject subject = SecurityUtils.getSubject();
-
 		User user =UserUtils.getUser();
 		if (user != null) {
 			Cookie cookie = new Cookie(user.getUsername(), null);
 			cookie.setMaxAge(0); // 如果参数是0，就说明立即删除
 			httpresponse.addCookie(cookie);
 		}
-
-		if (subject != null) {
+		if (subject != null)
 			subject.logout();
-		}
 		// request.getSession().invalidate();
 		// 刷新权限缓存
 		shiroCacheManager.getCache(Constants.authorizationCacheName).clear();
@@ -500,11 +459,11 @@ public class SysAction extends BaseController{
 		// 记录日志
 		UserLoginLog ulog = new UserLoginLog();
 		ulog.setType(new Integer(1));
-		ulog.setUseraccount(user.getAccount());
+		ulog.setUseraccount(user.getUsername());
 		ulog.setIp(TCPIPUtil.getIpAddr(request));
 		userLoginLogService.saveLog(ulog);
 		return "redirect:login.html";
-	};
+	}
 
 	@RequestMapping("/myServletLogin")
 	public String myServletLogin(HttpServletRequest request) {
@@ -517,26 +476,8 @@ public class SysAction extends BaseController{
 		return "/ftl/mytest";
 	}
 
-	/***
-	 * 
-	 *404 
-	 */
-	@RequestMapping("/404")
-	public String FileNotFound()
-	{
-	    return "/error/404";
-	}
 
-	/***
-     * 
-     *404 
-	 * @throws Exception 
-     */
-    @RequestMapping("/ceshi")
-    public String ceshi() throws Exception
-    {
-       throw new Exception("出错");
-    }
+
 	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
 
 	private String captchaParam = DEFAULT_CAPTCHA_PARAM;
@@ -552,8 +493,6 @@ public class SysAction extends BaseController{
 	protected String getCaptcha(ServletRequest request) {
 		return WebUtils.getCleanParam(request, getCaptchaParam());
 	}
-
-
 
 	@RequestMapping("/menus")
 	public String getMenus()

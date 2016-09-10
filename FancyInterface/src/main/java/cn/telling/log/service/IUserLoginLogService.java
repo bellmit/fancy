@@ -17,5 +17,7 @@ import cn.telling.log.vo.UserLoginLog;
  * @author caosheng
  */
 public interface IUserLoginLogService {
-	public Boolean saveLog(UserLoginLog log);
+    
+    
+	public  Boolean saveLog(UserLoginLog log);
 }

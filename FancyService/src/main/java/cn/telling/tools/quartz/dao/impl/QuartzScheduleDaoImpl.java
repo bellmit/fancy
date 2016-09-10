@@ -80,7 +80,8 @@ public class QuartzScheduleDaoImpl implements IQuartzScheduleDao {
 	public Boolean checkName(String jobName) {
 		String sql = " select count(*) from quartzlist ql where jobtitle='"+jobName+"' ";
 		logger.debug("检查任务是否存在:"+sql);
-		int a = jdbcOracleB2BTemplate.queryForInt(sql);
+		@SuppressWarnings("deprecation")
+      int a = jdbcOracleB2BTemplate.queryForInt(sql);
 		if(a>0){
 			return true;
 		}else{

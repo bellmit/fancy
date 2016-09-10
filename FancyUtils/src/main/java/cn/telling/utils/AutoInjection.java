@@ -45,8 +45,7 @@ public class AutoInjection {
 	 * @author 李欢
 	 * @date 2011-11-28 下午2:07:11
 	 */
-	public static boolean Rs2Vo(ResultSet rs, Object obj,
-			@SuppressWarnings("deprecation") OracleLobHandler oracleLobHandler) {
+	public static boolean Rs2Vo(ResultSet rs, Object obj,OracleLobHandler oracleLobHandler) {
 
 		try {
 			// 取得所有vo的属性和方法

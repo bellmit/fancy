@@ -31,20 +31,19 @@ import cn.telling.utils.Paging;
  * @version V1.0
  */
 @Repository
+@SuppressWarnings("deprecation")
 public class PagingDaoImpl extends CommonBaseDao implements PagingDao {
 
 	@Resource
 	private JdbcTemplate jdbcTemplate;
 	
-	@Resource(name="film-template")
-    private JdbcTemplate oracleJdbcTemplate;
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.fancy.paging.dao.PagingDao#getPageCount()
 	 */
-	@Override
+  @Override
 	public int getPageCount() {
 		String sql = "select count(id) from Users";
 		LogUtils.debug("输出sql:" + sql);
@@ -87,7 +86,7 @@ public class PagingDaoImpl extends CommonBaseDao implements PagingDao {
         String sql = getUsers();
         LogUtils.debug("输出sql:" + sql);
         sql = Pager.getTotalPageSql(pageVo, sql);
-        return oracleJdbcTemplate.queryForInt(sql, new RowMapper<User>() {
+        return jdbcTemplate.queryForInt(sql, new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet rs, int arg1) throws SQLException {
                 User user = new User();

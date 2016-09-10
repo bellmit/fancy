@@ -29,7 +29,6 @@ public class UserLoginLogServiceImpl implements IUserLoginLogService {
 
 	@Override
 	public Boolean saveLog(UserLoginLog log) {
-
 		return logDao.saveLog(log);
 	}
 

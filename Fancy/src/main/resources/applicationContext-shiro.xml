@@ -30,7 +30,8 @@
 		<property name="cacheManager" ref="shiroCacheManager" />
 	</bean>
 	
-	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+	<!-- Session管理配置 org.apache.shiro.web.session.mgt.DefaultWebSessionManager -->
+	<bean id="sessionManager" class="cn.telling.common.security.shiro.session.SessionManager">
 		<!-- 超时时间 -->
 	    <property name="globalSessionTimeout" value="3600000"/>
 	    <property name="sessionDAO" ref="shiroSessionDao"/>
@@ -38,8 +39,8 @@
 	    <!-- 定时检查失效的session -->
 	     <property name="sessionValidationSchedulerEnabled" value="true" />
 	     <!-- 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话   -->
-			<property name="sessionValidationInterval" value="${session.sessionTimeoutClean}"/>
-			<property name="sessionIdCookieEnabled" value="true"/>
+		<property name="sessionValidationInterval" value="${session.sessionTimeoutClean}"/>
+		<property name="sessionIdCookieEnabled" value="true"/>
 	</bean>
 
 
@@ -54,10 +55,24 @@
 	</bean>
 	
 	
-<bean id="shiroSessionDao"  class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
+<!-- <bean id="shiroSessionDao"  class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" /> -->
 
-<!-- 单机session -->
-<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
+	<!-- 自定义Session存储容器 -->
+<!-- 	<bean id="shiroSessionDao" class="com.thinkgem.jeesite.common.security.shiro.session.JedisSessionDAO"> -->
+<!-- 		<property name="sessionIdGenerator" ref="idGen" /> -->
+<!-- 		<property name="sessionKeyPrefix" value="${redis.keyPrefix}_session_" /> -->
+<!-- 	</bean> -->
+	<bean id="shiroSessionDao" class="cn.telling.common.security.shiro.session.CacheSessionDAO">
+		<property name="sessionIdGenerator" ref="idGen" />
+		<property name="activeSessionsCacheName" value="activeSessionsCache" />
+		<property name="cacheManager" ref="shiroCacheManager" />
+	</bean>
+	
+<!-- 定义授权缓存管理器 -->
+<!-- 	<bean id="shiroCacheManager" class="com.thinkgem.jeesite.common.security.shiro.cache.SessionCacheManager" /> -->
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="ehCacheManager"/>
+	</bean>
 
 	<!-- session 集群 -->
 	<!-- 

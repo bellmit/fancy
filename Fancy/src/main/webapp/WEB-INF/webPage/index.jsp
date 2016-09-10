@@ -70,7 +70,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		style="height: 60px; background: #B3DFDA; padding: 10px">
 		欢迎您登录系统：
 		<shiro:principal property="loginName" />
-		<a href="javascript:exit('userlogout.html');">退出</a>
+		<a href="javascript:exit('userlogout');">退出</a>
 		<div style="padding: 5px; border: 1px solid #ddd">
 			<a href="javascript:addTab('主页','monitoring?period=jour');"
 				class="easyui-linkbutton" data-options="plain:true">主页</a> <a

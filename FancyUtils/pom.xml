@@ -6,16 +6,12 @@
 	<packaging>jar</packaging>
 	<name>FancyUtils</name>
 	<url>http://maven.apache.org</url>
-
-	
 		<parent>
 			<groupId>cn.telling</groupId>
 			<artifactId>FancyRoot</artifactId>
 			<relativePath>../FancyRoot/pom.xml</relativePath>
 			<version>1.0</version>
 		</parent>
-	
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -33,9 +29,8 @@
 	      </snapshots>
 	    </repository>
 	  </repositories>
-  
 	<dependencies>
-	<dependency>
+	<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -44,7 +39,7 @@
 			<groupId>com.belerweb</groupId>
 			<artifactId>pinyin4j</artifactId>
 			<version>2.5.0</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- spring依赖 -->
 		<!-- <dependency>
@@ -62,7 +57,7 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency> -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
@@ -81,7 +76,7 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>

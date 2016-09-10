@@ -29,6 +29,7 @@ import org.springframework.jdbc.support.lob.OracleLobHandler;
  * @date 2011-11-28 下午2:04:49
  * @version V1.0
  */
+@SuppressWarnings("deprecation")
 public class MySQLAutoInjection
 {
     @Autowired

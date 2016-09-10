@@ -21,7 +21,7 @@ import cn.telling.common.Pager.PageVo;
  * @version 1.0
  * @since Nov 18, 2014
  */
-
+@SuppressWarnings("deprecation")
 public class CommonBaseDao {
 
     // 记录日志

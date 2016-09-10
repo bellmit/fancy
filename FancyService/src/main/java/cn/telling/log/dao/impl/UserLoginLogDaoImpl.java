@@ -36,7 +36,6 @@ public class UserLoginLogDaoImpl implements IUserLoginLogDao {
 		String sql = "insert into user_loginlog ( useraccount, type, ip, createtime ) values ( ?, ?, ?,sysdate()) ;";
 		Object params[]=new Object[] { log.getUseraccount(), log.getType(), log.getIp()};
 		int flag = jdbcTemplate.update(sql, params);
-		
 		LogUtils.info("新增登录日志:"+BaseUtil.logSQL(sql, params));
 		return flag > 0 ? true : false;
 	}

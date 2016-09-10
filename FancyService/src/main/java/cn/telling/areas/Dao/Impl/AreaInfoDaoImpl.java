@@ -22,7 +22,7 @@ import cn.telling.common.Pager.Pager;
 import cn.telling.utils.AutoInjection;
 import cn.telling.utils.Common;
 import cn.telling.utils.StringHelperTools;
-
+@SuppressWarnings("deprecation")
 @Repository
 public class AreaInfoDaoImpl implements IAreaInfoDao {
 
@@ -104,7 +104,7 @@ public class AreaInfoDaoImpl implements IAreaInfoDao {
 		});
 	}
 
-	@Override
+  @Override
 	public int GetTotalCount(AreaConditionVo condition) {
 		String sql = "select count(*) from AreaInfo where 1=1 ";
 		sql += Condition2Sql(condition);

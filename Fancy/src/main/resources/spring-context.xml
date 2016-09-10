@@ -195,7 +195,7 @@
 	
 	
 	<!--配置 数据源 连接池 c3p0   读写数据源 -->
-	<bean id="b2b-ds-1" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+	<!-- <bean id="b2b-ds-1" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" lazy-init="default">
 		<property name="driverClass" value="${b2b-ds-1.driver}"></property>
 		<property name="jdbcUrl" value="${b2b-ds-1.url}"></property>
@@ -213,33 +213,13 @@
 		<property name="maxStatementsPerConnection" value="${b2b-ds-1.maxStatementsPerConnection}"></property>
 		<property name="testConnectionOnCheckout" value="${b2b-ds-1.testConnectionOnCheckout}"></property>
 		<property name="numHelperThreads" value="${b2b-ds-1.numHelperThreads}"></property>
-	</bean>
-	
-	<bean id="mysql" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close" lazy-init="default">
-		<property name="driverClass" value="${mysql-fancy.driver}"></property>
-		<property name="jdbcUrl" value="${mysql-fancy.url}"></property>
-		<property name="user" value="${mysql-fancy.username}"></property>
-		<property name="password" value="${mysql-fancy.password}"></property>
-		<property name="initialPoolSize" value="${mysql-fancy.initialPoolSize}"></property>
-		<property name="minPoolSize" value="${mysql-fancy.minPoolSize}"></property>
-		<property name="maxPoolSize" value="${mysql-fancy.maxPoolSize}"></property>
-		<property name="maxIdleTime" value="${mysql-fancy.maxIdleTime}"></property>
-		<property name="acquireIncrement" value="${mysql-fancy.acquireIncrement}"></property>
-		<property name="idleConnectionTestPeriod" value="${mysql-fancy.idleConnectionTestPeriod}"></property>
-		<property name="acquireRetryAttempts" value="${mysql-fancy.acquireRetryAttempts}"></property>
-		<property name="breakAfterAcquireFailure" value="${mysql-fancy.breakAfterAcquireFailure}"></property>
-		<property name="maxStatements" value="${mysql-fancy.maxStatements}"></property>
-		<property name="maxStatementsPerConnection" value="${mysql-fancy.maxStatementsPerConnection}"></property>
-		<property name="testConnectionOnCheckout" value="${mysql-fancy.testConnectionOnCheckout}"></property>
-		<property name="numHelperThreads" value="${mysql-fancy.numHelperThreads}"></property>
-	</bean>
+	</bean> -->
 	
 	<!-- 事务配置 -->
-	<bean id="txManager"
+	<!-- <bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="b2b-ds-1" />
-	</bean>
+	</bean> -->
 	
 	<!-- Fancy 事务配置 -->
 	<bean id="fancyTxManager"
@@ -249,9 +229,9 @@
 	
 	<!-- SpringJDBC Template 配置 -->
 	<!-- ====================================================================================== -->
-    <bean id="film-template" class="org.springframework.jdbc.core.JdbcTemplate">
+  <!--   <bean id="film-template" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="b2b-ds-1" />
-	</bean>
+	</bean> -->
 
 	<!-- Fancy Template 配置 -->
 	<!-- ====================================================================================== -->

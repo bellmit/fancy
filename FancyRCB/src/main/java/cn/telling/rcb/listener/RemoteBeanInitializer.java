@@ -125,7 +125,7 @@ public class RemoteBeanInitializer implements BeanDefinitionRegistryPostProcesso
 		String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX+ resolveBasePackage(basePackage) + "/" + "**/*.class";
 		Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
 		for (Resource resource : resources) {
-			if (resource.isReadable()&&!resource.getFilename().contains("CacheUtils")&&!resource.getFilename().contains("UserUtils")) {
+			if (resource.isReadable()&&!resource.getFilename().contains("CacheUtils")&&!resource.getFilename().contains("UserUtils")&&!resource.getFilename().contains("JedisUtils")) {
 				MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
 				if (isCandidate(metadataReader)) {
 					candidates.add(Class.forName(metadataReader.getClassMetadata().getClassName()));

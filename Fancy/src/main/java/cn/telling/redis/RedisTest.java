@@ -21,6 +21,7 @@ import junit.framework.Assert;
  * @date 2016-1-22 下午4:34:51
  * @version V1.0
  */
+@SuppressWarnings("deprecation")
 @ContextConfiguration(locations = {"classpath*:applicationContext-redius.xml"})  
 public class RedisTest extends AbstractJUnit4SpringContextTests {  
     

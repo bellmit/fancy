@@ -11,6 +11,8 @@ package cn.telling.shirocontroller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +24,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -54,7 +57,8 @@ public class ShiroRealm extends AuthorizingRealm {
 	
 
 	public ShiroRealm()
-	{// 访问量小的情况下
+	{
+	    // 访问量小的情况下
 		// 认证
 		super.setAuthenticationCacheName(Constants.authenticationCacheName);
 		super.setAuthenticationCachingEnabled(false); // 如果为true 密码会被缓存
@@ -64,9 +68,9 @@ public class ShiroRealm extends AuthorizingRealm {
 		// super.setAuthorizationCachingEnabled(false); //测试的时候先关闭缓存
 	}
 
-	/***
-	 * 授权
-	 */
+	/**
+     * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用
+     */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals)
 	{
@@ -78,7 +82,7 @@ public class ShiroRealm extends AuthorizingRealm {
 			SecurityUtils.getSubject().logout();
 			return null;
 		}
-		User psu = (User) principals.getPrimaryPrincipal();
+		User psu = UserUtils.getUser();
 		// String userId = (String)
 		// principalCollection.fromRealm(getName()).iterator().next();
 		BigDecimal userId = psu.getId();
@@ -107,20 +111,13 @@ public class ShiroRealm extends AuthorizingRealm {
 		return sazi;
 	}
 
-	// /认证
+	/**
+     * 认证回调函数, 登录时调用
+     */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException
 	{
-
 	  UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-
-		// String pwd = new String(upToken.getPassword());
-		// if (StringUtils.isNotBlank(pwd))
-		// {
-		// pwd = DigestUtils.md5Hex(pwd);
-		// }
-
-		// 调用业务方法
 		User user = null;
 		String userName = upToken.getUsername();
 		try
@@ -130,13 +127,9 @@ public class ShiroRealm extends AuthorizingRealm {
 		{
 			logger.error(e.getMessage());
 		}
-
 		if (user != null)
 		{
 			// 要放在作用域中的东西，请在这里进行操作
-//			SecurityUtils.getSubject().getSession().setAttribute("c_user",user);
-//			byte[] salt = EncodeUtils.decodeHex(user.getSalt());
-//
 //			Session session = SecurityUtils.getSubject().getSession(false);
 			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(new Principal(user,upToken.isMobileLogin()), user.getPassword(), getName());
 //			 Cache<Object, Object> cache =shiroCacheMan ager.getCache(GlobalStatic.authenticationCacheName);
@@ -169,7 +162,45 @@ public class ShiroRealm extends AuthorizingRealm {
 		// matcher.setHashIterations(HASH_INTERATIONS);
 		// setCredentialsMatcher(matcher);
 	}
+	@Override
+    protected void checkPermission(Permission permission, AuthorizationInfo info) {
+        authorizationValidate(permission);
+        super.checkPermission(permission, info);
+    }
+    
+    @Override
+    protected boolean[] isPermitted(List<Permission> permissions, AuthorizationInfo info) {
+        if (permissions != null && !permissions.isEmpty()) {
+            for (Permission permission : permissions) {
+                authorizationValidate(permission);
+            }
+        }
+        return super.isPermitted(permissions, info);
+    }
+    
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, Permission permission) {
+        authorizationValidate(permission);
+        return super.isPermitted(principals, permission);
+    }
+    
+    @Override
+    protected boolean isPermittedAll(Collection<Permission> permissions, AuthorizationInfo info) {
+        if (permissions != null && !permissions.isEmpty()) {
+            for (Permission permission : permissions) {
+                authorizationValidate(permission);
+            }
+        }
+        return super.isPermittedAll(permissions, info);
+    }
 	
+	/**
+     * 授权验证方法
+     * @param permission
+     */
+    private void authorizationValidate(Permission permission){
+        // 模块授权预留接口
+    }
 	/**
      * 授权用户信息
      */
@@ -256,7 +287,5 @@ public class ShiroRealm extends AuthorizingRealm {
                 return "";
             }
         }
-        
-
     }
 }

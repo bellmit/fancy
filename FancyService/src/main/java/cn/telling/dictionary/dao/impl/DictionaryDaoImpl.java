@@ -28,7 +28,8 @@ public class DictionaryDaoImpl implements DictionaryDao{
 	@Autowired
 	@Qualifier("film-template")
 	private JdbcTemplate jdbcTemplate;
-	@Override
+	@SuppressWarnings("deprecation")
+  @Override
 	public int getDictionaryTypeTotalCountForPage(String type) {
 		String sql="select count(1) from dictionarytype dt where del_flag='1' ";
 		if(type!=null&&type.length()>0){
@@ -76,7 +77,8 @@ public class DictionaryDaoImpl implements DictionaryDao{
 			
 		});
 	}
-	public int getDictionaryTypeTotalCount(){
+	@SuppressWarnings("deprecation")
+  public int getDictionaryTypeTotalCount(){
 		String sql="select count(1) from dictionarytype";
 		return jdbcTemplate.queryForInt(sql);
 	}
@@ -141,7 +143,8 @@ public class DictionaryDaoImpl implements DictionaryDao{
 			
 		});
 	}
-	@Override
+	@SuppressWarnings("deprecation")
+  @Override
 	public int getDicitonaryTotalCountForPage(DictionaryConditionVo vo) {
 		String sql="select count(*) from dictionary d where delflag='1' ";
 		List<String> para=new ArrayList<String>();
@@ -176,7 +179,8 @@ public class DictionaryDaoImpl implements DictionaryDao{
 		String sql="update dictionary set delflag='0' where dictionaryid=?";
 		return jdbcTemplate.update(sql,id);
 	}
-	public int getDictionaryTotalCount(){
+	@SuppressWarnings("deprecation")
+  public int getDictionaryTotalCount(){
 		String sql="select  SEQ_DICTIONARY_PK.nextval  from dual";
 		return jdbcTemplate.queryForInt(sql);
 	}

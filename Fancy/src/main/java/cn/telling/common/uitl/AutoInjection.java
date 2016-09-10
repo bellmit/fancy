@@ -26,6 +26,7 @@ import org.springframework.jdbc.support.lob.OracleLobHandler;
  * @date 2011-11-28 下午2:04:49
  * @version V1.0
  */
+@SuppressWarnings("deprecation")
 public class AutoInjection {
 	/**
 	 * 
@@ -45,7 +46,7 @@ public class AutoInjection {
 	 * @author 李欢
 	 * @date 2011-11-28 下午2:07:11
 	 */
-	public static boolean Rs2Vo(ResultSet rs, Object obj,
+  public static boolean Rs2Vo(ResultSet rs, Object obj,
 			OracleLobHandler oracleLobHandler) {
 
 		try {
@@ -88,8 +89,7 @@ public class AutoInjection {
 	 * @date 2011-11-28 下午5:20:44
 	 * @version V1.0
 	 */
-	private static void toInjection(Object obj, ResultSet rs,
-			OracleLobHandler oracleLobHandler, Map<String, String> objInfoMap,
+	private static void toInjection(Object obj, ResultSet rs, OracleLobHandler oracleLobHandler, Map<String, String> objInfoMap,
 			Map<String, String> rsInfoMap) throws SQLException,
 			SecurityException, NoSuchMethodException, IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException {
@@ -143,8 +143,7 @@ public class AutoInjection {
 	 * @version V1.0
 	 */
 	private static void reflectInjection(ResultSet rs, Object obj,
-			String objName, String objType, String rsName, String rsType,
-			OracleLobHandler oracleLobHandler) throws SecurityException,
+			String objName, String objType, String rsName, String rsType, OracleLobHandler oracleLobHandler) throws SecurityException,
 			NoSuchMethodException, IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException, SQLException {
 

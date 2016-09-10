@@ -362,4 +362,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<description>this is maven project</description>
 </project>
