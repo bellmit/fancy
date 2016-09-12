@@ -6,79 +6,12 @@
 	<packaging>jar</packaging>
 	<name>FancyUtils</name>
 	<url>http://maven.apache.org</url>
-		<parent>
-			<groupId>cn.telling</groupId>
-			<artifactId>FancyRoot</artifactId>
-			<relativePath>../FancyRoot/pom.xml</relativePath>
-			<version>1.0</version>
-		</parent>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
-	 <!-- 远程仓库 -->
-	  <repositories>
-	    <repository>
-	      <id>public</id>
-	      <url>http://220.181.188.246:8088/nexus/content/groups/public/</url>
-	      <releases>
-	        <enabled>true</enabled>
-	      </releases>
-	      <snapshots>
-	        <enabled>true</enabled>
-	      </snapshots>
-	    </repository>
-	  </repositories>
-	<dependencies>
-	<!-- <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.belerweb</groupId>
-			<artifactId>pinyin4j</artifactId>
-			<version>2.5.0</version>
-		</dependency> -->
-
-		<!-- spring依赖 -->
-		<!-- <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency> -->
-		<!-- <dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-				<dependency>
-			<groupId>md5</groupId>
-			<artifactId>cb_md5</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-			<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-		</dependency> -->
-	</dependencies>
-
+	<parent>
+		<groupId>cn.telling</groupId>
+		<artifactId>FancyRoot</artifactId>
+		<relativePath>../FancyRoot/pom.xml</relativePath>
+		<version>1.0</version>
+	</parent>
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>FancyUtils</finalName>

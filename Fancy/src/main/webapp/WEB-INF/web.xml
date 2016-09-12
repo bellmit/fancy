@@ -21,7 +21,7 @@
   </context-param>
   
   <!--Comet4J listener -->
- <listener>
+<!--  <listener>
     <description>Comet4J容器侦听</description>
     <listener-class>org.comet4j.core.CometAppListener</listener-class>
   </listener>
@@ -38,15 +38,8 @@
   <listener>
     <description>MailtaskProgress</description>
     <listener-class>cn.telling.comet4j.MailtaskProgress</listener-class>
-  </listener>
+  </listener> -->
   
-  
-	<!-- 
-		<listener>
-	  		<description>mylistern</description>  
-	       <listener-class>com.wssys.listener.LoginUniqueListener</listener-class>  
-		</listener> 
-	 -->
 	 
     <!-- javamelody性能监控 -->
  	<filter>  

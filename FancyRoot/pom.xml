@@ -62,6 +62,23 @@
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<activiti.version>5.15.1</activiti.version>
 		<validator.version>5.1.1.Final</validator.version>
+		
+		
+		<java-memcached>C://Users//Simpo16002//.m2//repository//com//danga//memcached_client//1.6//memcached_client-1.6.jar</java-memcached>
+		<comen4jname>C://Users//Simpo16002//.m2//repository//org//coment4j//comet4j-tomcat6.jar</comen4jname>
+		<!-- 		<googlekaptchea>f://.m2//repository//org//kaptcha//kaptcha-2.3.2.jar</googlekaptchea> -->
+		<!-- 		<comen4jname>/home/fancy/.m2/repository/org/coment4j/comet4j-tomcat6.jar</comen4jname> -->
+		<!-- 		<googlekaptchea>/home/fancy/.m2/repository/org/kaptcha/kaptcha-2.3.2.jar</googlekaptchea> -->
+		
+		
+		
+		<!-- environment setting -->
+		<jdk.version>1.6</jdk.version>
+		<tomcat.version>2.2</tomcat.version>
+		<jetty.version>7.6.14.v20131031</jetty.version>
+		<webserver.port>8181</webserver.port>
+		<downloadSources>true</downloadSources>
+		
 	</properties>
 	
 	<!--用于配置分发管理，配置相应的产品发布信息,主要用于发布，在执行mvn deploy后表示要发布的位置  -->
@@ -189,11 +206,6 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
 			<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
@@ -262,11 +274,6 @@
 	    <artifactId>commons-fileupload</artifactId>
 	    <version>1.3</version>
 	</dependency>
-	<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
-		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -280,11 +287,6 @@
 			<version>0.9.27</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.3</version>
-		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
@@ -319,13 +321,6 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-
 			<dependency>
 		<groupId>com.google.code.gson</groupId>
 		<artifactId>gson</artifactId>
@@ -370,12 +365,6 @@
 			<artifactId>sitemesh</artifactId>
 			<version>2.4.2</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>r09</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -560,6 +549,8 @@
 		<dependency>
   			<groupId>com.danga</groupId>
 			<artifactId>memcached_client</artifactId>
+			<scope>system</scope>
+			<systemPath>${java-memcached}</systemPath>
 			<version>1.6</version>
 		</dependency>
 			<dependency>
@@ -593,21 +584,10 @@
 		<artifactId>dom4j</artifactId>
 		<version>1.6.1</version>
 	</dependency>
-	<dependency>
-		<groupId>cn.telling</groupId>
-		<artifactId>FancyUtils</artifactId>
-		<version>1.0</version>
-	</dependency>
 	<dependency>  
         <groupId>org.springframework.data</groupId>  
         <artifactId>spring-data-redis</artifactId>  
         <version>1.0.2.RELEASE</version>  
-    </dependency>  
-    <dependency>  
-        <groupId>org.springframework</groupId>  
-        <artifactId>spring-test</artifactId>  
-        <version>${org.springframework.version}</version>
-        <scope>test</scope>  
     </dependency>  
       
   		
@@ -650,6 +630,167 @@
 			<artifactId>cb_md5</artifactId>
 			<version>0.0.1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.coment4j</groupId>
+			<artifactId>comet4j-tomcat6</artifactId>
+			<scope>system</scope>
+			<systemPath>${comen4jname}</systemPath>
+			<version>1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code</groupId>
+			<artifactId>kaptcha</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.49.0</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+	
+	<!-- http client -->
+	<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.4</version>
+        </dependency>
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpcore</artifactId>
+		<version>4.0.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.0.1</version>
+	</dependency> 
+  
+	
+
+	
+	<dependency>
+		<groupId>org.imgscalr</groupId>
+		<artifactId>imgscalr-lib</artifactId>
+		<version>4.2</version>
+	</dependency>
+	<dependency>
+		<groupId>com.drewnoakes</groupId>
+		<artifactId>metadata-extractor</artifactId>
+		<version>2.8.1</version>
+	</dependency>
+	<!-- CKFinder begin -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>apache-ant-zip</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>ckfinder</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>ckfinderplugin-fileeditor</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>ckfinderplugin-imageresize</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<!-- CKFinder end -->
+
+	<!-- google protobuf -->
+	<dependency>
+		<groupId>com.google.protobuf</groupId>
+		<artifactId>protobuf-java</artifactId>
+		<version>2.5.0</version>
+	</dependency>
+
+	<!-- connection pool -->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid</artifactId>
+		<version>${druid.version}</version>
+	</dependency>
+	
+	<!-- User Agent -->
+	<dependency>
+		<groupId>bitwalker</groupId>
+		<artifactId>UserAgentUtils</artifactId>
+		<version>1.13</version>
+	</dependency>
+	<!-- Activiti -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-engine</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-explorer</artifactId>
+			<version>${activiti.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>vaadin</artifactId>
+					<groupId>com.vaadin</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>dcharts-widget</artifactId>
+					<groupId>org.vaadin.addons</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>activiti-simple-workflow</artifactId>
+					<groupId>org.activiti</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-modeler</artifactId>
+            <version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-diagram-rest</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		
+		<!-- 支持activiti缓存 -->
+		<!-- <dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-core</artifactId>
+			<version>5.1.7.Final</version>
+		</dependency> -->
+		<!-- pojo copy -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>${dozer.version}</version>
+		</dependency>
 </dependencies>
 
 	<build>
@@ -678,5 +819,7 @@
 			<timezone>+8</timezone>
 		</developer>
 	</developers>
-	
+	<name>FancyRoot</name>
+	<url>www.fancy.com</url>
+	<description>this is my fancyroot</description>
 </project>
