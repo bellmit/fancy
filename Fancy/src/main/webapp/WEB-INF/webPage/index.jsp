@@ -182,9 +182,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="m-close">关闭</div>
 	</div>
 	
-	<script type="text/javascript" src="<%=path %>/ui/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/ui/jquery-1.8.0.min.js&ui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=path %>/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="<%=path %>/ui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/ui/jquery.easyui.min.js"></script/>
 	<script type="text/javascript" src="<%=path %>/ui/locale/easyui-lang-zh_CN.js"></script>
  	<script type="text/javascript" src="<%=path %>/ui/changeEasyuiTheme.js"></script>
 	<script type="text/javascript" src="<%=path %>/js/mth_operator.js"></script>
