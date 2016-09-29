@@ -14,7 +14,13 @@
 		<relativePath>../FancyRoot/pom.xml</relativePath>
 		<version>1.0</version>
 	</parent>
-
+	<dependencies>
+		<dependency>
+			<groupId>cn.telling</groupId>
+			<artifactId>FancyUtils</artifactId>
+			<version>1.0</version>
+		</dependency>
+		</dependencies>
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>FancyInterface</finalName>
