@@ -64,8 +64,8 @@
 		<validator.version>5.1.1.Final</validator.version>
 		
 		
-		<java-memcached>C://Users//Simpo16002//.m2//repository//com//danga//memcached_client//1.6//memcached_client-1.6.jar</java-memcached>
-		<comen4jname>C://Users//Simpo16002//.m2//repository//org//coment4j//comet4j-tomcat6.jar</comen4jname>
+	<java-memcached>f://.m2//repository//com//danga//memcached_client//1.6//java_memcached-release_1.6.jar</java-memcached>
+		<comen4jname>f://.m2//repository//org//coment4j//comet4j-tomcat6.jar</comen4jname>
 		<!-- 		<googlekaptchea>f://.m2//repository//org//kaptcha//kaptcha-2.3.2.jar</googlekaptchea> -->
 		<!-- 		<comen4jname>/home/fancy/.m2/repository/org/coment4j/comet4j-tomcat6.jar</comen4jname> -->
 		<!-- 		<googlekaptchea>/home/fancy/.m2/repository/org/kaptcha/kaptcha-2.3.2.jar</googlekaptchea> -->
@@ -224,6 +224,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
