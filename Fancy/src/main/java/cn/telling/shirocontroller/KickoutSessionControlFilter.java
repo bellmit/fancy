@@ -17,7 +17,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 
-import cn.telling.action.user.util.UserUtils;
+import cn.telling.common.UserUtils;
 import cn.telling.user.vo.User;
 
 /**

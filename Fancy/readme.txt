@@ -32,4 +32,9 @@ ajaxFileUpload是一个异步上传文件的jQuery插件。
 maven安装方法:
 mvn install:install-file -DgroupId=com.danga -DartifactId=ojdbc14 -Dversion=1.6 -Dpackaging=jar -Dfile=F:/.m2/repository/com/danga/memcached_client/1.6/java_memcached-release_1.6.jar
 
+Fancy可以单独运行，但是连接不到hessian服务
+
+加lib包是扫描，但不运行
+部署是发布和运行项目
+
 

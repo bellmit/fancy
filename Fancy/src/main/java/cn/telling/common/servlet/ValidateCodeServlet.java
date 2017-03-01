@@ -1,5 +1,5 @@
 /**
- * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ * 禅客网 Copyright &copy; Chanke
  */
 package cn.telling.common.servlet;
 
@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * 生成随机验证码
- * @author ThinkGem
+ * liu.bosen
  * @version 2014-7-27
  */
 @SuppressWarnings("serial")

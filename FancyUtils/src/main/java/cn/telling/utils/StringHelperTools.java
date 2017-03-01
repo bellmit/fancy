@@ -25,7 +25,6 @@ import sun.misc.BASE64Encoder;
  * @see 需要参见的其它类
  * @since 1.0.0
  */
-@SuppressWarnings("restriction")
 public class StringHelperTools extends StringUtils
 {
 

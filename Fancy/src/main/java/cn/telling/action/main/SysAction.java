@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,33 +19,33 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.danga.MemCached.MemCachedClient;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import cn.telling.action.BaseController;
 import cn.telling.action.main.service.PagingService;
-import cn.telling.action.user.util.UserUtils;
 import cn.telling.common.StringUtils;
+import cn.telling.common.UserUtils;
 import cn.telling.common.Pager.PageVo;
 import cn.telling.common.Pager.Pager;
 import cn.telling.common.constants.Constants;
+import cn.telling.common.security.shiro.session.SessionDAO;
 import cn.telling.common.servlet.ValidateCodeServlet;
 import cn.telling.common.uitl.CacheUtils;
+import cn.telling.common.uitl.CookieUtils;
 import cn.telling.common.uitl.IdGen;
 import cn.telling.common.uitl.StringUtil;
 import cn.telling.common.uitl.TimestampTypeAdapter;
+import cn.telling.config.Global;
 import cn.telling.log.service.IUserLoginLogService;
 import cn.telling.log.vo.UserLoginLog;
 import cn.telling.menu.service.IMenuService;
@@ -60,6 +61,11 @@ import cn.telling.utils.StringHelperTools;
 import cn.telling.utils.TCPIPUtil;
 import cn.telling.web.AuthImg;
 import cn.telling.web.MethodLog;
+
+import com.danga.MemCached.MemCachedClient;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * @Title: SysAction.java
@@ -88,10 +94,20 @@ public class SysAction extends BaseController{
 	@Resource
 	IMenuService menuService;
   	
+	@Resource
+	SessionDAO sessionDao;
+	/**
+	 * 获得活动会话
+	 * @return
+	 */
+	public Collection<Session> getActiveSessions(){
+		return sessionDao.getActiveSessions(false);
+	}
+	
   @Autowired
   private MemCachedClient memCachedClient;
-  
-	@RequestMapping("/viewLeftMenuJson")
+
+  @RequestMapping(value="/viewLeftMenuJson")
 	@MethodLog(remark = "系统左侧菜单查询")
 	public void getLeftMenuJson(HttpServletResponse response, String index) {
 		response.setContentType("text/html;charset=utf-8");
@@ -198,12 +214,41 @@ public class SysAction extends BaseController{
 		ai.service(request, response);
 	}
 
-	@RequestMapping(value="login",method=RequestMethod.GET)
-	public String login() {
-	  return "login";
-	}
 	   
-	 
+	/****
+	 * 用户登录
+	 * 
+	 * @param
+	 * @author 操圣
+	 * @date 2015-4-27 下午3:35:32
+	 * @version V1.0
+	 */
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public ModelAndView login(HttpServletRequest request,
+			HttpServletResponse response, Model model) {
+		Principal principal = UserUtils.getPrincipal();
+		if (logger.isDebugEnabled()){
+			logger.debug("login, active session size: {}", sessionDao.getActiveSessions(false).size());
+		}
+		// 如果已登录，再次访问主页，则退出原账号。
+		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))) {
+			CookieUtils.setCookie(response, "LOGINED", "false");
+		}
+		// 如果已经登录，则跳转到管理首页
+		if (principal != null && !principal.isMobileLogin()) {
+			logger.info("login sucesss!");
+			UserLoginLog ulog = new UserLoginLog();
+			ulog.setType(0);
+			ulog.setUseraccount(UserUtils.getUser().getUsername());
+			ulog.setIp(TCPIPUtil.getIpAddr(request));
+			userLoginLogService.saveLog(ulog);
+			System.out.println(UserUtils.getUser().getUsername());
+			return new ModelAndView("redirect:" + adminPath);
+		}
+        model.addAttribute("online", sessionDao.getActiveSessions(false).size());
+		return new ModelAndView("login");
+		
+	}
 	/****
 	 * 用户登录
 	 * 
@@ -244,7 +289,7 @@ public class SysAction extends BaseController{
         
         // 如果已经登录，则跳转到管理首页
         if(principal != null)
-            return "redirect:/";
+            return "redirect:"+adminPath;
 		String validate = (String) request.getSession().getAttribute("validate");
 		String vali = request.getParameter("validate");
 		if (StringHelperTools.nvl(user.getUsername()).equals("")) {
@@ -265,33 +310,10 @@ public class SysAction extends BaseController{
 			return "login";
 		}
 		else if (!validate.equalsIgnoreCase(vali)) {
-			// throw new IncorrectCaptchaException("验证码错误！");
+			 //throw new IncorrectCaptchaException("验证码错误！");
 			model.addAttribute("message", "验证码错误!");
 			return "login";
 		}
-		
-		/*UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(), user.getPassword());
-		token.setRememberMe(remembered);
-		try {
-		  subj.login(token);
-		} catch (UnknownAccountException uae) {
-			model.addAttribute("message", "账号不存在!");
-			return "forward:login.html";
-		} catch (IncorrectCredentialsException ice) {
-			model.addAttribute("message", "密码错误!");
-			return "forward:login.html";
-		} catch (LockedAccountException lae) {
-			model.addAttribute("message", "账号被锁定!");
-			return "forward:login.html";
-		} catch (AuthenticationException e) {
-			model.addAttribute("message", "认证错误!");
-			return "forward:login.html";
-		} catch (Exception e) {
-			model.addAttribute("message", "未知错误,请联系管理员.");
-			 e.printStackTrace();
-			logger.error("未知错误,请联系管理员", e);
-			return "forward:login.html";
-		}*/
 		
 		String username = WebUtils.getCleanParam(request, FormAuthenticationFilter.DEFAULT_USERNAME_PARAM);
         boolean rememberMe = WebUtils.isTrue(request, FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM);
@@ -302,7 +324,6 @@ public class SysAction extends BaseController{
         if (StringUtils.isBlank(message) || StringUtils.equals(message, "null")){
             message = "用户或密码错误, 请重试.";
         }
-
         model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, username);
         model.addAttribute(FormAuthenticationFilter.DEFAULT_REMEMBER_ME_PARAM, rememberMe);
         model.addAttribute(FormAuthenticationFilter.DEFAULT_MOBILE_PARAM, mobile);
@@ -310,8 +331,9 @@ public class SysAction extends BaseController{
         model.addAttribute(FormAuthenticationFilter.DEFAULT_MESSAGE_PARAM, message);
         
         if (logger.isDebugEnabled()){
-            logger.debug("login fail, active session size:, message: {}, exception: {}",  message, exception);
-        }
+			logger.debug("login fail, active session size: {}, message: {}, exception: {}", 
+					sessionDao.getActiveSessions(false).size(), message, exception);
+		}
         
         // 非授权异常，登录失败，验证码加1。
         if (!UnauthorizedException.class.getName().equals(exception)){
@@ -325,27 +347,52 @@ public class SysAction extends BaseController{
         if (mobile){
             return renderString(response, model);
         }
-		logger.info("login sucesss!");
-		UserLoginLog ulog = new UserLoginLog();
-		ulog.setType(0);
-		ulog.setUseraccount(user.getAccount());
-		ulog.setIp(TCPIPUtil.getIpAddr(request));
-		userLoginLogService.saveLog(ulog);
-		
-		// 登录成功后，验证码计算器清零
-        //isValidateCodeLogin(principal.getLoginName(), false, true);
-		System.out.println(UserUtils.getUser().getUsername());
-		return "index";
+		return "login";
 	}
 
 	   /**
      * 登录成功，进入管理首页
      */
     @RequiresPermissions("user")
-    @RequestMapping(value = "")
+    @RequestMapping(value = "${adminPath}")
     public String index(HttpServletRequest request, HttpServletResponse response) {
-        return "index";
+    	Principal principal = UserUtils.getPrincipal();
+
+		// 登录成功后，验证码计算器清零
+		isValidateCodeLogin(principal.getLoginName(), false, true);
+		
+		if (logger.isDebugEnabled()){
+			logger.debug("show index, active session size: {}", sessionDao.getActiveSessions(false).size());
+		}
+		
+		// 如果已登录，再次访问主页，则退出原账号。
+		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
+			String logined = CookieUtils.getCookie(request, "LOGINED");
+			if (StringUtils.isBlank(logined) || "false".equals(logined)){
+				CookieUtils.setCookie(response, "LOGINED", "true");
+			}else if (StringUtils.equals(logined, "true")){
+				UserUtils.getSubject().logout();
+				return "redirect:" + adminPath + "/login";
+			}
+		}
+		
+		// 如果是手机登录，则返回JSON字符串
+		if (principal.isMobileLogin()){
+			if (request.getParameter("login") != null){
+				return renderString(response, principal);
+			}
+			if (request.getParameter("index") != null){
+				return "index";
+			}
+			return "redirect:" + adminPath + "/login";
+		}
+    	return "index";
     }
+    @RequestMapping(value = "hahah")
+    public ModelAndView aaadd(HttpServletRequest request, HttpServletResponse response) {
+    	return new ModelAndView("/swagger-ui-2.1.3/index");
+    }
+    
 	/**
      * 是否是验证码登录
      * 
@@ -439,7 +486,7 @@ public class SysAction extends BaseController{
         return "/user/paging";
     }
 
-	@RequestMapping(value = "/userlogout")
+	@RequestMapping(value = "/logout")
 	@MethodLog(remark = "用户退出")
 	public String userlogout(HttpServletRequest request, HttpServletResponse httpresponse) {
 		Subject subject = SecurityUtils.getSubject();

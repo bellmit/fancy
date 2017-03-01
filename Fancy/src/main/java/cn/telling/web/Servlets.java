@@ -23,8 +23,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.common.net.HttpHeaders;
 
-import cn.telling.action.user.util.UserUtils;
 import cn.telling.common.StringUtils;
+import cn.telling.common.UserUtils;
 import cn.telling.common.uitl.Encodes;
 import cn.telling.config.Global;
 import cn.telling.shirocontroller.ShiroRealm.Principal;

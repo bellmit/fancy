@@ -16,6 +16,7 @@
 		<module>../FancyInterface</module>
 		<module>../FancyRCB</module>
 		<module>../FancyRSB</module>
+		<module>../FancyAPI</module>
 	</modules>
 	
 	<!--设定整个项目的统一字符集编码  -->
@@ -43,7 +44,7 @@
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<commons-beanutils.version>1.9.1</commons-beanutils.version>
-		<jackson.version>2.2.3</jackson.version>
+		<jackson.version>2.6.4</jackson.version>
 		<fastjson.version>1.1.40</fastjson.version>
 		<xstream.version>1.4.7</xstream.version>
 		<guava.version>17.0</guava.version>
@@ -111,15 +112,10 @@
 			<url>http://192.168.11.36:8888/nexus/content/groups/public</url>
 		</repository> -->
 		
-		<repository>
-			<id>public</id>
-			<url>http://220.181.188.246:8088/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
+		<repository> 
+			<id>alimaven</id> 
+			<name>aliyun maven</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 		</repository>
 	
         <repository>
@@ -168,6 +164,16 @@
 			<id>thinkgem-repos2</id> 
 			<name>ThinkGem Repository 2</name>
 			<url>https://raw.github.com/thinkgem/repository/master</url>
+		</repository>
+		<repository>
+			<id>public</id>
+			<url>http://220.181.188.246:8088/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 	<!-- 设定插件仓库 -->

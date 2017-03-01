@@ -85,8 +85,6 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     @Override
     protected boolean onLoginFailure(AuthenticationToken token,AuthenticationException e, ServletRequest request, ServletResponse response) {
         String className = e.getClass().getName(), message = "";
-        
-        
        if(UnknownAccountException.class.getName().equals(className)) {
          message = "账号不存在!";
         }else if (IncorrectCredentialsException.class.getName().equals(className)) {
@@ -115,10 +113,4 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     }
 	
 	
-  // 保存异常对象到request
-  @Override
-  protected void setFailureAttribute(ServletRequest request, AuthenticationException ae)
-  {
-    request.setAttribute(getFailureKeyAttribute(), ae);
-  }
 }

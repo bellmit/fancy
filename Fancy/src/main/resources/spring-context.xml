@@ -29,6 +29,9 @@
 	<!-- 加载属性文件 -->
 	<context:property-placeholder ignore-unresolvable="true"  location="classpath:fancy.properties" />
 	
+	<!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
+	<!--  请求action方法上应用   public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir,  -->
+    <util:properties id="APP_PROP" location="classpath:fancy.properties" local-override="true"/>
 	<!-- 启用基于注解（Annotation-based）的配置 -->
 		<!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
 	<!-- base-package 如果多个，用“,”分隔 -->
@@ -36,8 +39,8 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<!--注册两个bean DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapte -->
-<!-- <mvc:annotation-driven />  -->
+
+
 	
 	<!-- 启用Spring对@AspectJ切面配置的支持 <aop:aspectj-autoproxy /> -->
 	<!-- proxy-target-class属性值决定是基于接口的还是基于类的代理被创建。如果proxy-target-class 属性值被设置为true，那么基于类的代理将起作用（这时需要cglib库）。
@@ -137,7 +140,7 @@
 	
 	<!-- 缓存配置 -->
 	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:${ehcache.configFile}" />
+		<property name="configLocation" value="classpath:cache/ehcache-local.xml" />
 	</bean>
 	
 	<!-- 配置 JSR303 Bean Validator 定义 -->
@@ -251,7 +254,4 @@
         <property name="defaultEncoding" value="UTF-8"/> 
     </bean>
     
-    <!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
-	<!--  请求action方法上应用   public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir,  -->
-    <util:properties id="APP_PROP" location="classpath:fancy.properties" local-override="true"/>
 </beans>

@@ -1,5 +1,5 @@
 <%@ page language="java"  pageEncoding="UTF-8"%>
-<%@include file="taglib_includes.jsp" %>
+<%@ include file="/WEB-INF/webPage/include/taglib.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -15,10 +15,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<link rel="shortcut icon" type="image/x-icon" href="${ctx}/images/favicon.png?t=1451964198000" />
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
-    <title>Fancy后台管理系统</title>
+    <title>Fancy后台管理系统 ${fns:getAdminPath()}</title>
 
 	<link rel="stylesheet" type="text/css" id="easyuiTheme"  href="<%=path %>/ui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="<%=path %>/ui/themes/icon.css">
@@ -70,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		style="height: 60px; background: #B3DFDA; padding: 10px">
 		欢迎您登录系统：
 		<shiro:principal property="loginName" />
-		<a href="javascript:exit('userlogout');">退出</a>
+		<a href="javascript:exit('logout');">退出</a>
 		<div style="padding: 5px; border: 1px solid #ddd">
 			<a href="javascript:addTab('主页','monitoring?period=jour');"
 				class="easyui-linkbutton" data-options="plain:true">主页</a> <a

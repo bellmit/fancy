@@ -10,11 +10,11 @@ import java.util.Map;
 
 import org.springframework.core.io.DefaultResourceLoader;
 
-import com.ckfinder.connector.ServletContextFactory;
-import com.google.common.collect.Maps;
-
 import cn.telling.common.PropertiesLoader;
 import cn.telling.common.StringUtils;
+
+import com.ckfinder.connector.ServletContextFactory;
+import com.google.common.collect.Maps;
 
 
 /**

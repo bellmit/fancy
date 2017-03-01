@@ -96,7 +96,7 @@
 		depends-on="frameperms">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
-		<property name="successUrl" value="/?login" />
+		<property name="successUrl" value="${adminPath}/?login" />
 		<property name="unauthorizedUrl" value="/noAuth" />
 		<!-- 声明自定义的过滤器 -->
 		<property name="filters">
@@ -109,7 +109,6 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-			   /sys/pdf/**= authc	<!--  采购合同文件查看权限-->
 			   /js/** = anon
 			   /css/** = anon
 			   /img/** = anon
@@ -123,39 +122,23 @@
 			   /taglib_includes.jsp= anon
 			   /common/common.jsp= anon
 			   /error/** = authc
-			   /index.jsp = anon
 			   /viewAllContacts.html = authc,kickout	<!-- 系统后台主页-->
 			   /viewLeftMenuJson.html=user	<!-- 系统左侧菜单查询 -->
-			   /getcblphotoById.html= authc	<!-- 图片查询 -->
-			   /gettaxtaxregphotoById.html= authc	<!-- 图片查询 -->
-			   /getBIGGoodsImagePhotoById.html=authc	<!-- 图片原图查询 -->
-			   /getorgstrucodephotoById.html= authc	<!-- 图片查询 -->
-			   /getCblProPhotoById.html= authc	<!-- 图片查询 -->
-			   /gettaxtaxregProPhotoById.html= authc	<!-- 图片查询  -->
-			   /getorgstrucodeProPhotoById.html= authc	<!-- 图片查询  -->
-			   /getYlPhotoById.html=authc		<!-- 图片预览  -->
-			   /getGoodsImagePhotoById.html= authc	<!-- 图片查询  -->
-			   /viewCompanyJson.html= authc	<!-- 公司下拉数据 by用户关系表-->
-			   /viewFrontUserCompanyJson.html= authc	<!-- 公司下拉数据 by会员 关系表-->
-			   /viewCompanyByContactsReJson.html= authc	<!-- 公司下拉数据by联系人关系表 -->
-			   /purchasingManagement.html=authc	<!-- 采购合同确认框  -->
-			   /pmtempView.html=anon				<!-- 采购合同确认  -->
-			   /conPMfirmOrders.html=authc		<!-- 生成采购合同  -->
-			   /viewDW.html=authc					<!-- 提货仓库下拉框信息显示  -->
-			   /bolsucaction.html=authc	<!-- 系统提示  -->
-			   /deliversuc.html=authc	<!-- 系统提示  -->
-			   /addGoodsMultipleFile.html=anon		<!-- 多图上传  -->
 			   /lxrsysmsg.html=authc		<!-- 系统提示  -->
 			   /monitoring=authc		<!-- 系统监控  -->
-			   /getslaesJsValue.html=authc	<!-- 预结算金额 提示信息 -->
 			   /competencesys.html= user	<!--  无权限页面-->
 			   /main.html= user			<!--  系统后台右侧首页-->
-			   /userlogout.html = anon
 			   /noAuth = anon
 			   /getout.html = anon 	<!-- 重复登录踢出-->
 			   /**/ajax/** = user
-			   /** = kickout,user,frameperms
+			   /servlet/validateCodeServlet=anon
 			   /user/list.html=user
+			   /static/** = anon
+				/userfiles/** = anon
+				/cas = cas
+				/login = authc
+				/logout = logout
+				/** = user
 			</value>
 		</property>
 	</bean>

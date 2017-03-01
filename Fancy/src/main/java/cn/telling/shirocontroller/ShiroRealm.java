@@ -23,17 +23,21 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import cn.telling.action.user.util.UserUtils;
-import cn.telling.bean.Constants;
+import cn.telling.common.UserUtils;
+import cn.telling.common.security.shiro.session.SessionDAO;
+import cn.telling.common.uitl.Encodes;
 import cn.telling.role.service.IRoleService;
 import cn.telling.user.service.IUserService;
 import cn.telling.user.vo.User;
@@ -55,18 +59,26 @@ public class ShiroRealm extends AuthorizingRealm {
 	
 	private static Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 	
-
-	public ShiroRealm()
-	{
+	@Resource
+	SessionDAO sessionDao;
+	/**
+	 * 获得活动会话
+	 * @return
+	 */
+	public Collection<Session> getActiveSessions(){
+		return sessionDao.getActiveSessions(false);
+	}
+	//public ShiroRealm()
+	//{
 	    // 访问量小的情况下
 		// 认证
-		super.setAuthenticationCacheName(Constants.authenticationCacheName);
-		super.setAuthenticationCachingEnabled(false); // 如果为true 密码会被缓存
+		//super.setAuthenticationCacheName(Constants.authenticationCacheName);
+		//super.setAuthenticationCachingEnabled(false); // 如果为true 密码会被缓存
 		// 授权
-		super.setAuthorizationCacheName(Constants.authorizationCacheName);
-		super.setAuthorizationCachingEnabled(false);
+		//super.setAuthorizationCacheName(Constants.authorizationCacheName);
+		//super.setAuthorizationCachingEnabled(false);
 		// super.setAuthorizationCachingEnabled(false); //测试的时候先关闭缓存
-	}
+	//}
 
 	/**
      * 授权查询回调函数, 进行鉴权但缓存中无用户的授权信息时调用
@@ -127,11 +139,13 @@ public class ShiroRealm extends AuthorizingRealm {
 		{
 			logger.error(e.getMessage());
 		}
+		System.out.println(sessionDao.getActiveSessions(false).size());
 		if (user != null)
 		{
 			// 要放在作用域中的东西，请在这里进行操作
 //			Session session = SecurityUtils.getSubject().getSession(false);
-			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(new Principal(user,upToken.isMobileLogin()), user.getPassword(), getName());
+			byte[] salt = Encodes.decodeHex(user.getPassword().substring(0,16));
+			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(new Principal(user,upToken.isMobileLogin()), user.getPassword().substring(16),ByteSource.Util.bytes(salt),getName());
 //			 Cache<Object, Object> cache =shiroCacheMan ager.getCache(GlobalStatic.authenticationCacheName);
 //			 cache.put(GlobalStatic.authenticationCacheName+"-"+userName,session.getId());
 			return authinfo;
@@ -150,8 +164,10 @@ public class ShiroRealm extends AuthorizingRealm {
 		// "Sha384");
 		// matcher.setHashIterations(HASH_INTERATIONS);
 
-		setCredentialsMatcher(new CustomCredentialsMatcher());
-
+		//setCredentialsMatcher(new CustomCredentialsMatcher());
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("SHA-1");
+		matcher.setHashIterations(1024);
+		setCredentialsMatcher(matcher);
 		// setCredentialsMatcher(matcher);
 		// setCredentialsMatcher(new Sha256CredentialsMatcher());
 

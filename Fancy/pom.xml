@@ -5,7 +5,13 @@
   <packaging>jar</packaging>
   <name>Fancy</name>
   <url>http://maven.apache.org</url>
-  
+  <properties>
+        <springfox-version>2.3.0</springfox-version>
+        <servlet-api-version>3.1.0</servlet-api-version>
+        <druid.version>0.2.23</druid.version>
+        <log4j.version>1.2.16</log4j.version>
+        <version.jackson>2.4.4</version.jackson>
+    </properties>
 		<parent>
 			<groupId>cn.telling</groupId>
 			<artifactId>FancyRoot</artifactId>
@@ -13,7 +19,7 @@
 			<version>1.0</version>
 		</parent> 
 	<dependencies>
-		<dependency>
+		 <dependency>
 			<groupId>cn.telling</groupId>
 			<artifactId>FancyInterface</artifactId>
 			<version>1.0</version>
@@ -23,13 +29,52 @@
 			<artifactId>FancyRCB</artifactId>
 			<version>1.0</version>
 		</dependency>
+      <dependency>
+			<groupId>com.mangofactory</groupId>
+			<artifactId>swagger-springmvc</artifactId>
+			<version>0.9.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${version.jackson}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${version.jackson}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${version.jackson}</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.0.8.RELEASE</version>
+        </dependency>
 	</dependencies>
 	
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>Fancy</finalName>
-		<!-- <outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory> -->
+		<outputDirectory>${project.basedir}/target</outputDirectory>
 		<plugins>
+		 <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
