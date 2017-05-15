@@ -21,25 +21,12 @@ public class FramePermissionsAuthorizationFilter extends PermissionsAuthorizatio
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws IOException
 	{
-
-		// Session session = user.getSession(false);
-		// Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
-		// String cachedSessionId = cache.get(GlobalStatic.authenticationCacheName + "-" + shiroUser.getAccount())
-		// .toString();
-		// String sessionId = (String) session.getId();
-		// if (!sessionId.equals(cachedSessionId))
-		// {
-		// user.logout();
-		// }
-
 		HttpServletRequest req = (HttpServletRequest) request;
 		Subject subject = getSubject(request, response);
 		String uri = req.getRequestURI();
 		String requestURL = req.getRequestURL().toString();//带协议的全访问地址
 		String contextPath = req.getContextPath();//请求项目名称 /Fancy/
-		// if (uri.endsWith("/pre")) {// 去掉pre
-		// uri = uri.substring(0, uri.length() - 4);
-		// }
+		
 		int i = uri.indexOf(contextPath);
 		if (i > -1)
 		{
@@ -62,10 +49,8 @@ public class FramePermissionsAuthorizationFilter extends PermissionsAuthorizatio
 		{
 			isqx = "是";
 		}
-
 		// 写日志
 		String ip = TCPIPUtil.getIpAddr(req);
-		
 		LogUtils.info("访问地址:"+requestURL.replace("localhost", ip)+",是否通过:"+isqx);
 		return permitted;
 	}

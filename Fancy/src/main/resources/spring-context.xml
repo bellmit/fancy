@@ -8,20 +8,20 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="  
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd  
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd  
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
-        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd  
-        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd  
-        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
-        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.0.xsd  
-        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd  
-        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd  
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd  
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd" >
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd  
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd  
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.1.xsd  
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd  
+        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.1.xsd  
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.1.xsd  
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.1.xsd  
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd  
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd" >
         
         <!--default-lazy-init="false" -会默认加载会默认加载整个对象实例图，从初始化ACTION配置、到 service配置到dao配置、乃至到数据库连接、事务 -->
     <description>Spring Configuration</description>
@@ -32,27 +32,18 @@
 	<!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
 	<!--  请求action方法上应用   public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir,  -->
     <util:properties id="APP_PROP" location="classpath:fancy.properties" local-override="true"/>
+	
 	<!-- 启用基于注解（Annotation-based）的配置 -->
-		<!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
+	<!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
 	<!-- base-package 如果多个，用“,”分隔 -->
 	<context:component-scan base-package="cn.telling" >
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-
-
-	
-	<!-- 启用Spring对@AspectJ切面配置的支持 <aop:aspectj-autoproxy /> -->
-	<!-- proxy-target-class属性值决定是基于接口的还是基于类的代理被创建。如果proxy-target-class 属性值被设置为true，那么基于类的代理将起作用（这时需要cglib库）。
-	如果proxy-target-class属值被设置为false或者这个属性被省略，那么标准的JDK 基于接口的代理 -->
-	<!--AOP包括切面（aspect）、通知（advice）、连接点（joinpoint），实现方式就是通过对目标对象的代理在连接点前后加入通知，完成统一的切面操作。 -->
-	<aop:aspectj-autoproxy />
-	
-
   	<!-- ====================================Memcacheed缓存客服端 ========================================= -->
 
 	<bean id="memcachedPool" class="com.danga.MemCached.SockIOPool"
-		factory-method="getInstance" init-method="initialize" destroy-method="shutDown">
+		factory-method="getInstance" init-method="initialize" destroy-method="shutDown" lazy-init="true">
 		<constructor-arg>
 			<value>neeaMemcachedPool</value>
 		</constructor-arg>
@@ -64,8 +55,6 @@
 				<!--多服务器 -->
 				<!-- <value>172.100.1.241:12000</value> -->
 				<!-- <value>172.100.1.242:12000</value> -->
-				<!-- <value>172.100.1.243:12000</value> -->
-				<!-- <value>172.100.1.245:12000</value> -->
 			</list>
 			
 		</property>
@@ -110,49 +99,36 @@
 			</bean>
 		</property>
 	</bean>  
-
-
 	<!-- ====================================Jedis start========================================= -->
-
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxIdle" value="300" /> <!-- 最大能够保持idel状态的对象数  -->
 		<property name="maxTotal" value="60000" /> <!-- 最大分配的对象数 -->
 		<property name="testOnBorrow" value="true" /> <!-- 当调用borrow Object方法时，是否进行有效性检查 -->
 	</bean>
 
-	<bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool" lazy-init="true">
 		<constructor-arg index="0" ref="jedisPoolConfig" />
 		<constructor-arg index="1" value="${redis.host}" />
 		<constructor-arg index="2" value="${redis.port}" type="int" />
 	</bean>
-
+<bean id="redisPoolUtil" class="cn.telling.common.uitl.RedisPoolUtil">
+		<property name="jedisPool" ref="jedisPool" />
+	</bean>
 	<!-- ====================================Jedis start========================================= -->
 	<!-- 
 	<bean id="cacheInit" class="com.tools.cache.CacheInit"></bean>
 	 -->
-	<bean id="cacheManaer" class="cn.telling.common.CacheManager" >
-		<property name="memClient" ref="memcachedClient"/>  
-	</bean>
 	
 	<!-- 默认扫描 @Component @Repository @Service @Controller -->
 	<!-- <context:annotation-config /> -->
 	
-	
 	<!-- 缓存配置 -->
-	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:cache/ehcache-local.xml" />
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:${ehcache.configFile}" />
 	</bean>
 	
 	<!-- 配置 JSR303 Bean Validator 定义 -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-	
-  	<!-- aop -->
-	<bean id="logService" class="cn.telling.web.LogService"></bean>
-
-	<!-- 启动对@AspectJ注解的支持 -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-	<!-- <aop:config> <aop:aspect ref="logService"> </aop:aspect> </aop:config> -->
-
 	
 	<!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
@@ -241,6 +217,7 @@
 	<bean id="nativeJdbcExtractor"
 		class="org.springframework.jdbc.support.nativejdbc.C3P0NativeJdbcExtractor"
 		lazy-init="true" />
+		
 	<bean id="lobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler"
 		lazy-init="true">
 		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />

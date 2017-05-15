@@ -49,7 +49,7 @@ import cn.telling.shop.vo.Article;
 import cn.telling.utils.StringHelperTools;
 
 
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@ContextConfiguration(locations = "classpath:spring-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SuppressWarnings("deprecation")
 public class LuceneUtil {

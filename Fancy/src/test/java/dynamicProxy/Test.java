@@ -1,7 +1,7 @@
 /**
  * 
  * Project Name:TestExample
- * File Name:Test.java
+ * File Name:CompareNumber.java
  * Package Name:dynamicProxy
  * Date:2015-7-16
  *
@@ -10,7 +10,7 @@
 package dynamicProxy;
 
 /**
- * ClassName:Test <br/>
+ * ClassName:CompareNumber <br/>
  * 
  * @author caosheng
  */

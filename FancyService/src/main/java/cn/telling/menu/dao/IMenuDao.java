@@ -34,7 +34,7 @@ public interface IMenuDao {
 	
 	public Menu getById(BigDecimal menupId);
 	
-	public List<Menu> findMenuByUserId(BigDecimal userId);
+	public List<Menu> findMenuByUserId(String userId);
 
     /**
      * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。
@@ -61,5 +61,44 @@ public interface IMenuDao {
     */
     
     Menu getPmById(BigDecimal id);
+
+	/**
+	 * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。
+	 * @param		参数说明
+	 * @return		返回值
+	 * @exception   异常描述
+	 * @see		          需要参见的其它内容。（可选）
+	 * @author      操圣
+	 * @date 2017年3月17日 下午2:39:38 
+	 * @version V1.0  
+	*/
+	
+	public List<Menu> findMenuByRoleId(Integer id);
+
+	/**
+	 * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。
+	 * @param		参数说明
+	 * @return		返回值
+	 * @exception   异常描述
+	 * @see		          需要参见的其它内容。（可选）
+	 * @author      操圣
+	 * @date 2017年3月17日 下午2:47:57 
+	 * @version V1.0  
+	*/
+	
+	public List<Menu> getPusMenuList();
+
+	/**
+	 * @Description:  描述函数的功能、用途、对属性的更改，以及函数执行前后对象的状态。
+	 * @param		参数说明
+	 * @return		返回值
+	 * @exception   异常描述
+	 * @see		          需要参见的其它内容。（可选）
+	 * @author      操圣
+	 * @date 2017年3月17日 下午3:07:38 
+	 * @version V1.0  
+	*/
+	
+	public void batchDelete(Integer roleid);
 }
 

@@ -51,8 +51,8 @@
   <function>
     <description>获取当前用户对象</description>
     <name>getUser</name>
-    <function-class>com.thinkgem.jeesite.modules.sys.utils.UserUtils</function-class>
-    <function-signature>com.thinkgem.jeesite.modules.sys.entity.User getUser()</function-signature>
+    <function-class>cn.telling.common.UserUtils</function-class>
+    <function-signature>cn.telling.user.vo.User getUser()</function-signature>
     <example>${fns:getUser()}</example>  
   </function>
   
@@ -243,5 +243,4 @@
     <function-signature>java.lang.String toJsonString(java.lang.Object)</function-signature>
     <example>${fns:toJson(object)}</example>  
   </function>
-  
 </taglib>

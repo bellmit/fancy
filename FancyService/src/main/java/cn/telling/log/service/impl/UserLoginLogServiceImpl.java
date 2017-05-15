@@ -12,9 +12,11 @@ package cn.telling.log.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.telling.common.Pager.PageVo;
 import cn.telling.log.dao.IUserLoginLogDao;
 import cn.telling.log.service.IUserLoginLogService;
 import cn.telling.log.vo.UserLoginLog;
+import cn.telling.user.vo.ReturnUserVo;
 
 
 /**
@@ -30,6 +32,15 @@ public class UserLoginLogServiceImpl implements IUserLoginLogService {
 	@Override
 	public Boolean saveLog(UserLoginLog log) {
 		return logDao.saveLog(log);
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.telling.log.service.IUserLoginLogService#querySysLogPagesByAccount(java.lang.String, cn.telling.common.Pager.PageVo)
+	 */
+	@Override
+	public ReturnUserVo querySysLogPagesByAccount(String account, PageVo pages) {
+		//  Auto-generated method stub
+		return logDao.querySysLogPagesByAccount(account, pages);
 	}
 
 }

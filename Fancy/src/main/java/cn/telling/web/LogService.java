@@ -5,8 +5,10 @@ import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -18,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import cn.telling.log.service.ISysLogService;
 import cn.telling.log.vo.Syslog;
 import cn.telling.role.vo.Role;
+import cn.telling.shirocontroller.ShiroRealm.Principal;
 import cn.telling.user.vo.User;
 import cn.telling.utils.LogUtils;
 import cn.telling.utils.StringHelperTools;
@@ -25,21 +28,43 @@ import cn.telling.utils.TCPIPUtil;
 
 
 /**
- * \
+ * 记录系统登录的日志
+ * 
+ * 
+ * 
  * 
  * @Aspect 实现spring aop 切面（Aspect）： 一个关注点的模块化，这个关注点可能会横切多个对象。事务管理是J2EE应用中一个关于横切关注点的很好的例子。 在Spring
  *         AOP中，切面可以使用通用类（基于模式的风格） 或者在普通类中以 @Aspect 注解（@AspectJ风格）来实现。
  * 
  *         AOP代理（AOP Proxy）： AOP框架创建的对象，用来实现切面契约（aspect contract）（包括通知方法执行等功能）。 在Spring中，AOP代理可以是JDK动态代理或者CGLIB代理。
  *         注意：Spring 2.0最新引入的基于模式（schema-based ）风格和@AspectJ注解风格的切面声明，对于使用这些风格的用户来说，代理的创建是透明的。
- * @author q
+ * @author caosheng
  * 
+ * 
+ *  com.sample.service.impl..*. *(..))
+
+execution()是最常用的切点函数，其语法如下所示：
+
+整个表达式可以分为五个部分：
+
+1、execution(): 表达式主体。
+
+2、第一个*号：表示返回类型， *号表示所有的类型。
+
+3、包名：表示需要拦截的包名，后面的两个句点表示当前包和当前包的所有子包，com.sample.service.impl包、子孙包下所有类的方法。
+
+4、第二个*号：表示类名，*号表示所有的类。
+
+5、*(..):最后这个星号表示方法名，*号表示所有的方法，后面括弧里面表示方法的参数，两个句点表示任何参数
+
+
  */
 @Component
 @Aspect
 public class LogService {
 
-	
+	// 记录日志
+    protected final Logger logger = Logger.getLogger(this.getClass());
 	@Autowired
 	private ISysLogService logService;
 
@@ -52,27 +77,25 @@ public class LogService {
 	 * 在Spring 2.0中，Pointcut的定义包括两个部分：Pointcut表示式(expression)和Pointcut签名(signature )。让我们先看看execution表示式的格式：
 	 * 括号中各个pattern分别表示修饰符匹配（modifier-pattern?）、返回值匹配（ret -type-pattern）、类路径匹配（declaring
 	 * -type-pattern?）、方法名匹配（name-pattern）、参数匹配（(param -pattern)）、异常类型匹配（throws-pattern?），其中后面跟着“?”的是可选项。
-	 * 
 	 * @param point
 	 * @throws Throwable
 	 */
 
 	@Pointcut("@annotation(cn.telling.web.MethodLog)")
-	// @Pointcut("execution(public *cn.fancy.web..*.*(..))")
 	public void methodCachePointcut()
 	{
 	    LogUtils.debug("Aop Pointcut invoke");
 	}
 
-	// // @Before("execution(* com.wssys.controller.*(..))")
-	// public void logAll(JoinPoint point) throws Throwable {
-	// System.out.println("打印========================");
-	// }
-	//
-	// // @After("execution(* com.wssys.controller.*(..))")
-	// public void after() {
-	// System.out.println("after");
-	// }
+//	 @Before("execution(* cn.telling.action..*(..))")
+//	 public void logAll(JoinPoint point) throws Throwable {
+//		 System.out.println("拦截方法");
+//	 }
+	
+//	  @After("execution(* cn.telling.action..*(..))")
+//	 public void after() {
+//	 System.out.println("after");
+//	 }
 
 	// 方法执行的前后调用
 	// @Around("execution(* com.wssys.controller.*(..))||execution(* com.bpm.*.web.account.*.*(..))")
@@ -84,12 +107,12 @@ public class LogService {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
 		String ip = TCPIPUtil.getIpAddr(request);
-		User user = (User) SecurityUtils.getSubject().getPrincipal();
+		Principal user = (Principal) SecurityUtils.getSubject().getPrincipal();
 		String loginName;
 
 		if (user != null)
 		{
-			loginName = user.getUsername();
+			loginName = user.getLoginName();
 			// name = user.name;
 		} else
 		{
@@ -121,7 +144,7 @@ public class LogService {
 			object = point.proceed();
 		} catch (Exception e)
 		{
-			// 异常处理记录日志..log.error(e);
+			logger.error(e.getMessage());
 			throw e;
 		}
 		Syslog sysLog = new Syslog();
@@ -204,11 +227,11 @@ public class LogService {
 	}
 
 	// 方法运行出现异常时调用
-	// @AfterThrowing(pointcut = "execution(* com.wssys.controller.*(..))",
-	// throwing = "ex")
+	 @AfterThrowing(pointcut = "execution(* cn.telling.action..*(..))",
+	 throwing = "ex")
 	public void afterThrowing(Exception ex)
 	{
-	    LogUtils.debug("afterThrowing"+ex);
+	    logger.error("afterThrowing"+ex);
 	}
 
 	// 获取方法的中文备注____用于记录用户的操作日志描述

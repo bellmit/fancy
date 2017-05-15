@@ -3,8 +3,6 @@
  */
 package cn.telling.common;
 
-import java.math.BigDecimal;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.session.InvalidSessionException;
@@ -37,12 +35,13 @@ public class UserUtils {
 	public static final String CACHE_OFFICE_LIST = "officeList";
 	public static final String CACHE_OFFICE_ALL_LIST = "officeAllList";
 	
+	public static final String CACHE_AUTH_INFO = "authInfo";
 	/**
 	 * 根据ID获取用户
 	 * @param id
 	 * @return 取不到返回null
 	 */
-	public static User get(BigDecimal id){
+	public static User get(String id){
 		User user = (User)CacheUtils.get(USER_CACHE, USER_CACHE_ID_ + id);
 		if (user ==  null){
 			user = userDao.getUserInfo(id);
@@ -131,9 +130,7 @@ public class UserUtils {
 			}
 //			subject.logout();
 		}catch (UnavailableSecurityManagerException e) {
-			
 		}catch (InvalidSessionException e){
-			
 		}
 		return null;
 	}

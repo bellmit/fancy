@@ -4,23 +4,30 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +36,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
 import cn.telling.action.BaseController;
 import cn.telling.action.main.service.PagingService;
@@ -39,14 +51,17 @@ import cn.telling.common.Pager.PageVo;
 import cn.telling.common.Pager.Pager;
 import cn.telling.common.constants.Constants;
 import cn.telling.common.security.shiro.session.SessionDAO;
-import cn.telling.common.servlet.ValidateCodeServlet;
 import cn.telling.common.uitl.CacheUtils;
 import cn.telling.common.uitl.CookieUtils;
+import cn.telling.common.uitl.FreeMarkerUtil;
 import cn.telling.common.uitl.IdGen;
+import cn.telling.common.uitl.RedisListAPIUtil;
+import cn.telling.common.uitl.RedisMapAPIUtil;
 import cn.telling.common.uitl.StringUtil;
 import cn.telling.common.uitl.TimestampTypeAdapter;
 import cn.telling.config.Global;
 import cn.telling.log.service.IUserLoginLogService;
+import cn.telling.log.vo.Syslog;
 import cn.telling.log.vo.UserLoginLog;
 import cn.telling.menu.service.IMenuService;
 import cn.telling.menu.vo.Menu;
@@ -62,10 +77,13 @@ import cn.telling.utils.TCPIPUtil;
 import cn.telling.web.AuthImg;
 import cn.telling.web.MethodLog;
 
+import com.alibaba.fastjson.JSON;
 import com.danga.MemCached.MemCachedClient;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import freemarker.template.TemplateException;
 
 /**
  * @Title: SysAction.java
@@ -113,7 +131,7 @@ public class SysAction extends BaseController{
 		response.setContentType("text/html;charset=utf-8");
 		// shiro几乎所有的环境下，都可以通过这种方式获取当前用户
 		User user =UserUtils.getUser();
-		BigDecimal userid = user.getId();
+		String userid = user.getId();
 		List<Menu> listpm = new ArrayList<Menu>();
 		try {
 			listpm = menuService.findMenuByUserId(userid);
@@ -195,9 +213,7 @@ public class SysAction extends BaseController{
 		if (!indexis.equals("true")) {
 			list.add(dj);
 		}
-
 		String json = gson.toJson(list);
-
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();
@@ -227,33 +243,21 @@ public class SysAction extends BaseController{
 	public ModelAndView login(HttpServletRequest request,
 			HttpServletResponse response, Model model) {
 		Principal principal = UserUtils.getPrincipal();
-		if (logger.isDebugEnabled()){
-			logger.debug("login, active session size: {}", sessionDao.getActiveSessions(false).size());
-		}
 		// 如果已登录，再次访问主页，则退出原账号。
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))) {
 			CookieUtils.setCookie(response, "LOGINED", "false");
 		}
 		// 如果已经登录，则跳转到管理首页
 		if (principal != null && !principal.isMobileLogin()) {
-			logger.info("login sucesss!");
-			UserLoginLog ulog = new UserLoginLog();
-			ulog.setType(0);
-			ulog.setUseraccount(UserUtils.getUser().getUsername());
-			ulog.setIp(TCPIPUtil.getIpAddr(request));
-			userLoginLogService.saveLog(ulog);
-			System.out.println(UserUtils.getUser().getUsername());
 			return new ModelAndView("redirect:" + adminPath);
 		}
         model.addAttribute("online", sessionDao.getActiveSessions(false).size());
 		return new ModelAndView("login");
 		
 	}
-	/****
+	/**
 	 * 用户登录
-	 * 
-	 * @param
-	 * @author 操圣
+	 * 当ShiroRealm.doGetAuthenticationInfo回调失败后进入该方法
 	 * @date 2015-4-27 下午3:35:32
 	 * @version V1.0
 	 */
@@ -336,12 +340,12 @@ public class SysAction extends BaseController{
 		}
         
         // 非授权异常，登录失败，验证码加1。
-        if (!UnauthorizedException.class.getName().equals(exception)){
-            model.addAttribute("isValidateCodeLogin", isValidateCodeLogin(username, true, false));
-        }
+//        if (!UnauthorizedException.class.getName().equals(exception)){
+//            model.addAttribute("isValidateCodeLogin", isValidateCodeLogin(username, true, false));
+//        }
         
         // 验证失败清空验证码
-        request.getSession().setAttribute(ValidateCodeServlet.VALIDATE_CODE, IdGen.uuid());
+        request.getSession().setAttribute(AuthImg.VALIDATE_CODE, IdGen.uuid());
         
         // 如果是手机登录，则返回JSON字符串
         if (mobile){
@@ -350,21 +354,24 @@ public class SysAction extends BaseController{
 		return "login";
 	}
 
-	   /**
+	@RequestMapping(value = "/getout", method = RequestMethod.GET)
+	public ModelAndView getout(Model model) {
+		ModelAndView mav = new ModelAndView("login");
+		User psu = new User();
+		mav.addObject("login", psu);
+		model.addAttribute("message", "您的帐号在其他地方登录!");
+		return mav;
+	}
+	
+	/**
      * 登录成功，进入管理首页
      */
     @RequiresPermissions("user")
     @RequestMapping(value = "${adminPath}")
-    public String index(HttpServletRequest request, HttpServletResponse response) {
+    public String index(HttpServletRequest request, HttpServletResponse response,Model model) {
     	Principal principal = UserUtils.getPrincipal();
-
 		// 登录成功后，验证码计算器清零
 		isValidateCodeLogin(principal.getLoginName(), false, true);
-		
-		if (logger.isDebugEnabled()){
-			logger.debug("show index, active session size: {}", sessionDao.getActiveSessions(false).size());
-		}
-		
 		// 如果已登录，再次访问主页，则退出原账号。
 		if (Global.TRUE.equals(Global.getConfig("notAllowRefreshIndex"))){
 			String logined = CookieUtils.getCookie(request, "LOGINED");
@@ -375,7 +382,9 @@ public class SysAction extends BaseController{
 				return "redirect:" + adminPath + "/login";
 			}
 		}
-		
+		Collection<Session> sessions =  sessionDao.getActiveSessions();
+        model.addAttribute("sessions", sessions);
+		model.addAttribute("sessionCount",sessionDao.getActiveSessions(false).size());
 		// 如果是手机登录，则返回JSON字符串
 		if (principal.isMobileLogin()){
 			if (request.getParameter("login") != null){
@@ -387,10 +396,6 @@ public class SysAction extends BaseController{
 			return "redirect:" + adminPath + "/login";
 		}
     	return "index";
-    }
-    @RequestMapping(value = "hahah")
-    public ModelAndView aaadd(HttpServletRequest request, HttpServletResponse response) {
-    	return new ModelAndView("/swagger-ui-2.1.3/index");
     }
     
 	/**
@@ -432,13 +437,6 @@ public class SysAction extends BaseController{
 
 		return mav;
 	}
-
-	@RequestMapping("/tForm")
-	public String tForm(HttpServletRequest request) {
-
-		return "/user/tForm";
-	}
-
 	
     @RequestMapping("/i")
     public String testLogin(ModelMap map, HttpServletRequest req, Paging pa) {
@@ -511,18 +509,6 @@ public class SysAction extends BaseController{
 		userLoginLogService.saveLog(ulog);
 		return "redirect:login.html";
 	}
-
-	@RequestMapping("/myServletLogin")
-	public String myServletLogin(HttpServletRequest request) {
-		request.getSession().removeAttribute("userId");
-		return "/user/mylogin";
-	}
-
-	@RequestMapping("/ftl")
-	public String test(HttpServletRequest request, ModelMap map) {
-		return "/ftl/mytest";
-	}
-
 
 
 	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
@@ -681,5 +667,187 @@ public class SysAction extends BaseController{
         }
         out.write(json);
         out.flush();
+    }
+	
+	
+	@RequestMapping(value = "userIpMap")
+    public ModelAndView userIpMap(HttpServletRequest request)
+    {
+        ModelAndView view = new ModelAndView("highchats/userIPMapView");
+        List<String> countrys = RedisListAPIUtil.queryListData("IpMapCountry");
+        Map<String, Long> userIpMapData = new HashMap<String, Long>();
+        for (String country : countrys)
+        {
+            List<String> citys = RedisListAPIUtil.queryListData("IpMapCity" + country);
+            for (String city : citys)
+            {
+                // 查询近半个月数据
+                List<String> last15Days = getLast15Days("yyyyMMdd");
+                Long count = 0L;
+                for (String last15Day : last15Days)
+                {
+                    Map<String, String> cityIpCount = RedisMapAPIUtil.hgetAll(last15Day + "IpMapCityData" + city);
+                    Entry<String, String> entry = null;
+                    for (Iterator<Entry<String, String>> iterator = cityIpCount.entrySet().iterator(); iterator
+                            .hasNext();)
+                    {
+                        entry = iterator.next();
+                        count += Long.valueOf(entry.getValue());
+                    }
+                }
+                if (city.contains("_"))
+                {
+                    userIpMapData.put(city.split("_")[1], count);
+                } else
+                {
+                    userIpMapData.put(city, count);
+                }
+            }
+        }
+        view.addObject("userIpMapData", JSON.toJSONString(userIpMapData));
+        return view;
+    }
+	/**
+     * @description:根据时间格式获取最近15天时间
+     * @author: Wind-spg
+     * @param pattern
+     *            时间格式
+     * @return
+     */
+    protected List<String> getLast15Days(String pattern)
+    {
+        List<String> result = new ArrayList<String>();
+        DateFormat format = new SimpleDateFormat(pattern);
+        for (int i = 14; i >= 0; i--)
+        {
+            result.add(format.format(new Date(System.currentTimeMillis() - (i * (24 * 60 * 60 * 1000)))));
+        }
+        return result;
+    }
+    
+    @Autowired  
+    private RequestMappingHandlerMapping requestMappingHandlerMapping;  
+  
+    @RequestMapping(value = "/admin/util/url2controller")  
+    @ResponseBody  
+    public void list(HttpServletResponse response) {  
+        StringBuilder sb = new StringBuilder();  
+        sb.append("URL").append("--").append("Class").append("--").append("Function").append('\n');  
+  
+        Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();  
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> m : map.entrySet()) {  
+            RequestMappingInfo info = m.getKey();  
+            HandlerMethod method = m.getValue();  
+            sb.append(info.getPatternsCondition()).append("--");  
+            sb.append(method.getMethod().getDeclaringClass()).append("--");  
+            sb.append(method.getMethod().getName()).append('\n');  
+        }  
+  
+        PrintWriter writer = null;  
+        try {  
+            writer = response.getWriter();  
+            writer.print(sb.toString());  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        } finally {  
+            writer.close();  
+        }  
+  
+    }  
+    
+    @RequestMapping(value = "/testftl")  
+    public String testftl() {  
+    	 Collection<Session> sessions =  sessionDao.getActiveSessions();
+    	 for (Session session : sessions) {
+			System.out.println(principal(session));
+		}
+    	return "/ftl/mytest";
+    }
+    
+    @RequestMapping(value = "/testft")  
+    public String testft() {
+    	return "/ftl/ttt";
+    }
+    
+    public static String principal(Session session) {
+        PrincipalCollection principalCollection =
+                (PrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+
+        return ((Principal) principalCollection.getPrimaryPrincipal()).getName();
+    }
+    @Autowired
+	private FreeMarkerConfig freeMarkerConfig;//获取FreemarkerConfig的实例
+    
+    
+    @RequestMapping("/ttt")
+	public String ttt(HttpServletRequest request,HttpServletResponse response,ModelMap mv) throws IOException, TemplateException, ServletException{
+		String fileName ="ftl/ttt";
+		String FREEMARKER_PATH="WEB-INF/webPage/";
+		Boolean flag =(Boolean)FreeMarkerUtil.htmlFileHasExist(request, FREEMARKER_PATH, fileName+".ftl").get("exist");
+		if(!flag){//如何静态文件不存在，重新生成
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("user", "xiaowang小王");//这里包含业务逻辑请求等
+			mv.addAllAttributes(map);
+	        FreeMarkerUtil.createHtml(freeMarkerConfig, "demo.ftl", request, map, FREEMARKER_PATH, fileName+".ftl");//根据模板生成静态页面
+		}
+		return fileName;//始终返回生成的HTML页面
+	}
+    
+    @RequestMapping(value = "/sysloglist", method = RequestMethod.GET)
+	public ModelAndView userloginlogAction() {
+		ModelAndView mav = new ModelAndView("sys/log/listSysLog");
+		return mav;
+	}
+    
+    @RequestMapping(value = "/sysloglist", method = RequestMethod.POST)
+	@MethodLog(remark = "系统日志查询")
+	public ModelAndView getUserloginlogJson(
+			@RequestParam(required = false, defaultValue = "") String account,
+			@RequestParam(required = false, defaultValue = "") int page,
+			@RequestParam(required = false, defaultValue = "") int rows,
+			HttpServletResponse response) {
+		response.setContentType("text/html;charset=utf-8");
+		Map<String, Object> mapjson = new HashMap<String, Object>();
+		PageVo pages = new PageVo();
+		pages.setPageNow(page);
+		pages.setMessageForPage(rows);
+
+		mapjson.put("total", userLoginLogService
+				.querySysLogPagesByAccount(account, pages).getTotalCount());
+
+		List<?> list = userLoginLogService.querySysLogPagesByAccount(account, pages).getUserLs();
+		List<Syslog> endlist = new ArrayList<Syslog>();
+
+		for (int i = 0; i < list.size(); i++) {
+			Syslog endsyslog = (Syslog) list.get(i);
+			String[] d=endsyslog.getMethodName().toString().split("\\.");
+			String v=d[d.length-2]+"."+d[d.length-1];
+			endsyslog.setMethodName(v);
+			endlist.add(endsyslog);
+		}
+
+		mapjson.put("rows", endlist);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setDateFormat("yyyy-MM-dd hh:mm:ss");
+		gsonBuilder.registerTypeAdapter(Timestamp.class,
+				new TimestampTypeAdapter());
+		Gson gson = gsonBuilder.create();
+
+		String json = gson.toJson(mapjson);
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		out.write(json);
+		out.flush();
+		return null;
+	}
+    @RequestMapping(value="sysmonitor",method=RequestMethod.GET)
+    public ModelAndView sysmonitor(){
+    	ModelAndView mv=new ModelAndView("sys/sysmonitor");
+		return mv;
+    	
     }
 }

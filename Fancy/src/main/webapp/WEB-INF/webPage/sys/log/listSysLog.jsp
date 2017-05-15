@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@include file="../../taglib_includes.jsp" %>
+<%@include file="/WEB-INF/webPage/include/taglib.jsp" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -54,7 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   
     <table id="tt" class="easyui-datagrid" style="width:480px;height:320px"
-            data-options="fit:true,collapsible:true,rownumbers:true,url:'sysloglist.do',fitColumns:true,singleSelect:false,sortOrder:'desc',sortName:'clintname',pagination:true,toolbar:'#tb'"
+            data-options="fit:true,collapsible:true,rownumbers:true,url:'sysloglist.html',fitColumns:true,singleSelect:false,sortOrder:'desc',sortName:'clintname',pagination:true,toolbar:'#tb'"
             title="数据加载列表" iconCls="icon-save"
            >
         <thead>
@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <th  data-options="field:'loginName',width:$(this).width()*0.1">账号</th>
                  <th  data-options="field:'methodName',width:$(this).width()*0.3">操作地址</th>
                   <th  data-options="field:'methodRemark',width:$(this).width()*0.2">操作描述</th>
-                    <th  data-options="field:'operatingcontent',width:$(this).width()*0.2">具体参数</th>
+                    <th  data-options="field:'operatingContent',width:$(this).width()*0.2">具体参数</th>
   <th  data-options="field:'ipAddress',width:$(this).width()*0.1">操作ip</th>
  <!--   <th  data-options="field:'type',width:$(this).width()*0.2,formatter:function(value){
                     if(value=='0'){
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         return '退出';
                     }
                 }">操作类型</th>-->
-                <th   align="center" data-options="field:'createtime',width:$(this).width()*0.2">操作时间
+                <th   align="center" data-options="field:'createTime',width:$(this).width()*0.2">操作时间
                 </th>
             </tr>
         </thead>

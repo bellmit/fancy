@@ -9,6 +9,8 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,15 +105,14 @@ public class ExFreeMarkerView extends FreeMarkerView {
 		// response);
 		// response.setContentType("text/html; charset=gb2312");
 		//
-		// ServletContext sc = getServletContext();
+		 ServletContext sc = getServletContext();
 		//
-		// RequestDispatcher rd = null;
-
-		// rd = sc.getRequestDispatcher("/html"+requestHTML); //重定向的页面
+	 RequestDispatcher rd = sc.getRequestDispatcher(requestHTML); //重定向的页面
 		//
-		response.sendRedirect("html" + requestHTML);
-		// response.flushBuffer();
-		// rd.forward(request, response);
+		response.sendRedirect(request.getContextPath()+"/hahahahhahah");
+		//response.flushBuffer();
+		 //rd.forward(request, response);	
+		 //request.getRequestDispatcher(requestHTML).forward(request, response);
 	}
 
 	/**
@@ -130,7 +131,7 @@ public class ExFreeMarkerView extends FreeMarkerView {
 		requestURI = requestURI.replaceFirst(contextPath, "");
 
 		// 将.do改为.htm,稍后将请求转发到此html文件
-		requestURI = requestURI.substring(0, requestURI.indexOf(".")) + ".html";
+		//requestURI = requestURI.substring(0, requestURI.indexOf(".")) + ".html";
 
 		return requestURI;
 	}

@@ -4,3 +4,4 @@ encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/java/cn/fancy/test/ImageTest.java=gbk
 encoding/<project>=UTF-8
+separateDerivedEncodings=true

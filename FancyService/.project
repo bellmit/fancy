@@ -5,6 +5,7 @@
 	<projects>
 		<project>tellingrsb</project>
 		<project>FancyRSB</project>
+		<project>FancyInterface</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

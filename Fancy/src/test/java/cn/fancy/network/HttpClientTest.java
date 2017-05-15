@@ -44,6 +44,7 @@ public class HttpClientTest {
             // Do not need the rest
             httpgets.abort();
         }
+        System.out.println("----------------------------------我是");
     }
 
     public static String convertStreamToString(InputStream is) {

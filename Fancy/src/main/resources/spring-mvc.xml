@@ -6,20 +6,20 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="  
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd  
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd  
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd  
-        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd  
-        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd  
-        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd  
-        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.0.xsd  
-        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.0.xsd  
-        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd  
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd  
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd  
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd  
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.1.xsd  
+        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd  
+        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-4.1.xsd  
+        http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-4.1.xsd  
+        http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-4.1.xsd  
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd  
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 	
 	    <description>Spring Web Configuration</description>
 	    <!-- 加载属性文件 -->
@@ -31,7 +31,7 @@
 	<mvc:annotation-driven />
 		<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
-	
+	<mvc:view-controller path="/" view-name="redirect:${web.view.index}"/>
 	<!-- 静态资源映射 -->
     <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
 	<!-- 定义无Controller的path<->view直接映射 -->
@@ -41,7 +41,7 @@
 	<mvc:resources mapping="/images/**" location="/images/" cache-period="31536000"/>
 	<mvc:resources mapping="/css/**" location="/css/" cache-period="31536000"/>
 	<mvc:resources mapping="/js/**" location="/js/" cache-period="31536000"/>
-	<mvc:resources mapping="/Plug/**" location="/Plug/" cache-period="31536000"/>
+	<mvc:resources mapping="/plug/**" location="/Plug/" cache-period="31536000"/>
 	<mvc:resources mapping="/common/**" location="/common/" cache-period="31536000"/>
 	<mvc:resources mapping="/ui/**" location="/ui/" cache-period="31536000"/>
 	<mvc:resources mapping="/jq/**" location="/jq/" cache-period="31536000"/>
@@ -79,37 +79,36 @@
 
 
    <!--启动Spring MVC的注解功能,设置编码方式，防止乱码-->
-   <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+   <!-- <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
 	    <property name="supportedMediaTypes">  
 	        <list>  
 	            <value>text/html;charset=UTF-8</value>
 	            <value>application/json;charset=UTF-8</value>
 	        </list>  
 	    </property>  
-	</bean> 
+	</bean>  -->
  
- <!--jsp视图解析器 -->
-	<bean id="jspViewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+ 	<!--jsp视图解析器 -->
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/webPage/" />
 		<property name="suffix" value=".jsp" />
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.InternalResourceView" />
-		<property name="order" value="0">
+		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />
+		<property name="order" value="1">
 		</property>
 	</bean>
 
 
-	<!-- 配置freeMarker视图解析器 -->
+	<!-- 配置freeMarker视图解析器   对模型视图名称的解析，即在模型视图名称添加前后缀 通用解析器    order=0先找freemarker不然先找jsp会报找不到 -->
 	<bean id="viewResolverFtl"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<!-- <property name="viewClass" value="com.wssys.controller.ExFreeMarkerView"/> -->
 		<!-- <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/> -->
 
 		<property name="viewClass"
-			value="cn.telling.freemarker.ExFreeMarkerView" />
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
 		<!-- 模板后缀，指定html页面为模板 -->
 		<!-- <property name="prefix" value="/WEB-INF/webpage/" /> -->
+		<!-- 模板输出内容编码，此处应与defaultEncoding保持一致 -->
 		<property name="contentType" value="text/html;charset=UTF-8" />
 		<property name="cache" value="true" />
 		<property name="suffix" value=".ftl" />
@@ -121,15 +120,14 @@
 		<property name="exposeSessionAttributes" value="true" />
 		<!-- 页面上下文，类似于request.contextPath -->
 		<property name="requestContextAttribute" value="rc" />
-		<!-- 模板输出内容编码，此处应与defaultEncoding保持一致 -->
-
-		<property name="order" value="1" />
+		
+		<property name="order" value="0" />
 	</bean>
 	<!-- 配置freeMarker的模板路径 -->
 	<!-- <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"> -->
 	<bean id="freemarkerConfig" class="cn.telling.freemarker.TagFreeMarkerConfigurer">
 		<property name="templateLoaderPath">
-			<value>/WEB-INF/webPage/</value>
+			<value>/WEB-INF/webPage</value>
 		</property>
 		<property name="freemarkerVariables">
 			<map>
@@ -141,12 +139,33 @@
 		</property>
 		<property name="freemarkerSettings">
 			<props>
-				<prop key="template_update_delay">5</prop> <!--检查模板是否更新 秒 -->
+				<prop key="template_update_delay">10</prop>   <!--检查模板是否更新 秒 -->
+	            <!-- <prop key="locale">zh_CN</prop>  
+	            <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>  
+	            <prop key="date_format">yyyy-MM-dd</prop>  
+	            <prop key="number_format">#.##</prop>  -->
 			</props>
 		</property>
 	</bean>
 	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+	
+	<!-- aop 手动声明bean -->
+	<bean id="logService" class="cn.telling.web.LogService"></bean>
 
+	<!-- 启动对@AspectJ注解的支持 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	<aop:config>
+		<!-- 手动指定aop使清晰 -->
+		<aop:aspect ref="logService"></aop:aspect>
+	</aop:config>
+
+	
+	<!-- 启用Spring对@AspectJ切面配置的支持 <aop:aspectj-autoproxy /> -->
+	<!-- proxy-target-class属性值决定是基于接口的还是基于类的代理被创建。如果proxy-target-class 属性值被设置为true，那么基于类的代理将起作用（这时需要cglib库）。
+	如果proxy-target-class属值被设置为false或者这个属性被省略，那么标准的JDK 基于接口的代理 -->
+	<!--AOP包括切面（aspect）、通知（advice）、连接点（joinpoint），实现方式就是通过对目标对象的代理在连接点前后加入通知，完成统一的切面操作。 -->
+	<!-- <aop:aspectj-autoproxy /> -->
+	
 
 	
 		<!-- 完成请求和注解POJO的映射     StringHttpMessageConverter不指定charset默认iso-8859-1

@@ -74,9 +74,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 	 */
 	protected boolean onAccessDenied(ServletRequest request,
 			ServletResponse response) throws Exception {
-		// Subject subject = getSubject(request, response);
 		Subject subject = SecurityUtils.getSubject();
-		System.out.println(subject.isAuthenticated()+"===="+subject.isRemembered());
 		if (!subject.isAuthenticated() && !subject.isRemembered()) {
 			// 如果没有登录，直接进行之后的流程
 			return true;

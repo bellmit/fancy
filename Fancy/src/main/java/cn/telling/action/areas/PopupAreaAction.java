@@ -21,14 +21,6 @@ public class PopupAreaAction {
 	@Resource
 	private IAreaInfoService areaService;
 
-	public IAreaInfoService getAreaService() {
-		return areaService;
-	}
-
-	public void setAreaService(IAreaInfoService areaService) {
-		this.areaService = areaService;
-	}
-
 
 	@RequestMapping("areaListAjax")
 	public @ResponseBody List<AreaInfoVo> SearchArea(ModelMap map,

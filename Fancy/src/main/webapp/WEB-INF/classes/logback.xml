@@ -1,14 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration  scan="true" scanPeriod="70 seconds" debug="true">
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<!-- <Pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</Pattern> -->
-			<Pattern>%-5level %logger{80} - %msg%n</Pattern>
+		<!-- encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
 		</encoder>
 	</appender>
-	<root>
-		<level value="INFO" />
+
+	<logger name="java.sql" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="cn.telling" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger
+		name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
+		level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>
-

@@ -44,11 +44,11 @@
 //import org.springframework.test.context.ContextConfiguration;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //
-//import com.fancy.action.shop.service.IShopService;
-//import com.fancy.action.shop.vo.ProductSub;
-//import com.fancy.action.shop.vo.ProductVo;
+//import cn.fancy.spring.vo.ProductSub;
+//import cn.fancy.spring.vo.ProductVo;
+//import cn.telling.shop.service.IShopService;
 //
-//@ContextConfiguration(locations = "classpath:applicationContext.xml")
+//@ContextConfiguration(locations = "classpath:spring-test.xml")
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SuppressWarnings("deprecation")
 //public class LuceneUtil1 {
@@ -60,7 +60,7 @@
 //	@Autowired
 //	private IShopService shopService;
 //
-//	@Test
+//	@CompareNumber
 //	public void test() throws Exception
 //	{
 //

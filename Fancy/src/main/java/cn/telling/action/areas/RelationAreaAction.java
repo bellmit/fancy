@@ -14,12 +14,6 @@ public class RelationAreaAction {
 	@Resource
 	private IAreaInfoService areaService;
 
-	public IAreaInfoService getAreaService() {
-		return areaService;
-	}
-	public void setAreaService(IAreaInfoService areaService) {
-		this.areaService = areaService;
-	}
 	
 	@RequestMapping(value="org2areaAjax")
 	public @ResponseBody String RelaOrg2Area(

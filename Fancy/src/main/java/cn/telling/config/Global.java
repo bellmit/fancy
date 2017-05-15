@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import cn.telling.common.PropertiesLoader;
@@ -210,4 +213,5 @@ public class Global {
 
         return MessageFormat.format(strMsgPattern, param);
     }
+    
 }

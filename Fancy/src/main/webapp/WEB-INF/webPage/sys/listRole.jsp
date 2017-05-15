@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         &nbsp; &nbsp;
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" id="delbtn">删除</a>
          &nbsp; &nbsp;
-           <shiro:hasPermission name="/assignPermissions.do"> 
+           <shiro:hasPermission name="/assignPermissions.html"> 
          <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="fpqxbtn">分配权限</a>   
     	</shiro:hasPermission>
     </div>  
@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   
     <table id="tt" class="easyui-datagrid" style="width:480px;height:320px"
-            data-options="fit:true,collapsible:true,rownumbers:true,url:'viewAllRoleJson.do',fitColumns:true,singleSelect:false,sortOrder:'desc',sortName:'clintname',pagination:true,toolbar:'#tb'"
+            data-options="fit:true,collapsible:true,rownumbers:true,url:'viewAllRoleJson.html',fitColumns:true,singleSelect:false,sortOrder:'desc',sortName:'clintname',pagination:true,toolbar:'#tb'"
             title="数据加载列表" 
            >
         <thead>

@@ -37,12 +37,12 @@ public class MenuServiceImpl implements IMenuService {
 	@Autowired
 	private IRoleDao roleDao;
 
-	public List<Menu> findMenuByUserId(BigDecimal userid) {
+	public List<Menu> findMenuByUserId(String userid) {
 
 		return menuDao.findMenuByUserId(userid);
 	}
 
-	public List<Menu> findAllMenuByUserId(BigDecimal userId) throws Exception {
+	public List<Menu> findAllMenuByUserId(String userId) throws Exception {
 		if (userId == null) {
 			return null;
 		}
@@ -88,4 +88,34 @@ public class MenuServiceImpl implements IMenuService {
         return menuDao.getPmById(id);
         
     }
+
+	/* (non-Javadoc)
+	 * @see cn.telling.menu.service.IMenuService#findMenuByRoleId(java.lang.Integer)
+	 */
+	@Override
+	public List<Menu> findMenuByRoleId(Integer id) {
+		//  Auto-generated method stub
+		if (id == null) {
+			return new ArrayList<Menu>();
+		}
+		return menuDao.findMenuByRoleId(id);
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.telling.menu.service.IMenuService#getPusMenuList()
+	 */
+	@Override
+	public List<Menu> getPusMenuList() {
+		//  Auto-generated method stub
+		return menuDao.getPusMenuList();
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.telling.menu.service.IMenuService#batchDelete(java.lang.Integer)
+	 */
+	@Override
+	public void batchDelete(Integer roleid) {
+		menuDao.batchDelete(roleid);
+		
+	}
 }

@@ -44,6 +44,7 @@ public class CacheManagerAction {
 	 * @return: void
 	 * @date: 上午09:38:51
 	 */
+	@RequestMapping("dd")
 	private void intiAllAreaInfo(){
 		List<AreaInfoVo> lst = this.areaInfoService.queryManageProvinceAreaByUserId(1+"@"+true);
 		if(lst!=null&&lst.size()>0){

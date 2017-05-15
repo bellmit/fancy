@@ -36,7 +36,7 @@
 		<dozer.version>5.5.1</dozer.version>
 		<poi.version>3.9</poi.version>
 		<freemarker.version>2.3.20</freemarker.version>
-		<org.springframework.version>4.0.8.RELEASE</org.springframework.version>
+		<org.springframework.version>4.1.9.RELEASE</org.springframework.version>
 		<!-- tools version setting -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<commons-lang3.version>3.3.2</commons-lang3.version>
@@ -57,24 +57,15 @@
 		<mybatis.version>3.2.8</mybatis.version>
 		<mybatis-spring.version>1.2.2</mybatis-spring.version>
 		<druid.version>1.0.11</druid.version>
-		<ehcache.version>2.6.9</ehcache.version>
+		<ehcache.version>2.6.11</ehcache.version>
 		<ehcache-web.version>2.0.4</ehcache-web.version>
 		<shiro.version>1.2.3</shiro.version>
 		<sitemesh.version>2.4.2</sitemesh.version>
 		<activiti.version>5.15.1</activiti.version>
 		<validator.version>5.1.1.Final</validator.version>
 		
-		
-	<java-memcached>f://.m2//repository//com//danga//memcached_client//1.6//java_memcached-release_1.6.jar</java-memcached>
-		<comen4jname>f://.m2//repository//org//coment4j//comet4j-tomcat6.jar</comen4jname>
-		<!-- 		<googlekaptchea>f://.m2//repository//org//kaptcha//kaptcha-2.3.2.jar</googlekaptchea> -->
-		<!-- 		<comen4jname>/home/fancy/.m2/repository/org/coment4j/comet4j-tomcat6.jar</comen4jname> -->
-		<!-- 		<googlekaptchea>/home/fancy/.m2/repository/org/kaptcha/kaptcha-2.3.2.jar</googlekaptchea> -->
-		
-		
-		
 		<!-- environment setting -->
-		<jdk.version>1.6</jdk.version>
+		<jdk.version>1.7</jdk.version>
 		<tomcat.version>2.2</tomcat.version>
 		<jetty.version>7.6.14.v20131031</jetty.version>
 		<webserver.port>8181</webserver.port>
@@ -260,6 +251,11 @@
 				<version>${org.springframework.version}</version>
 			</dependency>
 			<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+			<dependency>
 				<groupId>com.caucho</groupId>
 				<artifactId>hessian</artifactId>
 				<version>4.0.37</version>
@@ -397,7 +393,7 @@
 		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
-			 <version>2.5.1</version>
+			 <version>2.7.2</version>
 		</dependency>
 		<!-- CACHE end -->
 		
@@ -439,11 +435,23 @@
 			<artifactId>commons-collections</artifactId>
 			<version>3.2.1</version>
 		</dependency>
+			<!-- AOP begin -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.7.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.7.4</version>
+		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<version>2.2</version>
+			<artifactId>cglib</artifactId>
+			<version>3.1</version>
 		</dependency>
+		<!-- AOP end -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
@@ -557,13 +565,7 @@
 			<artifactId>memcached_client</artifactId>
 			<version>2.6.6</version>
 		</dependency> -->
-		<dependency>
-  			<groupId>com.danga</groupId>
-			<artifactId>memcached_client</artifactId>
-			<scope>system</scope>
-			<systemPath>${java-memcached}</systemPath>
-			<version>1.6</version>
-		</dependency>
+		
 			<dependency>
 		  <groupId>commons-httpclient</groupId>
 		  <artifactId>commons-httpclient</artifactId>
@@ -642,14 +644,7 @@
 			<version>0.0.1</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.coment4j</groupId>
-			<artifactId>comet4j-tomcat6</artifactId>
-			<scope>system</scope>
-			<systemPath>${comen4jname}</systemPath>
-			<version>1.6</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>com.google.code</groupId>
 			<artifactId>kaptcha</artifactId>
@@ -680,14 +675,18 @@
 	<dependency>
 		<groupId>org.apache.httpcomponents</groupId>
 		<artifactId>httpcore</artifactId>
-		<version>4.0.1</version>
+		<version>4.4.4</version>
 	</dependency>
 	<dependency>
 		<groupId>org.apache.httpcomponents</groupId>
 		<artifactId>httpclient</artifactId>
 		<version>4.0.1</version>
 	</dependency> 
-  
+    <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.1.1</version>
+        </dependency>
 	
 
 	
@@ -790,18 +789,7 @@
 			<version>${activiti.version}</version>
 		</dependency>
 		
-		<!-- 支持activiti缓存 -->
-		<!-- <dependency>
-			<groupId>org.infinispan</groupId>
-			<artifactId>infinispan-core</artifactId>
-			<version>5.1.7.Final</version>
-		</dependency> -->
-		<!-- pojo copy -->
-		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer</artifactId>
-			<version>${dozer.version}</version>
-		</dependency>
+
 </dependencies>
 
 	<build>

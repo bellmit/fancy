@@ -8,7 +8,6 @@
  *
  */
 package cn.telling.user.dao.impl;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -117,7 +116,7 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 	}
 
 	@Override
-	public User getUserInfo(BigDecimal id)
+	public User getUserInfo(String id)
 	{
 		try
 		{
@@ -235,9 +234,6 @@ public class UserDaoImpl extends CommonBaseDao implements IUserDao {
 		return userLs;
 	}
 
-	/* (non-Javadoc)
-	 * @see cn.telling.user.dao.IUserDao#queryUsers(java.lang.String, cn.telling.common.Pager.PageVo, cn.telling.user.vo.Users)
-	 */
 	@Override
 	public ReturnUserVo queryUsers(String account, PageVo page) {
 		String sql="select u.id,u.username,u.account,r.name rolename,u.createtime from users u" +

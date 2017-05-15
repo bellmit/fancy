@@ -19,7 +19,6 @@ import cn.telling.areas.vo.AreaInfoVo;
 import cn.telling.utils.StringHelperTools;
 
 @Controller
-@RequestMapping
 public class AreaInfoManageAction {
 	/**
 	 * 调用区域管理接口
@@ -29,9 +28,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 区域列表页面
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -49,9 +46,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 区域列表新增页面
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -69,9 +64,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 区域列表新增页面保存
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -104,9 +97,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 区域列表修改页面
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -139,9 +130,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 区域列表修改页面保存
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -184,9 +173,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 通过areaid来判断这个是不是子节点
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -206,9 +193,7 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 通过areaid来删除区域
-	 * @param 参数说明
 	 * @return 返回值
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-5-23上午8:57:21
 	 * @version V1.0
@@ -228,10 +213,6 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 省级
-	 * @param 参数说明
-	 * @return 返回值
-	 * @exception 异常描述
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2014-7-27 上午9:12:51
 	 * @version V1.0
@@ -245,10 +226,6 @@ public class AreaInfoManageAction {
 	
 	/**
 	 * @Description: 市级
-	 * @param 参数说明
-	 * @return 返回值
-	 * @exception 异常描述
-	 * @see 需要参见的其它内容。（可选）
 	 * @author wukailun
 	 * @date 2013-7-27 上午9:12:51
 	 * @version V1.0

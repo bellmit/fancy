@@ -19,6 +19,7 @@ import cn.telling.config.Global;
 public class CoreListener extends ContextLoaderListener {
     @Override
     public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
+    	System.setProperty("org.terracotta.quartz.skipUpdateCheck","true");
         StringBuilder sb = new StringBuilder();
         sb.append("\r\n======================================================================\r\n");
         sb.append("\r\n    欢迎使用 "+Global.getConfig("productName")+"  - Powered By https://github.com/zhgo116\r\n");

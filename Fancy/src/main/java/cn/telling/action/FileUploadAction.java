@@ -193,7 +193,7 @@ public class FileUploadAction {
 				fs.flush();
 			}
 		} catch (Exception ex) {
-			throw ex;
+		System.out.println(ex);
 		}
 		finally {
 			// modify by ranphy 内存问题

@@ -274,7 +274,7 @@ public class AutoInjection {
 		}
 	}
 
-	// getObjectInfo(new Test());
+	// getObjectInfo(new CompareNumber());
 
 }
 

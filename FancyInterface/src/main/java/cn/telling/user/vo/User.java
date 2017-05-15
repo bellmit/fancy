@@ -1,8 +1,9 @@
 package cn.telling.user.vo;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 /**
@@ -18,20 +19,22 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 8291538730234781395L;
 
-    private BigDecimal id;
+    private String id;
 	
 	private String username;
 
 	private String password;
 
 	private String realname;
-	private String lastTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+	private Date lastTime;
 	private String email;
 	private String sex;
 	private String phone;
 	private String address;
 	private String description;
 	private String age;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	private Date createtime;
 	private String account;
 	
@@ -134,19 +137,19 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
-	public String getLastTime() {
+	public Date getLastTime() {
 		return lastTime;
 	}
 
-	public void setLastTime(String lastTime) {
+	public void setLastTime(Date lastTime) {
 		this.lastTime = lastTime;
 	}
 
-	public BigDecimal getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

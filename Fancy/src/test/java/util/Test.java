@@ -1,7 +1,7 @@
 /**
  * Project Desc:
  * Project Name:TestExample
- * File Name:Test.java
+ * File Name:CompareNumber.java
  * Package Name:util
  * Date:2015-5-11上午9:57:02
  * Copyright (c) 2015, zhgo116.com All Rights Reserved.
@@ -10,7 +10,7 @@
 package util;
 
 /**
- * ClassName:Test <br/>
+ * ClassName:CompareNumber <br/>
  * Date:     2015-5-11 上午9:57:02 <br/>
  * @author   caosheng
  */

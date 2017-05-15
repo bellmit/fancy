@@ -51,7 +51,7 @@ import cn.telling.shop.vo.ProductVo;
 import cn.telling.utils.LuceneCommon;
 import cn.telling.utils.StringHelperTools;
 
-@ContextConfiguration(locations = "classpath:globalApplication.xml")
+@ContextConfiguration(locations = "classpath:spring-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class LuceneUtil6 {
 	public static String flag = "1";

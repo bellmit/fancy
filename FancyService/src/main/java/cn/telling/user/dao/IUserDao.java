@@ -34,7 +34,7 @@ public interface IUserDao {
 
 	public User userLogin(String uName, String pWd);
 
-	public User getUserInfo(BigDecimal id);
+	public User getUserInfo(String id);
 
 	public List<Menu> queryMenuByRoleId(Integer mId);
 

@@ -27,8 +27,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import sun.misc.BASE64Encoder;
-import cn.telling.common.Vo.DealResultLogInterfaceVO;
-import cn.telling.common.Vo.IBaseVO;
+import cn.telling.common.vo.DealResultLogInterfaceVO;
+import cn.telling.common.vo.IBaseVO;
 import cn.telling.utils.UUIDUtil;
 
 public class Pub {

@@ -7,6 +7,9 @@
         <dependent-module archiveName="FancyRSB.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/FancyRSB/FancyRSB">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="FancyInterface.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/FancyInterface/FancyInterface">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
 <!--        <dependent-module archiveName="FancyUtils.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/FancyUtils/FancyUtils"> -->
 <!--             <dependency-type>uses</dependency-type> -->
 <!--         </dependent-module> -->

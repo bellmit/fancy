@@ -19,8 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
-    <title>Fancy后台管理系统 ${fns:getAdminPath()}</title>
-
+    <title>Fancy后台管理系统</title>
 	<link rel="stylesheet" type="text/css" id="easyuiTheme"  href="<%=path %>/ui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="<%=path %>/ui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="<%=path %>/ui/demo.css">
@@ -80,6 +79,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				class="easyui-menubutton"
 				data-options="menu:'#mm2',iconCls:'icon-help'">Help</a> <a href="#"
 				class="easyui-menubutton" data-options="menu:'#mm3'">About</a>
+				${sessionCount }
+				
+				 <c:forEach items="${sessions}" var="session">
+				${session.host }${session.host }${session.id}
+				 </c:forEach>
 		</div>
 
 		<div id="mm1" style="width: 150px;">

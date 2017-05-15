@@ -19,9 +19,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import cn.telling.common.AutoInjectionRowMapper;
+import cn.telling.common.CommonBaseDao;
 import cn.telling.menu.dao.IMenuDao;
 import cn.telling.menu.vo.Menu;
 import cn.telling.utils.MySQLAutoInjection;
+import cn.telling.utils.StringHelperTools;
 
 
 /**
@@ -30,7 +33,7 @@ import cn.telling.utils.MySQLAutoInjection;
  * @author caosheng
  */
 @Repository
-public class MenuDaoImpl implements IMenuDao {
+public class MenuDaoImpl extends CommonBaseDao implements IMenuDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -111,7 +114,7 @@ public class MenuDaoImpl implements IMenuDao {
 	        return size;
 	    }
 	   
-	public List<Menu> findMenuByUserId(BigDecimal userId)
+	public List<Menu> findMenuByUserId(String userId)
 	{
 		String sql="select m.id,m.name,m.menupid,m.description,m.pageurl,m.type,m.state,m.createtime,m.sortfiled " +
 				"from menu m, re_role_menu rolemenu, re_user_role ur" +
@@ -127,5 +130,40 @@ public class MenuDaoImpl implements IMenuDao {
 				MySQLAutoInjection.Rs2Vo(rs, m, null);
 				return m;
 			}});
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.telling.menu.dao.IMenuDao#findMenuByRoleId(java.lang.Integer)
+	 */
+	@Override
+	public List<Menu> findMenuByRoleId(Integer id) {
+		 String sql = "SELECT menu.id, menu.`name`, menu.menupid, menu.description, menu.pageurl, menu.type, menu.state, menu.createtime, menu.sortfiled"
+		 		+ " FROM menu INNER JOIN re_role_menu p ON menu.id = p.menuid WHERE 1=1";
+		 Object params[]=null;
+		 if(!"".equals(StringHelperTools.nvl(id)))
+			{
+				sql+=" and  p.roleid = ?";
+				params=new Object[]{id};
+			}
+		return query(sql,params,new AutoInjectionRowMapper<Menu>(Menu.class));
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.telling.menu.dao.IMenuDao#getPusMenuList()
+	 */
+	@Override
+	public List<Menu> getPusMenuList() {
+		String sql = "SELECT m1.id, m1.`name`, m1.menupid, m1.description, m1.pageurl, m1.type, m1.state, m1.createtime, m1.sortfiled,"
+				+ " menu.id FROM menu AS m1 LEFT OUTER JOIN menu ON m1.menupid = menu.id";
+		return query(sql, new Object[]{},new AutoInjectionRowMapper<Menu>(Menu.class));
+	}
+
+	/* (non-Javadoc)
+	 * @see cn.telling.menu.dao.IMenuDao#batchDelete()
+	 */
+	@Override
+	public void batchDelete(Integer roleid) {
+		String hqlDelete = "delete from re_role_menu  where roleid=?";
+		jdbcTemplate.update(hqlDelete, new Object[]{roleid});	
 	}
 }

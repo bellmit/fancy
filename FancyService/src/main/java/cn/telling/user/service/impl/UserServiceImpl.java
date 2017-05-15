@@ -9,7 +9,6 @@
  */
 package cn.telling.user.service.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,7 +17,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import cn.telling.common.Pager.PageVo;
-
 import cn.telling.role.dao.IRoleDao;
 import cn.telling.user.dao.IUserDao;
 import cn.telling.user.service.IUserService;
@@ -57,7 +55,7 @@ public class UserServiceImpl implements IUserService {
 
 	// 根据ID查询，ID 我们默认是唯一的
 	@Cacheable(value = "serviceCache", key = "#id")
-	public User getUserInfo(BigDecimal id)
+	public User getUserInfo(String id)
 	{
 		return userDao.getUserInfo(id);
 	}
@@ -71,7 +69,6 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User queryUserByName(String uName)
 	{
-
 	    User user=userDao.queryUserByName(uName);;
 		return user;
 	}

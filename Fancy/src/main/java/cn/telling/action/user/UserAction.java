@@ -24,11 +24,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.telling.common.Pager.PageVo;
+import cn.telling.common.uitl.TimestampTypeAdapter;
 import cn.telling.user.service.IUserService;
 import cn.telling.user.vo.ReturnUserVo;
 import cn.telling.user.vo.User;
+import cn.telling.web.MethodLog;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.sun.jmx.snmp.Timestamp;
 
 /**
  * ClassName:UserLoginAction <br/>
@@ -48,45 +52,39 @@ public class UserAction {
 	
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
 	public String viewAllUserJson() {
-
 		return "/sys/listUser";
 	}
 
+	@MethodLog(remark = "查询用户列表")
 	@RequestMapping(value = "/viewAllUserJson", method = { RequestMethod.GET, RequestMethod.POST })
 	public void list(@RequestParam(required = false, defaultValue = "") String account, PageVo pv, 
 			HttpServletResponse response,@RequestParam(required = false, defaultValue = "") int page,
 			@RequestParam(required = false, defaultValue = "") int rows) {
 		response.setContentType("text/html;charset=utf-8");
-		Map<String, Object> mapjson = new HashMap<String, Object>();
 		pv.setMessageForPage(5);
 		// 安全过滤
 		if (account.equalsIgnoreCase("' or 1 like '%1%")) {
 			account = "";
 		}
-		account = account.replace(" ", "");
-		account = account.trim();
-		
+		account = account.replace(" ", "").trim();
 		pv.setPageNow(page);
 		pv.setMessageForPage(10);
 		ReturnUserVo ruv = userService.queryUsers(account, pv);
+		Map<String, Object> mapjson = new HashMap<String, Object>();
 		mapjson.put("total", ruv.getTotalCount());
-		// mapjson.put("rows",
-		// pusSysUserDao.queryUserPagesByAccount(account, pages)
-		// .getResult());
 		mapjson.put("rows", ruv.getUserLs());
-//		GsonBuilder gsonBuilder = new GsonBuilder();
-//		gsonBuilder.setDateFormat("yyyy-MM-dd hh:mm:ss");
-//		gsonBuilder.registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter());
-//		Gson gson = gsonBuilder.create();
-//		String json = gson.toJson(mapjson);
-		JSONObject jsonLs=(JSONObject) JSONObject.toJSON(mapjson);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setDateFormat("yyyy-MM-dd hh:mm:ss");
+		gsonBuilder.registerTypeAdapter(Timestamp.class, new TimestampTypeAdapter());
+		Gson gson = gsonBuilder.create();
+		String json = gson.toJson(mapjson);
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		out.write(jsonLs.toJSONString());
+		out.write(json);
 		out.flush();
 	}
 	/**
@@ -97,6 +95,14 @@ public class UserAction {
 		ModelAndView mav = new ModelAndView("sys/addUser");
 		User u = new User();
 		mav.getModelMap().put("psu", u);
+		return mav;
+	}
+	@RequestMapping(value = "eidtUserPwd", method = RequestMethod.GET)
+	@MethodLog(remark = "更改后台用户密码跳转")
+	public ModelAndView eidtUserPwdAction(@RequestParam("id") String id) {
+		ModelAndView mav = new ModelAndView("sys/editUser");
+		User mc = userService.getUserInfo(id);
+		mav.addObject("editUserForm", mc);
 		return mav;
 	}
 }

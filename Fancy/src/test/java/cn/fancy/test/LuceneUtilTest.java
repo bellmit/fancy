@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.telling.shop.service.IShopService;
 
-@ContextConfiguration(locations = "classpath:applicationContext-test.xml")
+@ContextConfiguration(locations = "classpath:spring-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SuppressWarnings("deprecation")
 public class LuceneUtilTest {

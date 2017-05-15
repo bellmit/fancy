@@ -26,7 +26,7 @@ import cn.telling.common.StringUtils;
 @Service
 public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.FormAuthenticationFilter {
 
-	public static final String DEFAULT_CAPTCHA_PARAM = "validateCode";
+	public static final String DEFAULT_CAPTCHA_PARAM = "validate";
 	public static final String DEFAULT_MOBILE_PARAM = "mobileLogin";
 	public static final String DEFAULT_MESSAGE_PARAM = "message";
 
@@ -53,6 +53,9 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 
 	protected String getCaptcha(ServletRequest request) {
 		return WebUtils.getCleanParam(request, getCaptchaParam());
+	}
+	protected String getValidate(ServletRequest request) {
+		return (String) request.getAttribute("validate");
 	}
 
 	public String getMobileLoginParam() {

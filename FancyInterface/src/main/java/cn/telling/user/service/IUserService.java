@@ -26,7 +26,7 @@ import cn.telling.user.vo.User;
  */
 public interface IUserService {
 
-	User getUserInfo(BigDecimal uId);
+	User getUserInfo(String uId);
 
 	Integer getUserId(String uName);
 

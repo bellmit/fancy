@@ -26,7 +26,7 @@ import cn.telling.common.uitl.SpringContextHolder;
  *  one @resouce IShopService 注入的并不是iShopService,而是IShopService的实现类shopServiceImpl
  * 
  * */
-@ContextConfiguration(locations = "classpath:applicationContext-test.xml")
+@ContextConfiguration(locations = "classpath:spring-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SpringTest1 {
     

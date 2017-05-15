@@ -21,12 +21,18 @@ import javax.servlet.http.HttpSession;
  * Program Name: <br/>
  * Date:
  * 
+ * 使用：@RequestMapping("validate")
+	public void validate(HttpServletRequest request, HttpServletResponse response) {
+		AuthImg ai = new AuthImg();
+		ai.service(request, response);
+	}
  * @author Yeeku.H.Lee kongyeeku@163.com
  * @version 1.0
  */
 /*@WebServlet(urlPatterns = { "/auth.jpg" })*/
 public class AuthImg extends HttpServlet {
 
+	public static final String VALIDATE_CODE = "validate";
 	/**
 	 * serialVersionUID:TODO
 	 * 
