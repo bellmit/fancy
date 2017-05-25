@@ -1,17 +1,12 @@
 .mymetadata
 .checkstyle
-.classpath
-.project
 .class
 .war
 .zip
 .rar
 .idea
 *.iml
-/*/.settings/*
-*/.classpath
 */.target
-.settings/*
 /indexes/*
 /target/*
 /src/main/webapp/WEB-INF/classes/*
