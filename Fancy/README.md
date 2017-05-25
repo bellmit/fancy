@@ -13,6 +13,8 @@
 推荐使用：@Resource注解在字段上，这样就不用写setter方法了，并且这个注解是属于J2EE的，减少了与spring的耦合。这样代码看起就比较优雅。
 
 FancyRSB
+用于手动加载Fancyserver项目的启动并注册FancyServer接口抛出hessian接口
+FancyServer依赖FancyRsb
 @description:Remote interface到Service 连接不到抛Hession to Interface cn.telling.XXXInterfae之类的错
 
 

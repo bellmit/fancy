@@ -26,8 +26,15 @@
         <!--default-lazy-init="false" -会默认加载会默认加载整个对象实例图，从初始化ACTION配置、到 service配置到dao配置、乃至到数据库连接、事务 -->
     <description>Spring Configuration</description>
 	
-	<!-- 加载属性文件 -->
-	<context:property-placeholder ignore-unresolvable="true"  location="classpath:fancy.properties" />
+	<!-- 加载属性文件,使用加密数据库密码的方式,注释第一种 -->
+	<!-- <context:property-placeholder ignore-unresolvable="true"  location="classpath:fancy.properties" /> -->
+	<bean class="cn.telling.web.EncryptPropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:fancy.properties</value>
+			</list>
+		</property>
+	</bean>
 	
 	<!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
 	<!--  请求action方法上应用   public String deploy(@Value("#{APP_PROP['activiti.export.diagram.path']}") String exportDir,  -->

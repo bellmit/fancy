@@ -25,9 +25,11 @@
 	    <!-- 加载属性文件 -->
 	<context:property-placeholder ignore-unresolvable="true"  location="classpath:fancy.properties" />
 		
-	<context:component-scan base-package="cn.telling" use-default-filters="false"><!-- base-package 如果多个，用“,”分隔 -->
+	<context:component-scan base-package="cn.telling" use-default-filters="false">
+		<!-- base-package 如果多个，用“,”分隔 -->
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
+	
 	<mvc:annotation-driven />
 		<!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />

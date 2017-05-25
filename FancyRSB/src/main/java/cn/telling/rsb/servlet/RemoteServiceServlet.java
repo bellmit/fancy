@@ -39,7 +39,7 @@ public class RemoteServiceServlet extends DispatcherServlet {
 
 	@Override
 	protected void initStrategies(ApplicationContext context) {
-		initExporters(context);
+		initExporters(context);//在springmvc策略未开始时加载自定义服务
 		super.initStrategies(context);
 	}
 
@@ -67,7 +67,7 @@ public class RemoteServiceServlet extends DispatcherServlet {
 
 		String serviceName = cac.getServletContext().getServletContextName();
 		if (logger.isDebugEnabled()) {
-			logger.debug("serviceName--------:" + serviceName);
+			logger.debug("注册服务名称:" + serviceName);
 		}
 		RegistClient.REGINFO.setServiceName(serviceName);
 

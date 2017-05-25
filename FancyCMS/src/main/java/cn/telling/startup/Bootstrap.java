@@ -22,7 +22,7 @@ public class Bootstrap extends AbstractIdleService  implements ServletContextLis
             Object lock = new Object();
             synchronized (lock) {
                 while (true) {
-                    lock.wait();
+                    lock.wait();//为了使子线程处于等待状态,主线程就会暂停
                 }
             }
         } catch (InterruptedException ex) {
@@ -35,7 +35,7 @@ public class Bootstrap extends AbstractIdleService  implements ServletContextLis
      */
     @Override
     protected void startUp() throws Exception {
-        LOGGER.info("===================pig-cms START ....==========================");
+        LOGGER.info("===================fancy-cms START ....==========================");
         context = new ClassPathXmlApplicationContext(new String[]{"config/spring/cms-context.xml"});
         context.start();
         context.registerShutdownHook();

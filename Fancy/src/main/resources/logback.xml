@@ -1,4 +1,5 @@
 <configuration  scan="true" scanPeriod="70 seconds" debug="true">
+	<property resource="fancy.properties"/>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoder 默认配置为PatternLayoutEncoder -->
 		<encoder>
@@ -18,7 +19,9 @@
 		level="DEBUG" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
-	<root level="INFO">
-		<appender-ref ref="STDOUT" />
+	<root level="${logLevel}">
+		<appender-ref ref="${logLevel}" />
+		<appender-ref ref="ERROR" />
+        <appender-ref ref="STDOUT" />
 	</root>
 </configuration>

@@ -1,10 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <groupId>cn.telling</groupId>
+ <parent>
+		<groupId>cn.telling</groupId>
+		<artifactId>FancyRoot</artifactId>
+		<relativePath>../FancyRoot/pom.xml</relativePath>
+		<version>1.0</version>
+	</parent>
   <artifactId>FancyRSB</artifactId>
-  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>FancyRSB</name>
@@ -13,19 +16,19 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
+ 
   <!-- 远程仓库 -->
   <repositories>
-    <repository>
-      <id>public</id>
-      <url>http://220.181.188.246:8088/nexus/content/groups/public/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
+    <repository>  
+            <id>public</id>  
+            <url>http://192.168.1.103:8081/nexus/content/groups/public/</url>  
+            <releases>  
+                <enabled>true</enabled>  
+            </releases>  
+            <snapshots>  
+                <enabled>true</enabled>  
+            </snapshots>  
+        </repository>
   </repositories>
 
   <build>
@@ -45,16 +48,17 @@
   </build>
 
 	<distributionManagement>
-		<repository>
-			<id>nexus-releases</id>
-			<name>Nexus Releases</name>
-			<url>http://220.181.188.246:8088/nexus/content/repositories/thirdparty/</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<name>Nexus Snapshots</name>
-			<url>http://220.181.188.246:8088/nexus/content/repositories/thirdparty/</url>
-		</snapshotRepository>
+		 <repository>  
+            <id>nexus-releases</id>  
+            <name>nexus-releases</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </repository>  
+  
+        <snapshotRepository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshots</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </snapshotRepository>  
 	</distributionManagement>
 
   <dependencies>
@@ -73,15 +77,11 @@
       <artifactId>spring-web</artifactId>
       <version>${org.springframework.version}</version>
     </dependency> -->
-		<!-- <dependency>
-		  <groupId>org.jboss.netty</groupId>
-		  <artifactId>netty-all</artifactId>
-		  <version>4.0.29.Final</version>
-		</dependency> -->
-  	<dependency>
+	
+
+  		<dependency>
 			<groupId>cn.telling</groupId>
 			<artifactId>FancyUtils</artifactId>
-			<version>1.0</version>
 		</dependency>
   </dependencies>
 </project>

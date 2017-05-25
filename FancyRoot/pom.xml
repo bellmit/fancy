@@ -17,6 +17,8 @@
 		<module>../FancyRCB</module>
 		<module>../FancyRSB</module>
 		<module>../FancyAPI</module>
+		<module>../FancyCMS</module>
+		<module>../FancySite</module>
 	</modules>
 	
 	<!--设定整个项目的统一字符集编码  -->
@@ -65,7 +67,7 @@
 		<validator.version>5.1.1.Final</validator.version>
 		
 		<!-- environment setting -->
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<tomcat.version>2.2</tomcat.version>
 		<jetty.version>7.6.14.v20131031</jetty.version>
 		<webserver.port>8181</webserver.port>
@@ -73,48 +75,45 @@
 		
 	</properties>
 	
+	<!-- 插件地址 -->
+	<pluginRepositories>
+			<pluginRepository>
+		 		<id>nexus</id>
+	            <name>nexus</name>  
+	            <url>http://192.168.1.103:8081/nexus/content/groups/public/</url>   
+            </pluginRepository>
+	</pluginRepositories>
+	
 	<!--用于配置分发管理，配置相应的产品发布信息,主要用于发布，在执行mvn deploy后表示要发布的位置  -->
-	<!-- 	<distributionManagement>
-	    <repository>
-	      <id>nexus-releases</id>
-	      <name>Nexus Releases</name>
-	      <url>http://220.181.188.246:8088/nexus/content/repositories/thirdparty/</url>
-	    </repository>
-	    <snapshotRepository>
-	      <id>nexus-snapshots</id>
-	      <name>Nexus Snapshots</name>
-	      <url>http://220.181.188.246:8088/nexus/content/repositories/thirdparty/</url>
-	    </snapshotRepository>
-	  </distributionManagement> -->
+	<distributionManagement>
+        <repository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshots</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </repository>  
+         <snapshotRepository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshots</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </snapshotRepository>  
+	  </distributionManagement>
 	  
+	
 	<!-- 设定主仓库，按设定顺序进行查找。 -->
 	<repositories>
-		
-		<repository>
-            <id>oschina-repos</id>
-            <name>Oschina Releases</name>
-            <url>http://maven.oschina.net/content/groups/public</url>
+		<!-- <repository>  
+            <id>nexus-releases</id>  
+            <name>nexus-releases</name>  
+            <url>http://192.168.1.109:8081/nexus/content/repositories/thirdparty/</url>  
+        </repository>   -->
+        
+        <repository>  
+            <id>nexus</id><!-- next名称不能乱改 -->
+            <name>nexus</name>  
+            <url>http://192.168.1.103:8081/nexus/content/groups/public/</url>   
         </repository>
         
-		<!-- 如有Nexus私服, 取消注释并指向正确的服务器地址.
-		<repository>
-			<id>nexus-repos</id>
-			<name>Team Nexus Repository</name>
-			<url>http://192.168.11.36:8888/nexus/content/groups/public</url>
-		</repository> -->
-		
-		<repository> 
-			<id>alimaven</id> 
-			<name>aliyun maven</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-		</repository>
 	
-        <repository>
-            <id>java-repos</id>
-            <name>Java Repository</name>
-            <url>http://download.java.net/maven/2/</url>
-        </repository>
-        
         <repository>
             <id>springsource-repos</id>
             <name>SpringSource Repository</name>
@@ -145,45 +144,8 @@
 			<url>https://app.camunda.com/nexus/content/groups/public</url>
 		</repository>
 		
-		<repository> 
-			<id>thinkgem-repos</id> 
-			<name>ThinkGem Repository</name>
-			<url>http://git.oschina.net/thinkgem/repos/raw/master</url>
-		</repository>
 		
-		<repository> 
-			<id>thinkgem-repos2</id> 
-			<name>ThinkGem Repository 2</name>
-			<url>https://raw.github.com/thinkgem/repository/master</url>
-		</repository>
-		<repository>
-			<id>public</id>
-			<url>http://220.181.188.246:8088/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
 	</repositories>
-	<!-- 设定插件仓库 -->
-	<pluginRepositories> 
-	
-		<!-- 如有Nexus私服, 取消注释并指向正确的服务器地址.
-		<pluginRepository>
-			<id>nexus-repos</id>
-			<name>Team Nexus Repository</name>
-			<url>http://192.168.11.36:8888/nexus/content/groups/public</url>
-		</pluginRepository> -->
-		
-		<pluginRepository>
-            <id>oschina-repos</id>
-            <name>Oschina Releases</name>
-            <url>http://maven.oschina.net/content/groups/public</url>
-        </pluginRepository>
-		
-	</pluginRepositories> 
 	
 	<dependencies>
 		<dependency>
@@ -256,9 +218,11 @@
             <version>${org.springframework.version}</version>
         </dependency>
 			<dependency>
-				<groupId>com.caucho</groupId>
-				<artifactId>hessian</artifactId>
-				<version>4.0.37</version>
+			  <groupId>com.caucho</groupId>
+			  <artifactId>hessian</artifactId><!-- 
+			  <scope>system</scope>
+						<systemPath>${project.basedir}/lib/hessian-4.0.37.jar</systemPath> -->
+			  <version>4.0.37</version>
 			</dependency>
 		<dependency>
 			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
@@ -460,7 +424,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.1.15</version>
+			<version>1.2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jexcelapi</groupId>
@@ -492,11 +456,22 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 		  <groupId>org.jboss.netty</groupId>
 		  <artifactId>netty-all</artifactId>
 		  <version>4.0.29.Final</version>
-		</dependency>
+		</dependency> -->
+<!-- 			<dependency> -->
+<!--     <groupId>io.netty</groupId> -->
+<!--     <artifactId>netty</artifactId> -->
+<!--     <version>3.10.5.Final</version> -->
+<!-- </dependency> -->
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-all</artifactId>
+    <version>4.1.6.Final</version>
+</dependency>
+
 			<dependency>
 		  <groupId>org.json</groupId>
 		  <artifactId>json</artifactId>
@@ -788,10 +763,16 @@
 			<artifactId>activiti-diagram-rest</artifactId>
 			<version>${activiti.version}</version>
 		</dependency>
-		
-
 </dependencies>
-
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.telling</groupId>
+				<artifactId>FancyUtils</artifactId>
+				<version>1.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>FancyRoot</finalName>

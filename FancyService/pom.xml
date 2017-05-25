@@ -7,13 +7,25 @@
   <name>FancyService</name>
   <url>http://maven.apache.org</url>
   <version>1.0</version>
-<!-- 	<parent>
+	<parent>
 		<groupId>cn.telling</groupId>
 		<artifactId>FancyRoot</artifactId>
 		<relativePath>../FancyRoot/pom.xml</relativePath>
 		<version>1.0</version>
-	</parent> -->
-
+	</parent>
+	<distributionManagement>
+		 <repository>  
+            <id>nexus-releases</id>  
+            <name>nexus-releases</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </repository>  
+  
+        <snapshotRepository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshots</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </snapshotRepository>  
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>cn.telling</groupId>
@@ -25,13 +37,13 @@
 			<artifactId>FancyInterface</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 			<type>jar</type>
-		</dependency>
-		<dependency>
+		</dependency> -->
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
@@ -42,25 +54,25 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
+		</dependency> -->
+		<!-- <dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		<dependency>
   			<groupId>com.danga</groupId>
 			<artifactId>memcached_client</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/java_memcached-release_1.6.jar</systemPath>
+			<!-- <scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/java_memcached-release_1.6.jar</systemPath> -->
 			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.coment4j</groupId>
 			<artifactId>comet4j-tomcat6</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/comet4j-tomcat6.jar</systemPath>
+			<!-- <scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/comet4j-tomcat6.jar</systemPath> -->
 			<version>1.6</version>
 		</dependency>
 	</dependencies>

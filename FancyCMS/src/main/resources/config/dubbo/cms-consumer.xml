@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"   
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+ xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"   
+ xsi:schemaLocation="http://www.springframework.org/schema/beans  
+ http://www.springframework.org/schema/beans/spring-beans.xsd      
+ http://code.alibabatech.com/schema/dubbo        
+ http://code.alibabatech.com/schema/dubbo/dubbo.xsd">    
+ 	
+ 	<!-- which service to consume? -->
+	<dubbo:consumer timeout="10000" check="false" retries="0"/>
+	
+	<!-- 核心模块服务接口消费者 -->
+	<dubbo:reference id="checkDataRequestService" interface="com.pig.pig.core.api.service.ICheckDataRequestService" registry="pig"/>
+	
+	<dubbo:reference id="dubboPecCleanDataRequestService" interface="com.pig.pig.core.pec.api.service.IPecCleanDataRequestService" />
+	<!-- 勾对请求接口 -->
+	<dubbo:reference id="checkRequestService" interface="com.pig.pig.core.api.service.CheckRequestService" registry="pig"/>
+	
+</beans>

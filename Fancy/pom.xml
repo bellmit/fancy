@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>Fancy</artifactId>
   <packaging>jar</packaging>
-  <name>fancy</name>
+  <name>Fancy</name>
   <url>http://maven.apache.org</url>
   <properties>
         <springfox-version>2.3.0</springfox-version>
@@ -12,12 +12,34 @@
         <log4j.version>1.2.16</log4j.version>
         <version.jackson>2.4.4</version.jackson>
     </properties>
-		<parent>
-			<groupId>cn.telling</groupId>
-			<artifactId>FancyRoot</artifactId>
-			<relativePath>../FancyRoot/pom.xml</relativePath>
-			<version>1.0</version>
-		</parent> 
+    <parent>
+		<groupId>cn.telling</groupId>
+		<artifactId>FancyRoot</artifactId>
+		<relativePath>../FancyRoot/pom.xml</relativePath>
+		<version>1.0</version>
+	</parent>
+    <!-- 远程仓库 -->
+  <repositories>
+        <repository>  
+            <id>nexus</id>  
+            <name>nexus</name>  
+            <url>http://192.168.1.103:8081/nexus/content/groups/public/</url> 
+        </repository>
+  </repositories>
+    <distributionManagement>
+		 <repository>  
+            <id>nexus-releases</id>  
+            <name>nexus-releases</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </repository>  
+  
+        <snapshotRepository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshots</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </snapshotRepository>  
+	</distributionManagement>
+	
 	<dependencies>
 		 <dependency>
 			<groupId>cn.telling</groupId>
@@ -52,7 +74,7 @@
 		</dependency>
 
         
-        <dependency>
+        <!-- <dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
@@ -75,7 +97,7 @@
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 		<!-- pojo copy -->
 		<dependency>
 			<groupId>net.sf.dozer</groupId>
@@ -88,15 +110,15 @@
 		<dependency>
   			<groupId>com.danga</groupId>
 			<artifactId>memcached_client</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/java_memcached-release_1.6.jar</systemPath>
+			<!-- <scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/java_memcached-release_1.6.jar</systemPath> -->
 			<version>1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.coment4j</groupId>
 			<artifactId>comet4j-tomcat6</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/comet4j-tomcat6.jar</systemPath>
+			<!-- <scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/comet4j-tomcat6.jar</systemPath> -->
 			<version>1.6</version>
 		</dependency>
 		
@@ -176,6 +198,14 @@
 					<warName>${project.artifactId}</warName>
 				</configuration>
 			</plugin>
+			<!--跳过test测试 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
 		</plugins>
 	</build>
 	<description>this is maven project</description>

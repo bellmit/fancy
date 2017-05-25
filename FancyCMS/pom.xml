@@ -8,10 +8,25 @@
  <properties>
         <springfox-version>2.3.0</springfox-version>
         <servlet-api-version>3.1.0</servlet-api-version>
-        <druid.version>0.2.23</druid.version>
+       <druid.version>1.0.13</druid.version>
         <log4j.version>1.2.16</log4j.version>
+        <pagehelper.version>3.6.4</pagehelper.version>
     </properties>
 
+	<distributionManagement>
+		 <repository>  
+            <id>nexus-releases</id>  
+            <name>nexus-releases</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </repository>  
+  
+        <snapshotRepository>  
+            <id>nexus-snapshots</id>  
+            <name>Nexus Snapshots</name>  
+            <url>http://192.168.1.103:8081/nexus/content/repositories/thirdparty/</url>  
+        </snapshotRepository>  
+	</distributionManagement>
+	
     <dependencies>
         <!-- Jackson JSON Processor -->
         <dependency>
@@ -36,6 +51,98 @@
             <artifactId>spring-jdbc</artifactId>
             <version>4.0.8.RELEASE</version>
         </dependency>
+        
+        
+        
+      <dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>0.9.1</version>
+			</dependency>
+			<!--分页插件 -->
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper</artifactId>
+				<version>${pagehelper.version}</version>
+			</dependency>
+			<!--通用Mapper -->
+			<dependency>
+				<groupId>com.github.abel533</groupId>
+				<artifactId>mapper</artifactId>
+				<version>2.3.1</version>
+			</dependency>
+		<dependency>
+			<groupId>cn.telling</groupId>
+			<artifactId>FancyUtils</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.telling</groupId>
+			<artifactId>FancyAPI</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.5.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>jconsole</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--mybatis -->
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>3.2.8</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-spring</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>0.9.1</version>
+			</dependency>
+			<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.4</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>cn.telling</groupId>
+			<artifactId>FancyInterface</artifactId>
+			<version>1.0</version>
+		</dependency>
     </dependencies>
 
     <build>

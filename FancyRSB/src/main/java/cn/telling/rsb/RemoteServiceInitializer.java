@@ -15,7 +15,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 
 import cn.telling.rsb.servlet.RemoteServiceServlet;
 
-/**添加一个自定义servlet(RemoteServiceServlet) 扫描Service模块并注册Service接口***/
+/**添加一个自定义servlet(RemoteServiceServlet) 扫描Service模块并注册Service接口,手动启动Server服务***/
+//实现WebApplicationinitializer的类都可以在web应用程序启动时被加载。
 public class RemoteServiceInitializer implements WebApplicationInitializer {
 
 	@Override

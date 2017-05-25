@@ -25,7 +25,7 @@ public class CoreListener extends ContextLoaderListener {
     public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
         StringBuilder sb = new StringBuilder();
         sb.append("\r\n======================================================================\r\n");
-        sb.append("\r\n    欢迎使用 Fancy开发平台FancyServer接口  - Powered By https://github.com/zhgo116 \r\n");
+        sb.append("\r\n    欢迎使用 Fancy--FancyServer接口  - Powered By https://github.com/zhgo116 \r\n");
         sb.append("\r\n======================================================================\r\n");
         System.out.println(sb.toString());
         return super.initWebApplicationContext(servletContext);
