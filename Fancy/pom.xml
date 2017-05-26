@@ -19,13 +19,13 @@
 		<version>1.0</version>
 	</parent>
     <!-- 远程仓库 -->
-  <repositories>
-        <repository>  
-            <id>nexus</id>  
-            <name>nexus</name>  
-            <url>http://192.168.1.103:8081/nexus/content/groups/public/</url> 
-        </repository>
-  </repositories>
+<!--   <repositories> -->
+<!--         <repository>   -->
+<!--             <id>nexus</id>   -->
+<!--             <name>nexus</name>   -->
+<!--             <url>http://192.168.1.103:8081/nexus/content/groups/public/</url>  -->
+<!--         </repository> -->
+<!--   </repositories> -->
     <distributionManagement>
 		 <repository>  
             <id>nexus-releases</id>  

@@ -67,7 +67,7 @@
 		<validator.version>5.1.1.Final</validator.version>
 		
 		<!-- environment setting -->
-		<jdk.version>1.8</jdk.version>
+		<jdk.version>1.7</jdk.version>
 		<tomcat.version>2.2</tomcat.version>
 		<jetty.version>7.6.14.v20131031</jetty.version>
 		<webserver.port>8181</webserver.port>
@@ -107,11 +107,11 @@
             <url>http://192.168.1.109:8081/nexus/content/repositories/thirdparty/</url>  
         </repository>   -->
         
-        <repository>  
-            <id>nexus</id><!-- next名称不能乱改 -->
-            <name>nexus</name>  
-            <url>http://192.168.1.103:8081/nexus/content/groups/public/</url>   
-        </repository>
+<!--         <repository>   -->
+<!--             <id>nexus</id>next名称不能乱改 -->
+<!--             <name>nexus</name>   -->
+<!--             <url>http://192.168.1.103:8081/nexus/content/groups/public/</url>    -->
+<!--         </repository> -->
         
 	
         <repository>
