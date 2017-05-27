@@ -3,7 +3,7 @@ package cn.telling.dictionary.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.dictionary.vo.DictionaryConditionVo;
 import cn.telling.dictionary.vo.DictionaryTypeVo;
 import cn.telling.dictionary.vo.DictionaryVo;

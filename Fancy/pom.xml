@@ -121,13 +121,32 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/comet4j-tomcat6.jar</systemPath> -->
 			<version>1.6</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>apache-ant-zip</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>ckfinder</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>ckfinderplugin-fileeditor</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ckfinder</groupId>
+			<artifactId>ckfinderplugin-imageresize</artifactId>
+			<version>2.3</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<finalName>Fancy</finalName>
-		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
+<!-- 		<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory> -->
 		<plugins>
 		<!-- Compiler 插件, 设定JDK版本 -->
 			<plugin>

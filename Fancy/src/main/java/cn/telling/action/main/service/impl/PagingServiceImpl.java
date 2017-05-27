@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cn.telling.action.main.dao.impl.PagingDaoImpl;
 import cn.telling.action.main.service.PagingService;
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.user.vo.User;
 import cn.telling.utils.Paging;
 
@@ -44,7 +44,7 @@ public class PagingServiceImpl implements PagingService
 	}
 
     /* (non-Javadoc)
-     * @see cn.telling.user.service.PagingService#getPageData(cn.telling.common.Pager.PageVo)
+     * @see cn.telling.user.service.PagingService#getPageData(cn.telling.common.pager.PageVo)
      */
     @Override
     public List<User> getPageData(PageVo pageVo) {

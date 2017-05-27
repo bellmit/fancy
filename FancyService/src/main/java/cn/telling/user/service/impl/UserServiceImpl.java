@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.role.dao.IRoleDao;
 import cn.telling.user.dao.IUserDao;
 import cn.telling.user.service.IUserService;
@@ -89,7 +89,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	/* (non-Javadoc)
-	 * @see cn.telling.user.service.IUserService#queryUsers(java.lang.String, cn.telling.common.Pager.PageVo, cn.telling.user.vo.Users)
+	 * @see cn.telling.user.service.IUserService#queryUsers(java.lang.String, cn.telling.common.pager.PageVo, cn.telling.user.vo.Users)
 	 */
 	@Override
 	public ReturnUserVo queryUsers(String account, PageVo page) {

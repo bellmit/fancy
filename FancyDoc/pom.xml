@@ -4,6 +4,7 @@
     <groupId>cn.telling</groupId>
     <artifactId>FancyRoot</artifactId>
     <version>1.0</version>
+    <relativePath>../FancyRoot/pom.xml</relativePath>
   </parent>
  <properties>
         <springfox-version>2.3.0</springfox-version>

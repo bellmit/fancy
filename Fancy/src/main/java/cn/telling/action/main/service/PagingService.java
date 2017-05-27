@@ -2,7 +2,7 @@ package cn.telling.action.main.service;
 
 import java.util.List;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.user.vo.User;
 import cn.telling.utils.Paging;
 

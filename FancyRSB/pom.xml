@@ -84,4 +84,6 @@
 			<artifactId>FancyUtils</artifactId>
 		</dependency>
   </dependencies>
+  <groupId>cn.telling</groupId>
+  <version>1.0</version>
 </project>

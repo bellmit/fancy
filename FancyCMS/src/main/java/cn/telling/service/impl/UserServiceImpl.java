@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import cn.telling.base.ServiceMybatis;
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.model.User;
 import cn.telling.service.IUserService;
 import cn.telling.user.vo.ReturnUserVo;

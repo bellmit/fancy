@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.telling.common.AutoInjectionRowMapper;
 import cn.telling.common.CommonBaseDao;
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.menu.vo.PusReRoleMenu;
 import cn.telling.role.dao.IRoleDao;
 import cn.telling.role.vo.Role;

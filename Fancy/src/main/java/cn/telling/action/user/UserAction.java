@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.common.uitl.TimestampTypeAdapter;
 import cn.telling.user.service.IUserService;
 import cn.telling.user.vo.ReturnUserVo;

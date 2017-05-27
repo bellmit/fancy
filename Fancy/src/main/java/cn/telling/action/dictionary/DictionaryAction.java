@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.telling.common.Pager.PageVo;
-import cn.telling.common.Pager.Pager;
+import cn.telling.common.pager.PageVo;
+import cn.telling.common.pager.Pager;
 import cn.telling.dictionary.service.DictionaryService;
 import cn.telling.dictionary.vo.DictionaryConditionVo;
 import cn.telling.dictionary.vo.DictionaryTypeVo;

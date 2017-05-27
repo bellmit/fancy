@@ -1,20 +1,21 @@
-package cn.telling.common.Enums;
-
-
+/**
+ * 
+ */
+package cn.telling.common.enums;
 /**   
- * @Title: Status.java 
+ * @Title: AreaLevel.java 
  * @Package com.Common.Enums 
  * @Description: TODO(描述该文件做什么) 
- * @author 张海斌
- * @date 2013-4-15 上午11:10:20 
+ * @author 冯俊杰
+ * @date 2013-5-9 上午11:20:01 
  * @version V1.0   
  */
-public enum Status {
-	valid(1,"有效的"),invalid(0,"无效的"),deleted(4,"已删除");
+public enum AreaLevel {
+	country(1,"国家"),province(2,"省份"),city(3,"市"),county(4,"区县"),invalid(5,"无效");
 	
 	private int _value;
 	private String _text;
-	private Status(int value,String text)
+	private AreaLevel(int value,String text)
 	{
 		_value = value;
 		_text = text;
@@ -29,34 +30,24 @@ public enum Status {
 	{
 		return _text;
 	}
-	public int getValue()
-	{
-		return _value;
-	}
-	
-	public String getText()
-	{
-		return _text;
-	}
 	
 	/**
 	 * Int转换为枚举
 	 * @param v
 	 * @return
 	 */
-	public static Status valueOf(int v)
+	public static AreaLevel valueOf(int v)
 	{
 		//Enum.valueOf(UsersStatus.class, name)
 		switch (v) {
 		case 1:
-			return valid;
+			return country;
 		case 0:
-			return invalid;
+			return province;
 		case 4:
-			return deleted;
+			return county;
 		default:
 			return invalid;
 		}
 	}
 }
-

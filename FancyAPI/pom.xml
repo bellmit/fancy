@@ -40,4 +40,6 @@
 	</build>
 
 
+	<groupId>cn.telling</groupId>
+	<version>1.0</version>
 </project>

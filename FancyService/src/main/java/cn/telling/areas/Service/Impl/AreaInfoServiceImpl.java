@@ -14,7 +14,7 @@ import cn.telling.areas.Dao.IAreaInfoDao;
 import cn.telling.areas.service.IAreaInfoService;
 import cn.telling.areas.vo.AreaConditionVo;
 import cn.telling.areas.vo.AreaInfoVo;
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 
 @Service
 public class AreaInfoServiceImpl implements IAreaInfoService {

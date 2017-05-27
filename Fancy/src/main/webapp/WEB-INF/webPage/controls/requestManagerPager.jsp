@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="cn.telling.common.UrlCommon"%>
-<%@ page import="cn.telling.common.Pager.PageVo"%>
+<%@ page import="cn.telling.common.pager.PageVo"%>
 <%
 PageVo pager;
 if(request.getAttribute("java_pager")!=null)

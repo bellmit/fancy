@@ -3,7 +3,7 @@ package cn.telling.areas.vo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import cn.telling.common.Enums.Status;
+import cn.telling.common.enums.Status;
 
 
 public class AreaInfoVo implements Serializable{

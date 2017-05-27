@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.telling.common.AutoInjectionRowMapper;
 import cn.telling.common.CommonBaseDao;
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.log.dao.IUserLoginLogDao;
 import cn.telling.log.vo.Syslog;
 import cn.telling.log.vo.UserLoginLog;
@@ -48,7 +48,7 @@ public class UserLoginLogDaoImpl extends CommonBaseDao implements IUserLoginLogD
 	}
 
 	/* (non-Javadoc)
-	 * @see cn.telling.log.dao.IUserLoginLogDao#querySysLogPagesByAccount(java.lang.String, cn.telling.common.Pager.PageVo)
+	 * @see cn.telling.log.dao.IUserLoginLogDao#querySysLogPagesByAccount(java.lang.String, cn.telling.common.pager.PageVo)
 	 */
 	@Override
 	public ReturnUserVo querySysLogPagesByAccount(String account, PageVo pages) {

@@ -1,4 +1,4 @@
-package cn.telling.common.Pager;
+package cn.telling.common.pager;
 
 import javax.servlet.http.HttpServletRequest;
 

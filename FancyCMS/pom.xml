@@ -4,6 +4,7 @@
     <groupId>cn.telling</groupId>
     <artifactId>FancyRoot</artifactId>
     <version>1.0</version>
+    <relativePath>../FancyRoot/pom.xml</relativePath>
   </parent>
  <properties>
         <springfox-version>2.3.0</springfox-version>
@@ -147,20 +148,20 @@
 
     <build>
         <finalName>FancyCMS</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-            </plugin>
-        </plugins>
+<!--         <plugins> -->
+<!--             <plugin> -->
+<!--                 <artifactId>maven-compiler-plugin</artifactId> -->
+<!--                 <configuration> -->
+<!--                     <source>1.7</source> -->
+<!--                     <target>1.7</target> -->
+<!--                 </configuration> -->
+<!--             </plugin> -->
+<!--             <plugin> -->
+<!--                 <groupId>org.apache.tomcat.maven</groupId> -->
+<!--                 <artifactId>tomcat7-maven-plugin</artifactId> -->
+<!--                 <version>2.2</version> -->
+<!--             </plugin> -->
+<!--         </plugins> -->
     </build>
 
     <artifactId>FancyCMS</artifactId>

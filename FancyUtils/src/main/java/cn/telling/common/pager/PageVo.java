@@ -1,4 +1,4 @@
-package cn.telling.common.Pager;
+package cn.telling.common.pager;
 
 import java.io.Serializable;
 import java.util.Enumeration;

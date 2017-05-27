@@ -12,7 +12,7 @@ package cn.telling.user.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.menu.vo.Menu;
 import cn.telling.user.vo.ReturnUserVo;
 import cn.telling.user.vo.User;

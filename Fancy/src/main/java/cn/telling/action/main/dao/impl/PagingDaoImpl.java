@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import cn.telling.action.main.dao.PagingDao;
 import cn.telling.common.AutoInjectionRowMapper;
 import cn.telling.common.CommonBaseDao;
-import cn.telling.common.Pager.PageVo;
-import cn.telling.common.Pager.Pager;
+import cn.telling.common.pager.PageVo;
+import cn.telling.common.pager.Pager;
 import cn.telling.user.vo.User;
 import cn.telling.utils.AutoInjection;
 import cn.telling.utils.LogUtils;
@@ -102,7 +102,7 @@ public class PagingDaoImpl extends CommonBaseDao implements PagingDao {
     }
 
     /* (non-Javadoc)
-     * @see cn.telling.action.main.dao.PagingDao#getPageData(cn.telling.common.Pager.PageVo)
+     * @see cn.telling.action.main.dao.PagingDao#getPageData(cn.telling.common.pager.PageVo)
      */
     @Override
     public List<User> getPageData(PageVo pageVo) {

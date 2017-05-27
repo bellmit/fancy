@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.menu.vo.PusReRoleMenu;
 import cn.telling.role.vo.Role;
 import cn.telling.user.vo.ReturnUserVo;

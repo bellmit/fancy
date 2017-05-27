@@ -13,8 +13,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import cn.telling.common.Pager.PageVo;
-import cn.telling.common.Pager.Pager;
+import cn.telling.common.pager.PageVo;
+import cn.telling.common.pager.Pager;
 import cn.telling.dictionary.dao.DictionaryDao;
 import cn.telling.dictionary.vo.DictionaryConditionVo;
 import cn.telling.dictionary.vo.DictionaryTypeVo;

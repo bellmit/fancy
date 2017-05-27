@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cn.telling.areas.service.IAreaInfoService;
 import cn.telling.areas.vo.AreaConditionVo;
 import cn.telling.areas.vo.AreaInfoVo;
-import cn.telling.common.Enums.Status;
-import cn.telling.common.Pager.PageVo;
-import cn.telling.common.Pager.Pager;
+import cn.telling.common.enums.Status;
+import cn.telling.common.pager.PageVo;
+import cn.telling.common.pager.Pager;
 
 @Controller
 @RequestMapping(value="AreaManage")

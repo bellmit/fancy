@@ -9,7 +9,7 @@
 
 package cn.telling.log.dao;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.log.vo.Syslog;
 import cn.telling.log.vo.UserLoginLog;
 import cn.telling.user.vo.ReturnUserVo;

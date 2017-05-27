@@ -4,7 +4,7 @@ import java.util.List;
 
 import cn.telling.areas.vo.AreaConditionVo;
 import cn.telling.areas.vo.AreaInfoVo;
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 
 public interface IAreaInfoDao {
 	public int Save(AreaInfoVo area);

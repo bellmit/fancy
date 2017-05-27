@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.telling.common.Enums;
+package cn.telling.common.enums;
 /**   
  * @Title: DictionaryType.java 
  * @Package com.Common.Enums 

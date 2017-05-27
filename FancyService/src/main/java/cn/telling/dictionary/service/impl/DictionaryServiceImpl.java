@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.telling.common.Pager.PageVo;
+import cn.telling.common.pager.PageVo;
 import cn.telling.dictionary.dao.DictionaryDao;
 import cn.telling.dictionary.service.DictionaryService;
 import cn.telling.dictionary.vo.DictionaryConditionVo;
